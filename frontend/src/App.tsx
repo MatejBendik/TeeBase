@@ -1,22 +1,8 @@
 import React from "react";
-import postLogin from "./actions/postLogin";
+import RouterComponent from "./components/RouteComponent";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>22222222222222222</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <RouterComponent />;
 }
 
 export default App;

@@ -4,8 +4,14 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "es6"
     ],
+    /* Mui */
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    /*  */
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
