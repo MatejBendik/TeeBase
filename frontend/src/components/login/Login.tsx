@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
+import postLoginForm from "./../../actions/postLoginForm";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -20,13 +21,18 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    if (!username.length || !password.length) {
+      alert("Vyplňte polia !");
+      return;
+    }
+
+    postLoginForm(username, password);
+
+    setUsername("");
+    setPassword("");
   };
 
   return (
@@ -52,12 +58,16 @@ export default function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Emailová adresa"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Uživateľské meno"
+              name="username"
+              autoComplete="username"
               variant="standard"
               autoFocus
+              onChange={(e) => {
+                setUsername(e.target.value);
+              }}
+              value={username}
             />
             <TextField
               margin="normal"
@@ -69,6 +79,10 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
               variant="standard"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              value={password}
             />
             {/*  <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
