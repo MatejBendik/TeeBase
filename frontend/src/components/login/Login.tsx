@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import postLoginForm from "./../../actions/postLoginForm";
+import { sendLogin } from "./../../actions/postLoginForm";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -29,7 +29,7 @@ export default function Login() {
       return;
     }
 
-    postLoginForm(username, password);
+    sendLogin(username, password);
 
     setUsername("");
     setPassword("");
