@@ -26,7 +26,7 @@ export const sendLogin = async (username: string, password: string) => {
           return;
         }
       })
-      .then((res) => res.json())
+      //.then((res) => res.json())
       .then((data) => {
         console.log(data);
         return data;
