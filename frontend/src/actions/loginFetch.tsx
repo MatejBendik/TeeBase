@@ -1,10 +1,4 @@
-import React from "react";
-import { useQuery } from "@tanstack/react-query";
-/* export interface LoginCredentials {
-  username: string;
-  password: string;
-}
- */
+import react from "react";
 
 export const sendLogin = async (username: string, password: string) => {
   try {
@@ -29,23 +23,10 @@ export const sendLogin = async (username: string, password: string) => {
       //.then((res) => res.json())
       .then((data) => {
         console.log(data);
+        return data; //toto musime vyriešit - data = odpoved zo serverva ze je prihlaseny, takže dostat token treba  = a odpoved neprichazda xd
       });
   } catch (error) {
     console.error(error);
     return;
   }
 };
-
-/* export const send = () => {
-  const { status, data } = useQuery(["login"], sendLogin);
-
-  if (status === "loading") {
-    return "Loading";
-  }
-
-  if (status === "error") {
-    return "Error";
-  }
-
-  return data;
-}; */

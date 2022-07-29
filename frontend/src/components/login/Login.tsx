@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { sendLogin } from "./../../actions/postLoginForm";
+
+import { sendLogin } from "../../actions/loginFetch";
+import { sendRegister } from "../../actions/registerFetch";
+import Input from "../../const/Input";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -17,22 +20,56 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default function Login() {
+  const navigate = useNavigate();
   const theme = createTheme();
+
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isRegistered, setIsRegistered] = useState(true);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    if (!username.length || !password.length) {
-      alert("Vyplňte polia !");
-      return;
+    if (isRegistered) {
+      if (!username.length || !password.length) {
+        alert("Vyplňte polia !");
+        return;
+      }
+
+      sendLogin(username, password);
+      //treba tu precitat z reduxu odpoved z tej funkcie
+      //redux ti prerenderuje appku tak isto jakeby si menil state
+
+      navigate("/app");
+
+      setUsername("");
+      setPassword("");
+    } else {
+      if (
+        !firstName.length ||
+        !lastName.length ||
+        !email.length ||
+        !username.length ||
+        !password.length
+      ) {
+        alert("Vyplňte polia !");
+        return;
+      }
+      sendRegister(firstName, lastName, email, username, password);
+
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setUsername("");
+      setPassword("");
     }
+  };
 
-    sendLogin(username, password);
-
-    setUsername("");
-    setPassword("");
+  const switchMode = () => {
+    setIsRegistered((prevIsRegistered) => !prevIsRegistered);
   };
 
   return (
@@ -51,50 +88,89 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Vitajte
+            {isRegistered ? "Prihlásiť sa" : "Registrovať sa"}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Uživateľské meno"
-              name="username"
-              autoComplete="username"
-              variant="standard"
-              autoFocus
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              value={username}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Heslo"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              variant="standard"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              value={password}
-            />
-            {/*  <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+            {!isRegistered && (
+              <>
+                <Input
+                  name="firstName"
+                  label="Meno"
+                  type="text"
+                  handleChange={(e: any) => {
+                    setFirstName(e.target.value);
+                  }}
+                  value={firstName}
+                  autoFocus
+                />
+                <Input
+                  name="lastName"
+                  label="Priezvisko"
+                  type="text"
+                  handleChange={(e: any) => {
+                    setLastName(e.target.value);
+                  }}
+                  value={lastName}
+                />
+                <Input
+                  name="email"
+                  label="Email"
+                  type="email"
+                  handleChange={(e: any) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
+                />
+                <Input
+                  name="username"
+                  label="Používateľské meno"
+                  type="text"
+                  handleChange={(e: any) => {
+                    setUsername(e.target.value);
+                  }}
+                  value={username}
+                />
+                <Input
+                  name="password"
+                  label="Heslo"
+                  type="password"
+                  handleChange={(e: any) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
+                />
+              </>
+            )}
+
+            {isRegistered && (
+              <>
+                <Input
+                  name="username"
+                  label="Používateľské meno"
+                  type="text"
+                  handleChange={(e: any) => {
+                    setUsername(e.target.value);
+                  }}
+                  value={username}
+                />
+                <Input
+                  name="password"
+                  label="Heslo"
+                  type="password"
+                  handleChange={(e: any) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
+                />
+              </>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Vstúpiť
+              {isRegistered ? "Prihlásiť" : "Registrovať"}
             </Button>
             <Grid container>
               <Grid item xs>
@@ -103,8 +179,10 @@ export default function Login() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Ešte nemáš účet? Registruj sa"}
+                <Link href="#" variant="body2" onClick={switchMode}>
+                  {isRegistered
+                    ? "Ešte nemáš účet? Registruj sa"
+                    : "Už máš účet? Prihlás sa"}
                 </Link>
               </Grid>
             </Grid>
