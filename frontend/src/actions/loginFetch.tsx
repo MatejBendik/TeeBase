@@ -23,6 +23,7 @@ export const sendLogin = async (username: string, password: string) => {
       //.then((res) => res.json())
       .then((data) => {
         console.log(data);
+        localStorage.setItem("isLogged", "true");
         return data; //toto musime vyriešit - data = odpoved zo serverva ze je prihlaseny, takže dostat token treba  = a odpoved neprichazda xd
       });
   } catch (error) {

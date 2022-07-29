@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { sendLogin } from "../../actions/loginFetch";
@@ -29,6 +29,14 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isRegistered, setIsRegistered] = useState(true);
+
+  useEffect(() => {
+    const isLogged = localStorage.getItem("isLogged");
+
+    if (isLogged === "true") {
+      navigate("/app");
+    }
+  }, []);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
