@@ -7,7 +7,7 @@ interface loginProperties {
 
 export const sendLogin = async ({ username, password }: loginProperties) => {
   try {
-    const response = await fetch(`${baseUrl}/login`, {
+    const response = await fetch(`${baseUrl}/user/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",

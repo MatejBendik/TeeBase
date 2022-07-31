@@ -15,7 +15,7 @@ export const sendRegister = async ({
   password,
 }: registerProperties) => {
   try {
-    const response = await fetch(`${baseUrl}register`, {
+    const response = await fetch(`${baseUrl}/user/register`, {
       method: "POST",
       headers: {
         Accept: "application/json",
