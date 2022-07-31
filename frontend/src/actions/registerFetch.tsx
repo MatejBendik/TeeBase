@@ -1,3 +1,4 @@
+import { baseUrl } from "./../api/index";
 interface registerProperties {
   firstName: string;
   lastName: string;
@@ -14,7 +15,7 @@ export const sendRegister = async ({
   password,
 }: registerProperties) => {
   try {
-    const response = await fetch("http://localhost:8080/register", {
+    const response = await fetch(`${baseUrl}register`, {
       method: "POST",
       headers: {
         Accept: "application/json",

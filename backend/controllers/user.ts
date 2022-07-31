@@ -6,6 +6,8 @@ import User from "../models/user";
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
+  console.log(username, password);
+
   try {
     const existingUser = await User.findOne({ username });
 
@@ -34,8 +36,6 @@ export const login = async (req: Request, res: Response) => {
   } catch (error) {
     res.status(500).json({ message: "Coškaj wrong s loginom" });
   }
-
-  // error status codes su z https://restapitutorial.com/httpstatuscodes.html
 };
 
 export const register = async (req: Request, res: Response) => {

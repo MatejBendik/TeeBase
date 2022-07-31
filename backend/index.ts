@@ -15,7 +15,7 @@ mongoose.connect("mongodb://localhost:27017/users", () => {
 });
 
 /* Login */
-app
+/* app
   .route("/login")
   .get((req: Request, res: Response) => {
     res.status(200).send("Login ide");
@@ -31,9 +31,9 @@ app
       res.status(500).send(error);
     }
   });
-
+ */
 /* Register */
-app
+/* app
   .route("/register")
   .get((req: Request, res: Response) => {
     res.status(200).send("Register ide");
@@ -51,7 +51,7 @@ app
     } catch (error) {
       res.status(500).send(error);
     }
-  });
+  }); */
 
 /* Iba default */
 app.get("/", (req: Request, res: Response) => {
