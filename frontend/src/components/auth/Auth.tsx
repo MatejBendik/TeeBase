@@ -58,7 +58,6 @@ export default function Auth() {
       }
 
       sendLogin(loginData);
-
       navigate("/app");
       setLoginData({ ...loginData, ["username"]: "" });
       setLoginData({ ...loginData, ["password"]: "" });
@@ -74,7 +73,7 @@ export default function Auth() {
         return;
       }
       sendRegister(registerData);
-
+      navigate("/app");
       setRegisterData({ ...registerData, ["firstName"]: "" });
       setRegisterData({ ...registerData, ["lastName"]: "" });
       setRegisterData({ ...registerData, ["email"]: "" });

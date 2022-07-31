@@ -1,9 +1,7 @@
 "use strict";
-var __importDefault =
-  (this && this.__importDefault) ||
-  function (mod) {
-    return mod && mod.__esModule ? mod : { default: mod };
-  };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
@@ -13,13 +11,13 @@ const app = (0, express_1.default)();
 const port = 8080;
 app.use(express_1.default.json(), cors({ origin: "*" }));
 app.use("/user", users_1.default);
-mongoose_1.default.connect("mongodb://localhost:27017/users", () => {
-  console.log("connected to database");
+mongoose_1.default.connect("mongodb://localhost:27017/teebase", () => {
+    console.log("connected to database");
 });
 /* Iba default */
 app.get("/", (req, res) => {
-  res.send("Miro a Mato server beží.");
+    res.send("Miro a Mato server beží.");
 });
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+    console.log(`Example app listening on port ${port}`);
 });

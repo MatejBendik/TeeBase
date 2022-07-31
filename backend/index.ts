@@ -10,7 +10,7 @@ app.use(express.json(), cors({ origin: "*" }));
 
 app.use("/user", userRoutes);
 
-mongoose.connect("mongodb://localhost:27017/users", () => {
+mongoose.connect("mongodb://localhost:27017/teebase", () => {
   console.log("connected to database");
 });
 
