@@ -18,6 +18,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
+    console.log(username, password);
     try {
         const existingUser = yield user_1.default.findOne({ username });
         if (!existingUser)
@@ -35,7 +36,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         res.status(500).json({ message: "Coškaj wrong s loginom" });
     }
-    // error status codes su z https://restapitutorial.com/httpstatuscodes.html
 });
 exports.login = login;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

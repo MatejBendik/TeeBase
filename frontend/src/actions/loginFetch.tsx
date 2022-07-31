@@ -1,10 +1,13 @@
+import { baseUrl } from "./../api/index";
+
 interface loginProperties {
   username: string;
   password: string;
 }
+
 export const sendLogin = async ({ username, password }: loginProperties) => {
   try {
-    const response = await fetch("http://localhost:8080/login", {
+    const response = await fetch(`${baseUrl}/login`, {
       method: "POST",
       headers: {
         Accept: "application/json",
