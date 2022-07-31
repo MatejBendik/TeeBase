@@ -4,26 +4,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-let cors = require('cors');
+let cors = require("cors");
 const app = (0, express_1.default)();
 const port = 8080;
-app.use(express_1.default.json(), cors({ origin: '*' }));
+app.use(express_1.default.json(), cors({ origin: "*" }));
 app
     .route("/login")
     .get((req, res) => {
-    res.status(200).send(("Get ide"));
+    res.status(200).send("Get ide");
 })
     .post((req, res) => {
-    console.log("Username: " + req.body.username);
-    console.log("Password: " + req.body.password);
-    let user = {
-        username: req.body.username,
-        password: req.body.password
-    };
-    res.json(user);
+    try {
+        let user = {
+            username: req.body.username,
+            password: req.body.password,
+        };
+        res.json({ token: "sa5sasa58s1a51s" });
+    }
+    catch (error) {
+        res.status(500).send(error);
+    }
 });
-app.get('/', (req, res) => {
-    res.send('Miro a Mato server beží.');
+app.get("/", (req, res) => {
+    res.send("Miro a Mato server beží.");
 });
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

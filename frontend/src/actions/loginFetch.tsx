@@ -2,7 +2,7 @@ import react from "react";
 
 export const sendLogin = async (username: string, password: string) => {
   try {
-    fetch("http://localhost:8080/login", {
+    const response = await fetch("http://localhost:8080/login", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -13,19 +13,15 @@ export const sendLogin = async (username: string, password: string) => {
         username: username,
         password: password,
       }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          console.log("Eror post");
-          return;
-        }
-      })
-      //.then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        localStorage.setItem("isLogged", "true");
-        return data; //toto musime vyriešit - data = odpoved zo serverva ze je prihlaseny, takže dostat token treba  = a odpoved neprichazda xd
-      });
+    });
+
+    if (!response.ok) {
+      console.log("Eror login response");
+      return;
+    }
+    const json = await response.json();
+
+    localStorage.setItem("token", json.token);
   } catch (error) {
     console.error(error);
     return;

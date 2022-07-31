@@ -31,9 +31,9 @@ export default function Login() {
   const [isRegistered, setIsRegistered] = useState(true);
 
   useEffect(() => {
-    const isLogged = localStorage.getItem("isLogged");
+    const userToken = localStorage.getItem("token");
 
-    if (isLogged === "true") {
+    if (userToken) {
       navigate("/app");
     }
   }, []);
@@ -48,11 +48,8 @@ export default function Login() {
       }
 
       sendLogin(username, password);
-      //treba tu precitat z reduxu odpoved z tej funkcie
-      //redux ti prerenderuje appku tak isto jakeby si menil state
 
       navigate("/app");
-
       setUsername("");
       setPassword("");
     } else {
@@ -160,6 +157,7 @@ export default function Login() {
                     setUsername(e.target.value);
                   }}
                   value={username}
+                  autoFocus
                 />
                 <Input
                   name="password"
