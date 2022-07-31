@@ -35,6 +35,7 @@ export const sendRegister = async ({
       return;
     }
     const json = await response.json();
+    console.log(json);
 
     localStorage.setItem("reg", "registrovaný");
   } catch (error) {
