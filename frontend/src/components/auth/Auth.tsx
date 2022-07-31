@@ -29,7 +29,7 @@ export default function Auth() {
   const dispatch = useDispatch();
 
   useEffect(() =>{
-    //dispatch(getSign());
+
   }, [dispatch])
 
   //const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
@@ -61,52 +61,6 @@ export default function Auth() {
     setFormData({...formData, [e.target.name]: e.target.value});
   };
 
-  /*
-  useEffect(() => {
-    const userToken = localStorage.getItem("token");
-
-    if (userToken) {
-      navigate("/app");
-    }
-  }, []);
-
-  
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
-    if (isRegistered) {
-      if (!username.length || !password.length) {
-        alert("Vyplňte polia !");
-        return;
-      }
-
-      sendLogin({ username, password });
-
-      navigate("/app");
-      setUsername("");
-      setPassword("");
-    } else {
-      if (
-        !firstName.length ||
-        !lastName.length ||
-        !email.length ||
-        !username.length ||
-        !password.length
-      ) {
-        alert("Vyplňte polia !");
-        return;
-      }
-      sendRegister({ firstName, lastName, email, username, password });
-
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setUsername("");
-      setPassword("");
-    }
-  };
-
-  */
   const switchMode = () => {
     setIsRegistered((prevIsRegistered) => !prevIsRegistered);
   };
@@ -224,7 +178,7 @@ export default function Auth() {
               {isRegistered ? "Prihlásiť" : "Registrovať"}
             </Button>
             <GoogleLogin 
-              clientId="1088267011890-bnbnlc5mluso8pmn86h3g3qe8vju1tmh.apps.googleusercontent.com"
+              clientId=""
               render={(renderProps) => (
                 <Button 
                   fullWidth
