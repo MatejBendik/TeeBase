@@ -5,16 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const routes_1 = __importDefault(require("./routes/routes"));
-const cors = require('cors');
+const users_1 = __importDefault(require("./routes/users"));
+const cors = require("cors");
 const app = (0, express_1.default)();
 const port = 8080;
-app.use(express_1.default.json(), cors({ origin: '*' }));
-app.use(cors());
-app.use('/routes', routes_1.default);
-mongoose_1.default.connect('mongodb://localhost:27017/users', () => {
-    console.log('connected to database');
+app.use(express_1.default.json(), cors({ origin: "*" }));
+app.use("/user", users_1.default);
+mongoose_1.default.connect("mongodb://localhost:27017/users", () => {
+    console.log("connected to database");
 });
+/* Login */
 app
     .route("/login")
     .get((req, res) => {

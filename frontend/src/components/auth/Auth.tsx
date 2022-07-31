@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
 
 import { sendLogin } from "../../actions/loginFetch";
 import { sendRegister } from "../../actions/registerFetch";
 import Input from "../../const/Input";
+
 import GoogleIcon from "../../const/GoogleIcon";
-import { GoogleLogin } from 'react-google-login';
-import { login, register } from '../../actions/auth';
+/* import { GoogleLogin } from "react-google-login";*/
+import { login, register } from "../../actions/auth";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -26,42 +26,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 export default function Auth() {
   const navigate = useNavigate();
   const theme = createTheme();
-  const dispatch = useDispatch();
 
-  useEffect(() =>{
-    //dispatch(getSign());
-  }, [dispatch])
-
-  //const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
-
-  const [isRegistered, setIsRegistered] = useState(true);
-
-  // tu je docs ku handling multiple inputs https://www.pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
-
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    username: '',
-    password: ''
-  }
-  );
-
-  const handleSubmit = (e: any) =>{
-    e.preventDefault();
-  
-    if(isRegistered){
-      //dispatch(login(formData, navigate));
-    }else{
-      //dispatch(register(formData, navigate));
-    }
-  };
-
-  const handleChange = (e: any) => {
-    setFormData({...formData, [e.target.name]: e.target.value});
-  };
-
-  /*
   useEffect(() => {
     const userToken = localStorage.getItem("token");
 
@@ -70,72 +35,83 @@ export default function Auth() {
     }
   }, []);
 
-  
+  const [isRegistered, setIsRegistered] = useState(true);
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+  });
+  const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+  });
+
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
     if (isRegistered) {
-      if (!username.length || !password.length) {
+      if (!loginData.username.length || !loginData.password.length) {
         alert("Vyplňte polia !");
         return;
       }
 
-      sendLogin({ username, password });
+      sendLogin(loginData);
 
       navigate("/app");
-      setUsername("");
-      setPassword("");
+      setLoginData({ ...loginData, ["username"]: "" });
+      setLoginData({ ...loginData, ["password"]: "" });
     } else {
       if (
-        !firstName.length ||
-        !lastName.length ||
-        !email.length ||
-        !username.length ||
-        !password.length
+        !registerData.firstName.length ||
+        !registerData.lastName.length ||
+        !registerData.email.length ||
+        !registerData.username.length ||
+        !registerData.password.length
       ) {
         alert("Vyplňte polia !");
         return;
       }
-      sendRegister({ firstName, lastName, email, username, password });
+      sendRegister(registerData);
 
-      setFirstName("");
-      setLastName("");
-      setEmail("");
-      setUsername("");
-      setPassword("");
+      setRegisterData({ ...registerData, ["firstName"]: "" });
+      setRegisterData({ ...registerData, ["lastName"]: "" });
+      setRegisterData({ ...registerData, ["email"]: "" });
+      setRegisterData({ ...registerData, ["username"]: "" });
+      setRegisterData({ ...registerData, ["password"]: "" });
     }
   };
 
-  */
+  const handleChangeLogin = (e: any) => {
+    setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeRegister = (e: any) => {
+    setRegisterData({ ...registerData, [e.target.name]: e.target.value });
+  };
+
   const switchMode = () => {
     setIsRegistered((prevIsRegistered) => !prevIsRegistered);
   };
 
   // Google login potrebuje fix zatial nefunguje ten button Prihlasit sa cez google
 
-  const googleSuccess = async (res: any) => {
+  /*  const googleSuccess = async (res: any) => {
     const result = res?.profileObj;
     const token = res?.tokenId;
 
     try {
-      dispatch({type: 'AUTH', data: {token: token, result: result}});
-      navigate('/main');
+      dispatch({ type: "AUTH", data: { token: token, result: result } });
+      navigate("/main");
     } catch (error) {
       console.log(error);
     }
-
-  }
+  }; */
 
   const googleFailure = (error: any) => {
     console.log(error);
-  }
-
-  useEffect(() => {
-    //const token = user?.token;
-
-    // JWT ...
-
-  }, [])
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -162,37 +138,37 @@ export default function Auth() {
                   name="firstName"
                   label="Meno"
                   type="text"
-                  handleChange={handleChange}
-                  value={formData.firstName}
+                  handleChange={handleChangeRegister}
+                  value={registerData.firstName}
                   autoFocus
                 />
                 <Input
                   name="lastName"
                   label="Priezvisko"
                   type="text"
-                  handleChange={handleChange}
-                  value={formData.lastName}
+                  handleChange={handleChangeRegister}
+                  value={registerData.lastName}
                 />
                 <Input
                   name="email"
                   label="Email"
                   type="email"
-                  handleChange={handleChange}
-                  value={formData.email}
+                  handleChange={handleChangeRegister}
+                  value={registerData.email}
                 />
                 <Input
                   name="username"
                   label="Používateľské meno"
                   type="text"
-                  handleChange={handleChange}
-                  value={formData.username}
+                  handleChange={handleChangeRegister}
+                  value={registerData.username}
                 />
                 <Input
                   name="password"
                   label="Heslo"
                   type="password"
-                  handleChange={handleChange}
-                  value={formData.password}
+                  handleChange={handleChangeRegister}
+                  value={registerData.password}
                 />
               </>
             )}
@@ -203,15 +179,15 @@ export default function Auth() {
                   name="username"
                   label="Používateľské meno"
                   type="text"
-                  handleChange={handleChange}
-                  value={formData.username}
+                  handleChange={handleChangeLogin}
+                  value={loginData.username}
                 />
                 <Input
                   name="password"
                   label="Heslo"
                   type="password"
-                  handleChange={handleChange}
-                  value={formData.password}
+                  handleChange={handleChangeLogin}
+                  value={loginData.password}
                 />
               </>
             )}
@@ -223,14 +199,14 @@ export default function Auth() {
             >
               {isRegistered ? "Prihlásiť" : "Registrovať"}
             </Button>
-            <GoogleLogin 
+            {/*   <GoogleLogin
               clientId="1088267011890-bnbnlc5mluso8pmn86h3g3qe8vju1tmh.apps.googleusercontent.com"
               render={(renderProps) => (
-                <Button 
+                <Button
                   fullWidth
                   variant="contained"
                   sx={{ mt: 1, mb: 3 }}
-                  onClick={renderProps.onClick} 
+                  onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
                   startIcon={<GoogleIcon />}
                 >
@@ -240,7 +216,7 @@ export default function Auth() {
               onSuccess={googleSuccess}
               onFailure={googleFailure}
               cookiePolicy="single_host_origin"
-            />
+            /> */}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
