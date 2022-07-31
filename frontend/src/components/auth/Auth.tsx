@@ -63,9 +63,9 @@ export default function Auth() {
 
   /*
   useEffect(() => {
-    const isLogged = localStorage.getItem("isLogged");
+    const userToken = localStorage.getItem("token");
 
-    if (isLogged === "true") {
+    if (userToken) {
       navigate("/app");
     }
   }, []);
@@ -80,12 +80,9 @@ export default function Auth() {
         return;
       }
 
-      sendLogin(username, password);
-      //treba tu precitat z reduxu odpoved z tej funkcie
-      //redux ti prerenderuje appku tak isto jakeby si menil state
+      sendLogin({ username, password });
 
       navigate("/app");
-
       setUsername("");
       setPassword("");
     } else {
@@ -99,7 +96,7 @@ export default function Auth() {
         alert("Vyplňte polia !");
         return;
       }
-      sendRegister(firstName, lastName, email, username, password);
+      sendRegister({ firstName, lastName, email, username, password });
 
       setFirstName("");
       setLastName("");
