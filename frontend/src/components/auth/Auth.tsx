@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
 
 import { sendLogin } from "../../actions/loginFetch";
 import { sendRegister } from "../../actions/registerFetch";
 import Input from "../../const/Input";
+import GoogleIcon from "../../const/GoogleIcon";
+import { GoogleLogin } from 'react-google-login';
+import { login, register } from '../../actions/auth';
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -19,17 +23,45 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
-export default function Login() {
+export default function Auth() {
   const navigate = useNavigate();
   const theme = createTheme();
+  const dispatch = useDispatch();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  useEffect(() =>{
+    //dispatch(getSign());
+  }, [dispatch])
+
+  //const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
+
   const [isRegistered, setIsRegistered] = useState(true);
 
+  // tu je docs ku handling multiple inputs https://www.pluralsight.com/guides/handling-multiple-inputs-with-single-onchange-handler-react
+
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    username: '',
+    password: ''
+  }
+  );
+
+  const handleSubmit = (e: any) =>{
+    e.preventDefault();
+  
+    if(isRegistered){
+      //dispatch(login(formData, navigate));
+    }else{
+      //dispatch(register(formData, navigate));
+    }
+  };
+
+  const handleChange = (e: any) => {
+    setFormData({...formData, [e.target.name]: e.target.value});
+  };
+
+  /*
   useEffect(() => {
     const isLogged = localStorage.getItem("isLogged");
 
@@ -38,6 +70,7 @@ export default function Login() {
     }
   }, []);
 
+  
   const handleSubmit = (e: any) => {
     e.preventDefault();
 
@@ -76,9 +109,36 @@ export default function Login() {
     }
   };
 
+  */
   const switchMode = () => {
     setIsRegistered((prevIsRegistered) => !prevIsRegistered);
   };
+
+  // Google login potrebuje fix zatial nefunguje ten button Prihlasit sa cez google
+
+  const googleSuccess = async (res: any) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    try {
+      dispatch({type: 'AUTH', data: {token: token, result: result}});
+      navigate('/main');
+    } catch (error) {
+      console.log(error);
+    }
+
+  }
+
+  const googleFailure = (error: any) => {
+    console.log(error);
+  }
+
+  useEffect(() => {
+    //const token = user?.token;
+
+    // JWT ...
+
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -105,47 +165,37 @@ export default function Login() {
                   name="firstName"
                   label="Meno"
                   type="text"
-                  handleChange={(e: any) => {
-                    setFirstName(e.target.value);
-                  }}
-                  value={firstName}
+                  handleChange={handleChange}
+                  value={formData.firstName}
                   autoFocus
                 />
                 <Input
                   name="lastName"
                   label="Priezvisko"
                   type="text"
-                  handleChange={(e: any) => {
-                    setLastName(e.target.value);
-                  }}
-                  value={lastName}
+                  handleChange={handleChange}
+                  value={formData.lastName}
                 />
                 <Input
                   name="email"
                   label="Email"
                   type="email"
-                  handleChange={(e: any) => {
-                    setEmail(e.target.value);
-                  }}
-                  value={email}
+                  handleChange={handleChange}
+                  value={formData.email}
                 />
                 <Input
                   name="username"
                   label="Používateľské meno"
                   type="text"
-                  handleChange={(e: any) => {
-                    setUsername(e.target.value);
-                  }}
-                  value={username}
+                  handleChange={handleChange}
+                  value={formData.username}
                 />
                 <Input
                   name="password"
                   label="Heslo"
                   type="password"
-                  handleChange={(e: any) => {
-                    setPassword(e.target.value);
-                  }}
-                  value={password}
+                  handleChange={handleChange}
+                  value={formData.password}
                 />
               </>
             )}
@@ -156,19 +206,15 @@ export default function Login() {
                   name="username"
                   label="Používateľské meno"
                   type="text"
-                  handleChange={(e: any) => {
-                    setUsername(e.target.value);
-                  }}
-                  value={username}
+                  handleChange={handleChange}
+                  value={formData.username}
                 />
                 <Input
                   name="password"
                   label="Heslo"
                   type="password"
-                  handleChange={(e: any) => {
-                    setPassword(e.target.value);
-                  }}
-                  value={password}
+                  handleChange={handleChange}
+                  value={formData.password}
                 />
               </>
             )}
@@ -176,10 +222,28 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 1 }}
             >
               {isRegistered ? "Prihlásiť" : "Registrovať"}
             </Button>
+            <GoogleLogin 
+              clientId="1088267011890-bnbnlc5mluso8pmn86h3g3qe8vju1tmh.apps.googleusercontent.com"
+              render={(renderProps) => (
+                <Button 
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 1, mb: 3 }}
+                  onClick={renderProps.onClick} 
+                  disabled={renderProps.disabled}
+                  startIcon={<GoogleIcon />}
+                >
+                  Prihlásiť cez Google
+                </Button>
+              )}
+              onSuccess={googleSuccess}
+              onFailure={googleFailure}
+              cookiePolicy="single_host_origin"
+            />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

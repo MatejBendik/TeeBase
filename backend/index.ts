@@ -1,11 +1,20 @@
 import express, { Express, Request, Response } from 'express';
+import mongoose from 'mongoose';
+import userRoutes from './routes/users';
 
-let cors = require('cors');
+const cors = require('cors');
 
 const app = express()
 const port = 8080
 
 app.use(express.json(), cors({ origin: '*' }));
+app.use(cors());
+
+app.use('/user', userRoutes);
+
+mongoose.connect('mongodb://localhost:27017/users',() => {
+  console.log('connected to database');
+})
 
 app
   .route("/login")
