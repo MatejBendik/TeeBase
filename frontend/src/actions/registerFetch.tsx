@@ -1,12 +1,20 @@
-export const sendRegister = async (
-  firstName: string,
-  lastName: string,
-  email: string,
-  username: string,
-  password: string
-) => {
+interface registerProperties {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+}
+
+export const sendRegister = async ({
+  firstName,
+  lastName,
+  email,
+  username,
+  password,
+}: registerProperties) => {
   try {
-    fetch("http://localhost:8080/register", {
+    const response = await fetch("http://localhost:8080/register", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -20,18 +28,15 @@ export const sendRegister = async (
         username: username,
         password: password,
       }),
-    })
-      .then((res) => {
-        if (!res.ok) {
-          console.log("Eror post");
-          return;
-        }
-      })
-      //.then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        return data; //toto musime vyriešit - data = odpoved zo serverva ze je zaregistrovany = a odpoved neprichazda xd
-      });
+    });
+
+    if (!response.ok) {
+      console.log("Eror login response");
+      return;
+    }
+    const json = await response.json();
+
+    localStorage.setItem("reg", "registrovaný");
   } catch (error) {
     console.error(error);
     return;

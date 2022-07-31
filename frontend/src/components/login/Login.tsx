@@ -47,7 +47,7 @@ export default function Login() {
         return;
       }
 
-      sendLogin(username, password);
+      sendLogin({ username, password });
 
       navigate("/app");
       setUsername("");
@@ -63,7 +63,7 @@ export default function Login() {
         alert("Vyplňte polia !");
         return;
       }
-      sendRegister(firstName, lastName, email, username, password);
+      sendRegister({ firstName, lastName, email, username, password });
 
       setFirstName("");
       setLastName("");

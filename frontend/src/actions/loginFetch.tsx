@@ -1,6 +1,8 @@
-import react from "react";
-
-export const sendLogin = async (username: string, password: string) => {
+interface loginProperties {
+  username: string;
+  password: string;
+}
+export const sendLogin = async ({ username, password }: loginProperties) => {
   try {
     const response = await fetch("http://localhost:8080/login", {
       method: "POST",
