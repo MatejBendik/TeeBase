@@ -1,3 +1,4 @@
+require("dotenv").config();
 import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/users";
@@ -10,9 +11,14 @@ app.use(express.json(), cors({ origin: "*" }));
 
 app.use("/user", userRoutes);
 
-mongoose.connect("mongodb://localhost:27017/users", () => {
-  console.log("connected to database");
-});
+mongoose.connect(process.env.MONGO_URI as string)
+  .then(() => {
+    console.log("Connected to database");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+;
 
 /* Iba default */
 app.get("/", (req: Request, res: Response) => {
