@@ -1,5 +1,4 @@
 import { baseUrl } from "./../api/index";
-
 interface loginProperties {
   username: string;
   password: string;

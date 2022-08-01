@@ -12,14 +12,14 @@ app.use(express.json(), cors({ origin: "*" }));
 app.use("/user", userRoutes);
 app.use(cookieParser());
 
-mongoose.connect(process.env.MONGO_URI as string)
+mongoose
+  .connect(process.env.MONGO_URI as string)
   .then(() => {
     console.log("Connected to database");
   })
   .catch((err) => {
     console.log(err);
   });
-;
 
 /* Iba default */
 app.get("/", (req: Request, res: Response) => {

@@ -14,14 +14,14 @@ const port = 8080;
 app.use(express_1.default.json(), cors({ origin: "*" }));
 app.use("/user", users_1.default);
 app.use((0, cookie_parser_1.default)());
-mongoose_1.default.connect(process.env.MONGO_URI)
+mongoose_1.default
+    .connect(process.env.MONGO_URI)
     .then(() => {
     console.log("Connected to database");
 })
     .catch((err) => {
     console.log(err);
 });
-;
 /* Iba default */
 app.get("/", (req, res) => {
     res.send("Miro a Mato server beží.");
