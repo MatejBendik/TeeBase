@@ -22,14 +22,18 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const existingUser = yield User_1.default.findOne({ username: username });
         if (!existingUser) {
-            return res.status(400).json({ error: "User doesn't exist. ", user: existingUser });
+            return res
+                .status(400)
+                .json({ error: "User doesn't exist. ", user: existingUser });
         }
         const passwordMatch = yield bcryptjs_1.default.compare(password, existingUser.password);
         if (!passwordMatch) {
-            return res.status(400).json({ message: "There was a problem with login" });
+            return res
+                .status(400)
+                .json({ message: "There was a problem with login" });
         }
         const token = jsonwebtoken_1.default.sign({
-            id: existingUser._id
+            id: existingUser._id,
         }, process.env.JWT_SECRET, { expiresIn: "1h" });
         /* cookies nejdu
         res.cookie("access-token", token, {

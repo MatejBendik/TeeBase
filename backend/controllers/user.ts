@@ -10,22 +10,23 @@ export const login = async (req: Request, res: Response) => {
   try {
     const existingUser = await User.findOne({ username: username });
 
-    if (!existingUser){
-      return res.status(400).json({ error: "User doesn't exist. ", user: existingUser });
+    if (!existingUser) {
+      return res
+        .status(400)
+        .json({ error: "User doesn't exist. ", user: existingUser });
     }
 
-    const passwordMatch = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+    const passwordMatch = await bcrypt.compare(password, existingUser.password);
 
     if (!passwordMatch) {
-      return res.status(400).json({ message: "There was a problem with login" });
+      return res
+        .status(400)
+        .json({ message: "There was a problem with login" });
     }
 
     const token = jwt.sign(
       {
-        id: existingUser._id
+        id: existingUser._id,
       },
       process.env.JWT_SECRET as string,
       { expiresIn: "1h" }

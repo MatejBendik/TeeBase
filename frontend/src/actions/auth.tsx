@@ -1,23 +1,25 @@
-import react from 'react';
-import { AUTH } from '../const/actionTypes';
+import react from "react";
+import { AUTH } from "../const/actionTypes";
 import * as api from "../api";
 
-export const login = (formData: any, navigate: any) => async (dispatch: any) => {
+export const login =
+  (formData: any, navigate: any) => async (dispatch: any) => {
     try {
-        // login user
+      // login user
 
-        navigate('/app');
+      navigate("/app");
     } catch (error) {
-        console.log(error);        
+      console.log(error);
     }
-}
+  };
 
-export const register = (formData: any, navigate: any) => async (dispatch: any) => {
+export const register =
+  (formData: any, navigate: any) => async (dispatch: any) => {
     try {
-        // register user
+      // register user
 
-        navigate('/app');
+      navigate("/app");
     } catch (error) {
-        console.log(error);        
+      console.log(error);
     }
-}
+  };
