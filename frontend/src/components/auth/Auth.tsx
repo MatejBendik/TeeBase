@@ -57,10 +57,9 @@ export default function Auth() {
         return;
       }
 
-      sendLogin(loginData);
-      navigate("/app");
-      setLoginData({ ...loginData, ["username"]: "" });
-      setLoginData({ ...loginData, ["password"]: "" });
+      sendLogin(loginData, navigate);
+
+      setLoginData({ ...loginData, ["username"]: "", ["password"]: "" });
     } else {
       if (
         !registerData.firstName.length ||
@@ -72,13 +71,16 @@ export default function Auth() {
         alert("Vyplňte polia !");
         return;
       }
-      sendRegister(registerData);
-      navigate("/app");
-      setRegisterData({ ...registerData, ["firstName"]: "" });
-      setRegisterData({ ...registerData, ["lastName"]: "" });
-      setRegisterData({ ...registerData, ["email"]: "" });
-      setRegisterData({ ...registerData, ["username"]: "" });
-      setRegisterData({ ...registerData, ["password"]: "" });
+      sendRegister(registerData, navigate);
+
+      setRegisterData({
+        ...registerData,
+        ["firstName"]: "",
+        ["lastName"]: "",
+        ["email"]: "",
+        ["username"]: "",
+        ["password"]: "",
+      });
     }
   };
 
@@ -180,6 +182,7 @@ export default function Auth() {
                   type="text"
                   handleChange={handleChangeLogin}
                   value={loginData.username}
+                  autoFocus
                 />
                 <Input
                   name="password"

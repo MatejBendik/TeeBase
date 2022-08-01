@@ -2,26 +2,20 @@ require("dotenv").config();
 import { Response, Request } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "../models/User";
+import User from "../models/user";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ username: username });
-
     if (!existingUser) {
-      return res
-        .status(400)
-        .json({ error: "User doesn't exist. ", user: existingUser });
+      return res.status(401).json({ message: "Používateľ neexistuje !" });
     }
 
     const passwordMatch = await bcrypt.compare(password, existingUser.password);
-
     if (!passwordMatch) {
-      return res
-        .status(400)
-        .json({ message: "There was a problem with login" });
+      return res.status(403).json({ message: "Heslo sa nezhoduje s menom" });
     }
 
     const token = jwt.sign(
@@ -41,7 +35,7 @@ export const login = async (req: Request, res: Response) => {
     */
     return res.status(200).json({ user: existingUser, token: token });
   } catch (error) {
-    res.status(500).json({ message: "Coškaj wrong s loginom" });
+    res.status(500).json({ message: "Chyba servera" });
   }
 };
 
@@ -50,9 +44,10 @@ export const register = async (req: Request, res: Response) => {
 
   try {
     const existingUser = await User.findOne({ username });
-
     if (existingUser)
-      return res.status(400).json({ message: "User already exists. " });
+      return res
+        .status(400)
+        .json({ message: "Užívateľ s týmto nickom už existuje !" });
 
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -78,6 +73,6 @@ export const register = async (req: Request, res: Response) => {
     newUser.save();
     res.status(200).json({ newUser, token });
   } catch (error) {
-    res.status(500).json({ message: "Coškaj wrong s registerom" });
+    res.status(500).json({ message: "Chyba servera" });
   }
 };

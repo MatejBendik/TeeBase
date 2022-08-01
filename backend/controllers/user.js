@@ -16,21 +16,17 @@ exports.register = exports.login = void 0;
 require("dotenv").config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const User_1 = __importDefault(require("../models/User"));
+const user_1 = __importDefault(require("../models/user"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
-        const existingUser = yield User_1.default.findOne({ username: username });
+        const existingUser = yield user_1.default.findOne({ username: username });
         if (!existingUser) {
-            return res
-                .status(400)
-                .json({ error: "User doesn't exist. ", user: existingUser });
+            return res.status(401).json({ message: "Používateľ neexistuje !" });
         }
         const passwordMatch = yield bcryptjs_1.default.compare(password, existingUser.password);
         if (!passwordMatch) {
-            return res
-                .status(400)
-                .json({ message: "There was a problem with login" });
+            return res.status(403).json({ message: "Heslo sa nezhoduje s menom" });
         }
         const token = jsonwebtoken_1.default.sign({
             id: existingUser._id,
@@ -45,19 +41,21 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return res.status(200).json({ user: existingUser, token: token });
     }
     catch (error) {
-        res.status(500).json({ message: "Coškaj wrong s loginom" });
+        res.status(500).json({ message: "Chyba servera" });
     }
 });
 exports.login = login;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { firstName, lastName, email, username, password } = req.body;
     try {
-        const existingUser = yield User_1.default.findOne({ username });
+        const existingUser = yield user_1.default.findOne({ username });
         if (existingUser)
-            return res.status(400).json({ message: "User already exists. " });
+            return res
+                .status(400)
+                .json({ message: "Užívateľ s týmto nickom už existuje !" });
         const saltRounds = 12;
         const hashedPassword = yield bcryptjs_1.default.hash(password, saltRounds);
-        const newUser = yield User_1.default.create({
+        const newUser = yield user_1.default.create({
             firstName,
             lastName,
             email,
@@ -73,7 +71,7 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         res.status(200).json({ newUser, token });
     }
     catch (error) {
-        res.status(500).json({ message: "Coškaj wrong s registerom" });
+        res.status(500).json({ message: "Chyba servera" });
     }
 });
 exports.register = register;

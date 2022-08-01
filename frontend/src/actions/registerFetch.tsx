@@ -7,13 +7,10 @@ interface registerProperties {
   password: string;
 }
 
-export const sendRegister = async ({
-  firstName,
-  lastName,
-  email,
-  username,
-  password,
-}: registerProperties) => {
+export const sendRegister = async (
+  { firstName, lastName, email, username, password }: registerProperties,
+  navigate: any
+) => {
   try {
     const response = await fetch(`${baseUrl}/user/register`, {
       method: "POST",
@@ -31,13 +28,20 @@ export const sendRegister = async ({
       }),
     });
 
-    if (!response.ok) {
-      console.log("Eror login response");
+    if (response.status == 400) {
+      const json = await response.json();
+      alert(json.message);
       return;
     }
-    const json = await response.json();
-    console.log(json);
 
+    if (response.status === 500) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
+    const json = await response.json();
+    navigate("/app");
     localStorage.setItem("accesToken", json.token);
   } catch (error) {
     console.error(error);
