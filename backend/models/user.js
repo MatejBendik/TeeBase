@@ -33,4 +33,5 @@ const userSchema = new mongoose_1.default.Schema({
         default: new Date()
     }
 });
-exports.default = mongoose_1.default.model('User', userSchema);
+const User = mongoose_1.default.model('User', userSchema);
+exports.default = User;
