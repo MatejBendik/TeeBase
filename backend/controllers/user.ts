@@ -6,8 +6,6 @@ import User from "../models/user";
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
-  console.log(username, password);
-
   try {
     const existingUser = await User.findOne({ username });
 
@@ -47,12 +45,10 @@ export const register = async (req: Request, res: Response) => {
     if (existingUser)
       return res.status(400).json({ message: "User already exists. " });
 
-    if (!password) return res.status(400).json({ message: "Weak password" });
-
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    const result = await User.create({
+    const newUser = await User.create({
       firstName,
       lastName,
       email,
@@ -61,12 +57,17 @@ export const register = async (req: Request, res: Response) => {
     });
 
     const token = jwt.sign(
-      { id: result._id, username: result.username, password: result.password },
+      {
+        id: newUser._id,
+        username: newUser.username,
+        password: newUser.password,
+      },
       "test",
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ result, token });
+    newUser.save();
+    res.status(200).json({ newUser, token });
   } catch (error) {
     res.status(500).json({ message: "Coškaj wrong s registerom" });
   }
