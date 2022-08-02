@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router";
 
@@ -20,7 +20,9 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from "@mui/icons-material/Logout";
+
 import { mainListItems, secondaryListItems } from "./listItems";
+import Profile from "./Profile";
 
 function Copyright(props: any) {
   return (
@@ -98,6 +100,7 @@ function DashboardContent() {
     setOpen(!open);
   };
   const navigate = useNavigate();
+  const [content, setContent] = useState("home");
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -137,6 +140,9 @@ function DashboardContent() {
                 color="inherit"
                 noWrap
                 sx={{ flexGrow: 1 }}
+                onClick={() => {
+                  setContent("settings");
+                }}
               >
                 Profil
               </Typography>
@@ -189,34 +195,31 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                ></Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                ></Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper
-                  sx={{ p: 2, display: "flex", flexDirection: "column" }}
-                ></Paper>
-              </Grid>
+              {content == "home" && (
+                <Grid item xs={12} md={15} lg={15}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      flexDirection: "column",
+                      height: "75vh",
+                    }}
+                  ></Paper>
+                </Grid>
+              )}
+
+              {content == "settings" && (
+                <Grid item xs={12} md={15} lg={15}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      flexDirection: "column",
+                      height: "75vh",
+                    }}
+                  >
+                    <Profile></Profile>
+                  </Paper>
+                </Grid>
+              )}
             </Grid>
             <Copyright sx={{ pt: 4 }} />
           </Container>
