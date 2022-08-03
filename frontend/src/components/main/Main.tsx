@@ -207,7 +207,7 @@ function DashboardContent() {
                       minHeight: "80vh",
                     }}
                   >
-                    <Home></Home>
+                    <Home />
                   </Paper>
                 </Grid>
               )}
@@ -221,7 +221,7 @@ function DashboardContent() {
                       minHeight: "85vh",
                     }}
                   >
-                    <Profile></Profile>
+                    <Profile />
                   </Paper>
                 </Grid>
               )}

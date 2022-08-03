@@ -3,60 +3,66 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
 import LayersIcon from "@mui/icons-material/Layers";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+
+/* icons */
+import GTranslateIcon from "@mui/icons-material/GTranslate";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import FunctionsIcon from "@mui/icons-material/Functions";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
+import TerminalIcon from "@mui/icons-material/Terminal";
+import BiotechIcon from "@mui/icons-material/Biotech";
+import ArchitectureIcon from "@mui/icons-material/Architecture";
+import SchoolIcon from "@mui/icons-material/School";
 
 export const mainListItems = (
   <React.Fragment>
     <ListItemButton>
       <ListItemIcon>
-        <DashboardIcon />
+        <GTranslateIcon />
       </ListItemIcon>
       <ListItemText primary="Jazyk 1" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <CalculateIcon />
       </ListItemIcon>
       <ListItemText primary="Matematika I" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <PeopleIcon />
+        <FunctionsIcon />
       </ListItemIcon>
       <ListItemText primary="Repetitórium z matematiky" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <BarChartIcon />
+        <FitnessCenterIcon />
       </ListItemIcon>
       <ListItemText primary="Telesná výchova I" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <LayersIcon />
+        <TerminalIcon />
       </ListItemIcon>
       <ListItemText primary="Základy algoritmizácie a programovania" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <LayersIcon />
+        <BiotechIcon />
       </ListItemIcon>
       <ListItemText primary="Základy elektrotechnického inžinierstva" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <LayersIcon />
+        <ArchitectureIcon />
       </ListItemIcon>
       <ListItemText primary="Základy inžinierstva materiálov" />
     </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
-        <LayersIcon />
+        <SchoolIcon />
       </ListItemIcon>
       <ListItemText primary="Úvod do inžinierstva" />
     </ListItemButton>
