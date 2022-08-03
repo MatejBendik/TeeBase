@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";
 import { useNavigate } from "react-router";
 
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
@@ -22,7 +21,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { mainListItems, secondaryListItems } from "./listItems";
-import Profile from "./Profile";
+import Profile from "./contentScreens/Profile";
 
 function Copyright(props: any) {
   return (

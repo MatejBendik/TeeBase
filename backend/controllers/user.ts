@@ -76,3 +76,18 @@ export const register = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Chyba servera" });
   }
 };
+
+export const getUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+
+  try {
+    const existingUser = await User.findOne({ userId });
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    res.status(200).json(existingUser);
+  } catch (error) {
+    res.status(500).json({ message: "Chyba servera" });
+  }
+};

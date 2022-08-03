@@ -1,0 +1,24 @@
+.title {
+  text-align: center;
+  color: grey;
+}
+.container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 100%;
+}
+.profileDiv {
+  background-color: rgba(206, 205, 205, 0.218);
+  width: 60%;
+  height: 80%;
+  border-radius: 20px;
+}
+
+.passwordDiv {
+  background-color: rgba(206, 205, 205, 0.218);
+  width: 30%;
+  height: 80%;
+  border-radius: 20px;
+  padding: 2%;
+}

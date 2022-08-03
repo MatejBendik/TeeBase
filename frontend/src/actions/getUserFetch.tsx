@@ -1,25 +1,14 @@
 import { baseUrl } from "./../api/index";
-interface loginProperties {
-  username: string;
-  password: string;
-}
 
-export const sendLogin = async (
-  { username, password }: loginProperties,
-  navigate: any
-) => {
+export const getUserFetch = async (userId: any) => {
   try {
-    const response = await fetch(`${baseUrl}/user/login`, {
-      method: "POST",
+    const response = await fetch(`${baseUrl}/user/getUser/${userId}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify({
-        username: username,
-        password: password,
-      }),
     });
 
     if (response.status === 401) {
@@ -41,9 +30,7 @@ export const sendLogin = async (
     }
 
     const json = await response.json();
-    navigate("/app");
-    localStorage.setItem("token", json.token);
-    localStorage.setItem("user_id", json.user._id);
+    return json;
   } catch (error) {
     console.error(error);
     return;
