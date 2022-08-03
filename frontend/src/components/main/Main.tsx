@@ -21,6 +21,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { mainListItems, secondaryListItems } from "./listItems";
+import Home from "./contentScreens/Home";
 import Profile from "./contentScreens/Profile";
 
 function Copyright(props: any) {
@@ -123,22 +124,25 @@ function DashboardContent() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              sx={{ flexGrow: 1 }}
-            >
-              Nástenka
-            </Typography>
             <IconButton color="inherit">
               <Typography
                 component="h1"
                 variant="h6"
                 color="inherit"
                 noWrap
-                sx={{ flexGrow: 1 }}
+                onClick={() => {
+                  setContent("home");
+                }}
+              >
+                Nástenka
+              </Typography>
+            </IconButton>
+            <IconButton color="inherit">
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
                 onClick={() => {
                   setContent("profile");
                 }}
@@ -151,8 +155,8 @@ function DashboardContent() {
               <Badge>
                 <LogoutIcon
                   onClick={() => {
-                    navigate("/");
                     localStorage.clear();
+                    navigate("/");
                   }}
                 />
               </Badge>
@@ -200,9 +204,11 @@ function DashboardContent() {
                     sx={{
                       p: 2,
                       flexDirection: "column",
-                      height: "85vh",
+                      minHeight: "80vh",
                     }}
-                  ></Paper>
+                  >
+                    <Home></Home>
+                  </Paper>
                 </Grid>
               )}
 
