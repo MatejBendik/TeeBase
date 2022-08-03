@@ -9,4 +9,5 @@ const router = express_1.default.Router();
 router.post("/login", user_1.login);
 router.post("/register", user_1.register);
 router.get("/getUser/:id", user_1.getUser);
+router.get("/deleteUser/:id", user_1.deleteUser);
 exports.default = router;

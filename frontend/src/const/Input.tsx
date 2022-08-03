@@ -19,6 +19,7 @@ const Input = ({
 }: InputProperties) => {
   return (
     <TextField
+      className="input"
       margin="normal"
       required
       fullWidth
@@ -30,6 +31,7 @@ const Input = ({
       variant="standard"
       autoFocus={autoFocus}
       type={type}
+      autoComplete="on"
     />
   );
 };

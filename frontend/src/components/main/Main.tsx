@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
@@ -140,7 +140,7 @@ function DashboardContent() {
                 noWrap
                 sx={{ flexGrow: 1 }}
                 onClick={() => {
-                  setContent("settings");
+                  setContent("profile");
                 }}
               >
                 Profil
@@ -192,7 +192,7 @@ function DashboardContent() {
           }}
         >
           <Toolbar />
-          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+          <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
               {content == "home" && (
                 <Grid item xs={12} md={15} lg={15}>
@@ -200,19 +200,19 @@ function DashboardContent() {
                     sx={{
                       p: 2,
                       flexDirection: "column",
-                      height: "75vh",
+                      height: "85vh",
                     }}
                   ></Paper>
                 </Grid>
               )}
 
-              {content == "settings" && (
+              {content == "profile" && (
                 <Grid item xs={12} md={15} lg={15}>
                   <Paper
                     sx={{
                       p: 2,
                       flexDirection: "column",
-                      height: "75vh",
+                      minHeight: "85vh",
                     }}
                   >
                     <Profile></Profile>

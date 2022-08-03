@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import "./profile.css";
 
 import Input from "../../../const/Input";
 import Button from "@mui/material/Button";
 
 import { getUserFetch } from "../../../actions/getUserFetch";
+import { deleteUserFetch } from "../../../actions/deleteUserFetch";
+
+import { formatDate } from "../../../actions/formatDate";
 
 export default function Profile() {
   interface userData {
@@ -17,8 +21,12 @@ export default function Profile() {
     registeredAt: string;
   }
 
+  const navigate = useNavigate();
   const userID = localStorage.getItem("user_id");
   const [userData, setUserData] = useState<userData>();
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [copyNewPassword, setCopyNewPassword] = useState("");
 
   useEffect(() => {
     getUserData();
@@ -34,45 +42,73 @@ export default function Profile() {
       <h2 className="title">Tvoj profil</h2>
       <div className="container">
         <div className="profileDiv">
-          <div>
-            <p>{userData?.firstName}</p>
-            <p>{userData?.lastName}</p>
+          <h1 className="containerTitle">Údaje</h1>
+          <p className="dataName">Celé meno</p>
+          <div className="flex-container">
+            <p className="dataLabel">{userData?.firstName}</p>
+            <p style={{ margin: "10px" }}></p>
+            <p className="dataLabel">{userData?.lastName}</p>
           </div>
-          <div>
-            <p>{userData?.email}</p>
-            <p>{userData?.username}</p>
-          </div>
-          <p>Dátum vytvorenia: {userData?.registeredAt}</p>
+          <p className="dataName">Email</p>
+          <p className="dataLabel">{userData?.email}</p>
+          <p className="dataName">Používateľské meno</p>
+          <p className="dataLabel">{userData?.username}</p>
+          <p className="dataName">Dátum vytvorenia:</p>
+          <p className="dataLabel">
+            {formatDate(String(userData?.registeredAt))}
+          </p>
         </div>
         <div className="passwordDiv">
+          <h1 className="containerTitle">Heslo</h1>
           <Input
-            name="password"
+            name="oldPassword"
             label="Staré heslo"
             type="password"
-            handleChange={() => {}}
-            value="s"
+            handleChange={(e: any) => {
+              setOldPassword(e.target.value);
+            }}
+            value={oldPassword}
           />
+          <div className="separator"></div>
           <Input
-            name="password"
+            name="newPassword"
             label="Nové heslo"
             type="password"
-            handleChange={() => {}}
-            value="s"
+            handleChange={(e: any) => {
+              setNewPassword(e.target.value);
+            }}
+            value={newPassword}
           />
+          <div className="separator"></div>
           <Input
-            name="password"
+            name="copyNewPassword"
             label="Potvrdenie nového hesla "
             type="password"
-            handleChange={() => {}}
-            value="s"
+            handleChange={(e: any) => {
+              setCopyNewPassword(e.target.value);
+            }}
+            value={copyNewPassword}
           />
+          <div className="separator"></div>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 1 }}
+            sx={{ mt: 3, mb: 2 }}
           >
             Potvrdiť zmeny
+          </Button>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2, backgroundColor: "red" }}
+            onClick={async () => {
+              localStorage.clear();
+              await deleteUserFetch(String(userID), navigate);
+            }}
+          >
+            Nenávratne zmazať užívateľa
           </Button>
         </div>
       </div>

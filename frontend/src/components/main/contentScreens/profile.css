@@ -8,17 +8,72 @@
   width: 100%;
   height: 100%;
 }
-.profileDiv {
-  background-color: rgba(206, 205, 205, 0.218);
-  width: 60%;
-  height: 80%;
+
+.containerTitle {
+  color: rgba(128, 128, 128, 0.64);
+  background-color: rgba(255, 255, 255, 0.574);
+  padding: 8px;
+  width: 100px;
   border-radius: 20px;
 }
 
+/* ľavý stlpec */
+.profileDiv {
+  background-color: rgba(206, 205, 205, 0.218);
+  width: 60%;
+  min-height: 80%;
+  border-radius: 20px;
+  padding: 2%;
+}
+
+.dataName {
+  padding: 5px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.dataLabel {
+  background-color: rgba(255, 255, 255, 0.738);
+  padding: 15px;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.flex-container {
+  display: flex;
+}
+
+/* pravý stlpec */
 .passwordDiv {
   background-color: rgba(206, 205, 205, 0.218);
   width: 30%;
-  height: 80%;
+  min-height: 80%;
   border-radius: 20px;
   padding: 2%;
+}
+
+.separator {
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    display: block;
+  }
+  .profileDiv,
+  .passwordDiv {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .containerTitle {
+    font-size: 20px;
+    width: 70px;
+  }
+  .dataName {
+    padding-left: 6px;
+  }
+  .dataLabel {
+    margin: 0;
+  }
 }

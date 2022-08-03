@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.register = exports.login = void 0;
+exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
 require("dotenv").config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -78,14 +78,28 @@ exports.register = register;
 const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userId = req.params.id;
     try {
-        const existingUser = yield user_1.default.findOne({ userId });
+        const existingUser = yield user_1.default.findById(userId);
         if (!existingUser) {
             return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
         }
         res.status(200).json(existingUser);
     }
     catch (error) {
-        res.status(500).json({ message: "Chyba servera" });
+        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
     }
 });
 exports.getUser = getUser;
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.id;
+    try {
+        const existingUser = yield user_1.default.findByIdAndDelete(userId);
+        if (!existingUser) {
+            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+        }
+        res.status(200).json({ message: "Účet bol úspešne vymazaný" });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+    }
+});
+exports.deleteUser = deleteUser;
