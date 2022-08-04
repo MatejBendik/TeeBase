@@ -5,6 +5,12 @@ import "./profile.css";
 import Input from "../../../const/Input";
 import Button from "@mui/material/Button";
 import { Oval } from "react-loader-spinner";
+/* MOodal */
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
 
 import { getUserFetch } from "../../../actions/getUserFetch";
 import { deleteUserFetch } from "../../../actions/deleteUserFetch";
@@ -29,6 +35,10 @@ export default function Profile() {
   const [newPassword, setNewPassword] = useState("");
   const [copyNewPassword, setCopyNewPassword] = useState("");
   const [spinner, setSpinner] = useState(false);
+  /* Modal */
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   useEffect(() => {
     getUserData();
@@ -76,6 +86,16 @@ export default function Profile() {
             <p className="dataLabel">
               {formatDate(String(userData?.registeredAt))}
             </p>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{ mt: 3, mb: 2, backgroundColor: "red" }}
+              onClick={async () => {
+                handleOpen();
+              }}
+            >
+              Nenávratne zmazať užívateľa
+            </Button>
           </div>
           <div className="passwordDiv">
             <h1 className="containerTitle">Heslo</h1>
@@ -117,6 +137,42 @@ export default function Profile() {
             >
               Potvrdiť zmeny
             </Button>
+          </div>
+        </div>
+      )}
+
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 800,
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={modal}>
+            <Typography
+              id="transition-modal-title"
+              variant="h6"
+              component="h2"
+              sx={{
+                textAlign: "center",
+                padding: 2,
+                backgroundColor: "#ebe8e8",
+                borderRadius: 2,
+              }}
+            >
+              Zmazať užívateľa ?
+            </Typography>
+            <Typography
+              id="transition-modal-description"
+              sx={{ mt: 2, textAlign: "center" }}
+            >
+              Užívateľ bude natrvalo vymazaný.
+            </Typography>
             <Button
               type="submit"
               fullWidth
@@ -127,11 +183,23 @@ export default function Profile() {
                 await deleteUserFetch(String(userID), navigate);
               }}
             >
-              Nenávratne zmazať užívateľa
+              Potvrdiť
             </Button>
-          </div>
-        </div>
-      )}
+          </Box>
+        </Fade>
+      </Modal>
     </>
   );
 }
+
+const modal = {
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  borderRadius: 3,
+  boxShadow: 55,
+  p: 4,
+};
