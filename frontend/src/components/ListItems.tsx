@@ -1,10 +1,9 @@
 import * as React from "react";
+
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListSubheader from "@mui/material/ListSubheader";
-import LayersIcon from "@mui/icons-material/Layers";
-import AssignmentIcon from "@mui/icons-material/Assignment";
 
 /* icons */
 import GTranslateIcon from "@mui/icons-material/GTranslate";
@@ -15,6 +14,7 @@ import TerminalIcon from "@mui/icons-material/Terminal";
 import BiotechIcon from "@mui/icons-material/Biotech";
 import ArchitectureIcon from "@mui/icons-material/Architecture";
 import SchoolIcon from "@mui/icons-material/School";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 export const mainListItems = (
   <React.Fragment>

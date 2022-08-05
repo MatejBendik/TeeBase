@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import "./profile.css";
-
-import Input from "../../../const/Input";
-import Button from "@mui/material/Button";
 import { Oval } from "react-loader-spinner";
-/* MOodal */
+
+import Button from "@mui/material/Button";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Typography from "@mui/material/Typography";
 
-import { getUserFetch } from "../../../actions/getUserFetch";
-import { deleteUserFetch } from "../../../actions/deleteUserFetch";
-
-import { formatDate } from "../../../actions/formatDate";
+import "./profile.css";
+import { formatDate } from "../../utils/formatDate";
+import { getUserFetch } from "../../actions/getUserFetch";
+import { deleteUserFetch } from "../../actions/deleteUserFetch";
+import Input from "../../components/Input";
 
 export default function Profile() {
   interface userData {

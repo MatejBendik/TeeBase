@@ -1,6 +1,7 @@
-import Auth from "./auth/Auth";
-import Main from "./main/Main";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+import Auth from "../screens/Auth";
+import Main from "../screens/Main";
 
 const RouterComponent = () => {
   return (

@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-
-import { sendLogin } from "../../actions/loginFetch";
-import { sendRegister } from "../../actions/registerFetch";
-import Input from "../../const/Input";
-
-import GoogleIcon from "../../const/GoogleIcon";
 /* import { GoogleLogin } from "react-google-login";*/
-import { login, register } from "../../actions/auth";
 
+import GoogleIcon from "../const/GoogleIcon";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -22,6 +16,10 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+import { sendLogin } from "../actions/loginFetch";
+import { sendRegister } from "../actions/registerFetch";
+import Input from "../components/Input";
 
 export default function Auth() {
   const navigate = useNavigate();

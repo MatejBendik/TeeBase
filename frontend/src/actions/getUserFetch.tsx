@@ -11,13 +11,7 @@ export const getUserFetch = async (userId: any) => {
       },
     });
 
-    if (response.status === 401) {
-      const json = await response.json();
-      alert(json.message);
-      return;
-    }
-
-    if (response.status === 403) {
+    if (response.status === 400) {
       const json = await response.json();
       alert(json.message);
       return;
