@@ -63,6 +63,10 @@
   border: none;
 }
 
+.closeIcon:hover {
+  cursor: pointer;
+}
+
 /* Responsive - mobile*/
 @media only screen and (max-width: 600px) {
   .container {

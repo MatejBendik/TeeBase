@@ -4,10 +4,11 @@ import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   setOpen: boolean;
-  handleCloseFunction: React.Dispatch<React.SetStateAction<boolean>>;
+  handleCloseFunction: () => any;
   title: string;
   subTitle: string;
   deleteUserFunction: () => any;
@@ -34,6 +35,11 @@ export default function TransitionsModal({
     >
       <Fade in={setOpen}>
         <Box sx={modal} className="modal">
+          <CloseIcon
+            className="closeIcon"
+            sx={{ position: "absolute", right: 11, top: 11, color: "red" }}
+            onClick={handleCloseFunction}
+          />
           <Typography
             id="transition-modal-title"
             variant="h6"
@@ -43,6 +49,7 @@ export default function TransitionsModal({
               padding: 2,
               backgroundColor: "#ebe8e8",
               borderRadius: 2,
+              marginTop: 2,
             }}
           >
             {title}
