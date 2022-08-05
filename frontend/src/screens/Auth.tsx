@@ -17,9 +17,10 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
+import Input from "../components/Input";
+import Copyright from "../components/Copyright";
 import { sendLogin } from "../actions/loginFetch";
 import { sendRegister } from "../actions/registerFetch";
-import Input from "../components/Input";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ export default function Auth() {
   };
 
   const switchMode = () => {
-    setIsRegistered((prevIsRegistered) => !prevIsRegistered);
+    setIsRegistered(!isRegistered);
   };
 
   // Google login potrebuje fix zatial nefunguje ten button Prihlasit sa cez google
@@ -237,22 +238,4 @@ export default function Auth() {
       </Container>
     </ThemeProvider>
   );
-
-  function Copyright(props: any) {
-    return (
-      <Typography
-        variant="body2"
-        color="text.secondary"
-        align="center"
-        {...props}
-      >
-        {"Copyright © "}
-        <Link color="inherit" href="https://mui.com/">
-          TeeBase
-        </Link>{" "}
-        {new Date().getFullYear()}
-        {"."}
-      </Typography>
-    );
-  }
 }

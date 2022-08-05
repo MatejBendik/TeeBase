@@ -57,6 +57,13 @@
   margin-bottom: 20px;
 }
 
+/* Modal  */
+.modal:focus {
+  outline: none;
+  border: none;
+}
+
+/* Responsive - mobile*/
 @media only screen and (max-width: 600px) {
   .container {
     display: block;

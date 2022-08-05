@@ -3,17 +3,13 @@ import { useNavigate } from "react-router";
 import { Oval } from "react-loader-spinner";
 
 import Button from "@mui/material/Button";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Typography from "@mui/material/Typography";
 
 import "./profile.css";
 import { formatDate } from "../../utils/formatDate";
 import { getUserFetch } from "../../actions/getUserFetch";
 import { deleteUserFetch } from "../../actions/deleteUserFetch";
 import Input from "../../components/Input";
+import Modal from "../../components/Modal";
 
 export default function Profile() {
   interface userData {
@@ -47,6 +43,11 @@ export default function Profile() {
     const user = await getUserFetch(String(userID));
     setUserData(user);
     setSpinner(false);
+  };
+
+  const deleteUser = async () => {
+    localStorage.clear();
+    await deleteUserFetch(String(userID), navigate);
   };
 
   return (
@@ -140,52 +141,12 @@ export default function Profile() {
       )}
 
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 800,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={modal}>
-            <Typography
-              id="transition-modal-title"
-              variant="h6"
-              component="h2"
-              sx={{
-                textAlign: "center",
-                padding: 2,
-                backgroundColor: "#ebe8e8",
-                borderRadius: 2,
-              }}
-            >
-              Zmazať užívateľa ?
-            </Typography>
-            <Typography
-              id="transition-modal-description"
-              sx={{ mt: 2, textAlign: "center" }}
-            >
-              Užívateľ bude natrvalo vymazaný.
-            </Typography>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: "red" }}
-              onClick={async () => {
-                localStorage.clear();
-                await deleteUserFetch(String(userID), navigate);
-              }}
-            >
-              Potvrdiť
-            </Button>
-          </Box>
-        </Fade>
-      </Modal>
+        setOpen={open}
+        handleCloseFunction={handleClose}
+        title={"Naozaj si prajete odstrániť uživateľa ? "}
+        subTitle={"Táto akcia sa nebude dať vrátiť späť ! "}
+        deleteUserFunction={deleteUser}
+      />
     </>
   );
 }
