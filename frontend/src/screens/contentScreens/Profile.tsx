@@ -3,8 +3,8 @@ import { useNavigate } from "react-router";
 import { Oval } from "react-loader-spinner";
 
 import Button from "@mui/material/Button";
-
 import "./profile.css";
+
 import { formatDate } from "../../utils/formatDate";
 import { getUserFetch } from "../../actions/getUserFetch";
 import { deleteUserFetch } from "../../actions/deleteUserFetch";
