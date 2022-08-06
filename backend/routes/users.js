@@ -10,4 +10,5 @@ router.post("/login", user_1.login);
 router.post("/register", user_1.register);
 router.get("/getUser/:id", user_1.getUser);
 router.get("/deleteUser/:id", user_1.deleteUser);
+router.put("/:id/changePassword", user_1.changePassword);
 exports.default = router;

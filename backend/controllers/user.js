@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
+exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
 require("dotenv").config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
+const console_1 = __importDefault(require("console"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
@@ -103,3 +104,35 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
+const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.id;
+    const { oldPassword, newPassword, copyNewPassword } = req.body;
+    try {
+        const existingUser = yield user_1.default.findById(userId);
+        if (!existingUser) {
+            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+        }
+        const passwordMatch = yield bcryptjs_1.default.compare(oldPassword, existingUser.password);
+        if (!passwordMatch) {
+            return res
+                .status(401)
+                .json({ message: "Heslo sa nezhoduje s vasím učtom" });
+        }
+        if (newPassword === oldPassword) {
+            return res
+                .status(402)
+                .json({ message: "Nové heslo sa zhoduje so starým !" });
+        }
+        if (newPassword !== copyNewPassword) {
+            return res.status(403).json({ message: "Nové heslá sa nezhodujú !" });
+        }
+        let newHashedPassword = bcryptjs_1.default.hash(newPassword, 12);
+        console_1.default.log(newHashedPassword);
+        user_1.default.update(userId, newHashedPassword);
+        res.status(200).json({ message: "Heslo bolo zmenené" });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+    }
+});
+exports.changePassword = changePassword;

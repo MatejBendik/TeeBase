@@ -12,7 +12,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userToken = localStorage.getItem("token");
+    const userToken = localStorage.getItem("accesToken");
 
     if (userToken) {
       navigate("/app");
@@ -69,7 +69,7 @@ export default function Login() {
           variant="contained"
           sx={{ mt: 3, mb: 1, p: 1 }}
         >
-          Peihlásiť sa
+          Prihlásiť sa
         </Button>
       </Box>
     </>

@@ -1,28 +1,45 @@
 import { baseUrl } from "./../api/index";
 interface loginProperties {
-  username: string;
-  password: string;
+  id: string;
+  oldPassword: string;
+  newPassword: string;
+  copyNewPassword: string;
 }
 
-export const sendLogin = async (
-  { username, password }: loginProperties,
-  navigate: any
-) => {
+export const changePasswordFetch = async ({
+  id,
+  oldPassword,
+  newPassword,
+  copyNewPassword,
+}: loginProperties) => {
   try {
-    const response = await fetch(`${baseUrl}/user/login`, {
-      method: "POST",
+    const response = await fetch(`${baseUrl}/user/${id}/changePassword`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        username: username,
-        password: password,
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+        copyNewPassword: copyNewPassword,
       }),
     });
 
+    if (response.status === 400) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
     if (response.status === 401) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
+    if (response.status === 402) {
       const json = await response.json();
       alert(json.message);
       return;
@@ -41,9 +58,7 @@ export const sendLogin = async (
     }
 
     const json = await response.json();
-    localStorage.setItem("accesToken", json.token);
-    localStorage.setItem("user_id", json.user._id);
-    navigate("/app");
+    alert(json.message);
   } catch (error) {
     console.error(error);
     return;

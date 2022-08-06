@@ -3,11 +3,13 @@ import { useNavigate } from "react-router";
 import { Oval } from "react-loader-spinner";
 
 import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
 import "./profile.css";
 
 import { formatDate } from "../../utils/formatDate";
 import { getUserFetch } from "../../actions/getUserFetch";
 import { deleteUserFetch } from "../../actions/deleteUserFetch";
+import { changePasswordFetch } from "../../actions/changePasswordFetch";
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 
@@ -25,15 +27,19 @@ export default function Profile() {
   const navigate = useNavigate();
   const userID = localStorage.getItem("user_id");
   const [userData, setUserData] = useState<userData>();
-  const [oldPassword, setOldPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [copyNewPassword, setCopyNewPassword] = useState("");
+  const [setPassData, setSetPassData] = useState({
+    id: String(userID),
+    oldPassword: "",
+    newPassword: "",
+    copyNewPassword: "",
+  });
   const [spinner, setSpinner] = useState(false);
   /* Modal */
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  /* Getting user data */
   useEffect(() => {
     getUserData();
   }, []);
@@ -45,9 +51,30 @@ export default function Profile() {
     setSpinner(false);
   };
 
+  /* Deleting user */
   const deleteUser = async () => {
     localStorage.clear();
     await deleteUserFetch(String(userID), navigate);
+  };
+
+  /* Changing user's password */
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (
+      !setPassData.oldPassword.length ||
+      !setPassData.newPassword.length ||
+      !setPassData.copyNewPassword.length
+    ) {
+      alert("Vyplňte polia !");
+      return;
+    }
+
+    changePasswordFetch(setPassData);
+  };
+
+  const handleChangePass = (e: any) => {
+    setSetPassData({ ...setPassData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -96,46 +123,43 @@ export default function Profile() {
               Nenávratne zmazať užívateľa
             </Button>
           </div>
+
           <div className="passwordDiv">
             <h1 className="containerTitle">Heslo</h1>
-            <Input
-              name="oldPassword"
-              label="Staré heslo"
-              type="password"
-              handleChange={(e: any) => {
-                setOldPassword(e.target.value);
-              }}
-              value={oldPassword}
-            />
-            <div className="separator"></div>
-            <Input
-              name="newPassword"
-              label="Nové heslo"
-              type="password"
-              handleChange={(e: any) => {
-                setNewPassword(e.target.value);
-              }}
-              value={newPassword}
-            />
-            <div className="separator"></div>
-            <Input
-              name="copyNewPassword"
-              label="Potvrdenie nového hesla "
-              type="password"
-              handleChange={(e: any) => {
-                setCopyNewPassword(e.target.value);
-              }}
-              value={copyNewPassword}
-            />
-            <div className="separator"></div>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Potvrdiť zmeny
-            </Button>
+            <Box component="form" onSubmit={handleSubmit}>
+              <Input
+                name="oldPassword"
+                label="Staré heslo"
+                type="password"
+                handleChange={handleChangePass}
+                value={setPassData.oldPassword}
+              />
+              <div className="separator"></div>
+              <Input
+                name="newPassword"
+                label="Nové heslo"
+                type="password"
+                handleChange={handleChangePass}
+                value={setPassData.newPassword}
+              />
+              <div className="separator"></div>
+              <Input
+                name="copyNewPassword"
+                label="Potvrdenie nového hesla "
+                type="password"
+                handleChange={handleChangePass}
+                value={setPassData.copyNewPassword}
+              />
+              <div className="separator"></div>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Potvrdiť zmeny
+              </Button>
+            </Box>
           </div>
         </div>
       )}

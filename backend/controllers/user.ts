@@ -3,6 +3,7 @@ import { Response, Request } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
+import console from "console";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -104,6 +105,48 @@ export const deleteUser = async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ message: "Účet bol úspešne vymazaný" });
+  } catch (error) {
+    res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+  }
+};
+
+export const changePassword = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const { oldPassword, newPassword, copyNewPassword } = req.body;
+
+  try {
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    const passwordMatch = await bcrypt.compare(
+      oldPassword,
+      existingUser.password
+    );
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ message: "Heslo sa nezhoduje s vasím učtom" });
+    }
+
+    if (newPassword === oldPassword) {
+      return res
+        .status(402)
+        .json({ message: "Nové heslo sa zhoduje so starým !" });
+    }
+
+    if (newPassword !== copyNewPassword) {
+      return res.status(403).json({ message: "Nové heslá sa nezhodujú !" });
+    }
+
+    let newHashedPassword = bcrypt.hash(newPassword, 12);
+    console.log(newHashedPassword);
+
+    User.update(userId, newHashedPassword);
+
+    res.status(200).json({ message: "Heslo bolo zmenené" });
   } catch (error) {
     res.status(500).json({ message: "Nepodarilo sa načítat profil" });
   }

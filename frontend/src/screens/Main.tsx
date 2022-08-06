@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
@@ -77,6 +77,14 @@ const Drawer = styled(MuiDrawer, {
 const mdTheme = createTheme();
 
 function DashboardContent() {
+  useEffect(() => {
+    const userToken = localStorage.getItem("accesToken");
+
+    if (!userToken) {
+      navigate("/");
+    }
+  }, []);
+
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);

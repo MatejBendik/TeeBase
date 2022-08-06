@@ -12,7 +12,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userToken = localStorage.getItem("token");
+    const userToken = localStorage.getItem("accesToken");
 
     if (userToken) {
       navigate("/app");
