@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const User_1 = __importDefault(require("../models/User"));
+const user_1 = __importDefault(require("../models/user"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const requiresAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.cookies["access-token"];
@@ -21,7 +21,7 @@ const requiresAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         try {
             const id = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
             try {
-                const user = yield User_1.default.findById(id);
+                const user = yield user_1.default.findById(id);
                 if (user) {
                     const userToReturn = Object.assign({}, user);
                     req.user = userToReturn;

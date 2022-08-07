@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/user";
 import jwt from "jsonwebtoken";
 
 const requiresAuth = async (req: any, res: any, next: any) => {
