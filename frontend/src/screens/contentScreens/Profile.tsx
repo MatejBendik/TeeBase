@@ -33,7 +33,7 @@ export default function Profile() {
     newPassword: "",
     copyNewPassword: "",
   });
-  const [spinner, setSpinner] = useState(false);
+  const [spinner, setSpinner] = useState(true);
   /* Modal */
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -45,7 +45,6 @@ export default function Profile() {
   }, []);
 
   const getUserData = async () => {
-    setSpinner(true);
     const user = await getUserFetch(String(userID));
     setUserData(user);
     setSpinner(false);
@@ -94,6 +93,7 @@ export default function Profile() {
           strokeWidthSecondary={2}
         />
       )}
+
       {!spinner && (
         <div className="container">
           <div className="profileDiv">
