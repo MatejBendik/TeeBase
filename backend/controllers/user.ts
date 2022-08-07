@@ -142,11 +142,14 @@ export const changePassword = async (req: Request, res: Response) => {
     }
 
     let newHashedPassword = await bcrypt.hash(newPassword, 12);
-    console.log(newHashedPassword);
 
-    User.updateOne({_id: userId}, {password: newHashedPassword}, (err: any, user: any) => {
-      console.log(err);
-    });
+    User.updateOne(
+      { _id: userId },
+      { password: newHashedPassword },
+      (err: any, user: any) => {
+        console.log(err);
+      }
+    );
 
     res.status(200).json({ message: "Heslo bolo zmenené" });
   } catch (error) {

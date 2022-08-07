@@ -127,7 +127,6 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return res.status(403).json({ message: "Nové heslá sa nezhodujú !" });
         }
         let newHashedPassword = yield bcryptjs_1.default.hash(newPassword, 12);
-        console_1.default.log(newHashedPassword);
         user_1.default.updateOne({ _id: userId }, { password: newHashedPassword }, (err, user) => {
             console_1.default.log(err);
         });
