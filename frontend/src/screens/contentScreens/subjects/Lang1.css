@@ -1,0 +1,14 @@
+.subjectContainer {
+  width: 100%;
+  display: flex;
+}
+.poznamky {
+  width: 90%;
+  background-color: pink;
+  height: 100vh;
+}
+.predmety {
+  width: 10%;
+  background-color: red;
+  height: 100vh;
+}

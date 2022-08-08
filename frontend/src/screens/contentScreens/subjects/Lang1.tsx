@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import "./Lang1.css";
 
 export default function LANG1() {
   return (
-    <>
-      <h1>LANG1</h1>
-    </>
+    <div className="subjectContainer">
+      <div className="poznamky">Poznamky</div>
+      <div className="predmety">Predmety</div>
+    </div>
   );
 }
