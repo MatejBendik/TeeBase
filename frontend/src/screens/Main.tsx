@@ -228,7 +228,7 @@ function DashboardContent() {
                   color="#4fa94d"
                   wrapperStyle={{
                     justifyContent: "center",
-                    marginTop: "100px",
+                    marginTop: "300px",
                   }}
                   wrapperClass=""
                   visible={true}

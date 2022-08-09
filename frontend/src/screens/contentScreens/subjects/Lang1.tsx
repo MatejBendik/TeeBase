@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ContentEditable from "react-contenteditable";
 import "./Lang1.css";
 
 import Box from "@mui/material/Box";
@@ -9,10 +10,25 @@ export default function LANG1() {
   const [checkedPoznamky, setCheckedPoznamky] = useState(true);
   const [checkedUlohy, setCheckedlohy] = useState(false);
 
+  const [text, editText] = useState("Edit <b>me</b> !");
+  const handleChange = (textPrisiel: string) => {
+    editText(textPrisiel);
+  };
+
   const poznamky = (
     <Paper sx={{ m: 1 }} elevation={4}>
       <div className="poznamky">
         <h2>Plechy</h2>
+        <ContentEditable
+          html={text}
+          disabled={false}
+          onChange={(e) => {
+            handleChange(e.target.value);
+          }}
+          onBlur={() => {
+            alert("s");
+          }}
+        />
         <p>
           hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
           asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
