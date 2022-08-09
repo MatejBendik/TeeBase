@@ -73,7 +73,7 @@ export default function Home() {
           lg={12}
           xl={12}
         >
-          <h1 className="homeTitle">Vitaj v source of knowledge</h1>
+          <h1 className="homeTitle">Vitaj v studni múdrostí</h1>
         </Grid>
         <Grid item xs={12} md={12} lg={12} xl={12}>
           <h2 className="homeSubtitle">Náš rozvrh:</h2>

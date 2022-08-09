@@ -1,14 +1,47 @@
-.subjectContainer {
-  width: 100%;
+.switchContainer {
   display: flex;
 }
-.poznamky {
-  width: 90%;
-  background-color: pink;
-  height: 100vh;
+.switchContainer > h3 {
+  margin-right: 10px;
+  cursor: pointer;
+  line-height: 25px;
+  padding: 5px;
+  transition-duration: 300ms;
+  border-bottom: 2px solid rgb(196, 196, 196);
 }
-.predmety {
-  width: 10%;
-  background-color: red;
+
+.switchContainer > h3:hover {
+  background-color: lightGrey;
+  border-radius: 10px;
+  transition-duration: 300ms;
+}
+
+/*  */
+.container {
+  display: flex;
+}
+
+@media only screen and (min-width: 320px) and (max-width: 479px) {
+  .container {
+    display: block;
+  }
+  .ulohy {
+    min-width: 100%;
+  }
+  .switchContainer {
+    display: none;
+  }
+}
+
+.poznamky {
+  background-color: #eee;
   height: 100vh;
+  overflow-x: auto;
+  padding: 10px;
+}
+.ulohy {
+  background-color: #eee;
+  height: 100vh;
+  overflow-x: auto;
+  padding: 10px;
 }
