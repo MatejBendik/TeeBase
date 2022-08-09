@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ContentEditable from "react-contenteditable";
 import "./Lang1.css";
+import sanitizeHtml from "sanitize-html";
 
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -10,9 +11,20 @@ export default function LANG1() {
   const [checkedPoznamky, setCheckedPoznamky] = useState(true);
   const [checkedUlohy, setCheckedlohy] = useState(false);
 
-  const [text, editText] = useState("Edit <b>me</b> !");
+  const [content, editContent] = useState("s");
+  const [editable, setRditable] = useState(false);
+
   const handleChange = (textPrisiel: string) => {
-    editText(textPrisiel);
+    editContent(textPrisiel);
+  };
+
+  const sanitizeConf = {
+    allowedTags: ["b", "i", "em", "strong", "a", "p", "h1", "img"],
+    allowedAttributes: { a: ["href"], img: ["src"] },
+  };
+
+  const sanitize = () => {
+    editContent(sanitizeHtml(content, sanitizeConf));
   };
 
   const poznamky = (
@@ -20,15 +32,32 @@ export default function LANG1() {
       <div className="poznamky">
         <h2>Plechy</h2>
         <ContentEditable
-          html={text}
-          disabled={false}
-          onChange={(e) => {
+          tagName="pre"
+          html={content}
+          disabled={true}
+          onChange={(e: any) => {
             handleChange(e.target.value);
           }}
-          onBlur={() => {
-            alert("s");
-          }}
         />
+
+        <textarea
+          style={{ minWidth: "100%", height: 100 }}
+          className={editable ? "show" : "hide"}
+          value={content}
+          onChange={(e: any) => {
+            handleChange(e.target.value);
+          }}
+          onBlur={sanitize}
+        />
+
+        <button
+          onClick={() => {
+            setRditable(!editable);
+          }}
+        >
+          {editable ? "Uložiť" : "Upraviť"}
+        </button>
+
         <p>
           hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
           asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd

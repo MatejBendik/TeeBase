@@ -45,3 +45,10 @@
   overflow-x: auto;
   padding: 10px;
 }
+
+.show {
+  display: inline-block;
+}
+.hide {
+  display: none;
+}
