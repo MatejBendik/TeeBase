@@ -1,6 +1,6 @@
 import { baseUrl } from "./../api/index";
 
-export const getUserFetch = async (userId: any) => {
+export const getUserFetch = async (userId: any, dispatch: any) => {
   try {
     const response = await fetch(`${baseUrl}/user/getUser/${userId}`, {
       method: "GET",
@@ -24,6 +24,8 @@ export const getUserFetch = async (userId: any) => {
     }
 
     const json = await response.json();
+    dispatch({ type: "SET_USER_DATA", payload: json });
+
     return json;
   } catch (error) {
     console.error(error);

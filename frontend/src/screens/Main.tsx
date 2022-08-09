@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -19,6 +19,7 @@ import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Oval } from "react-loader-spinner";
 
 import MainListItems from "../components/MainListItems";
 import SecondaryListItems from "../components/SecondaryListItems";
@@ -34,6 +35,8 @@ import LANG1 from "./contentScreens/subjects/Lang1";
 import MAT1 from "./contentScreens/subjects/MAT1";
 import RepMAT from "./contentScreens/subjects/RepMAT";
 import TSV from "./contentScreens/subjects/TSV";
+
+import { getUserFetch } from "../actions/getUserFetch";
 
 const drawerWidth: number = 390;
 
@@ -90,19 +93,30 @@ const mdTheme = createTheme();
 function DashboardContent() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
   const content = useSelector((state: any) => state.contentScreen);
+  const userData = useSelector((state: any) => state.userData);
+  const [spinner, setSpinner] = useState(true);
+  const userID = localStorage.getItem("user_id");
 
   useEffect(() => {
     const userToken = localStorage.getItem("accesToken");
+    getUserData();
 
     if (!userToken) {
       navigate("/");
     }
   }, []);
+
+  const getUserData = () => {
+    getUserFetch(String(userID), dispatch);
+    setSpinner(false);
+  };
 
   return (
     <ThemeProvider theme={mdTheme}>
@@ -151,7 +165,7 @@ function DashboardContent() {
                   dispatch({ type: "SET_SCREEN_CONTENT", payload: "profile" });
                 }}
               >
-                Profil
+                {userData.username}
               </Typography>
             </IconButton>
 
@@ -207,144 +221,166 @@ function DashboardContent() {
             <Grid container spacing={3}>
               {/* Tu začínajú podmienky na prepínanie screenov */}
 
-              {content == "home" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "80vh",
-                    }}
-                  >
-                    <Home />
-                  </Paper>
-                </Grid>
+              {spinner && (
+                <Oval
+                  height={80}
+                  width={80}
+                  color="#4fa94d"
+                  wrapperStyle={{
+                    justifyContent: "center",
+                    marginTop: "100px",
+                  }}
+                  wrapperClass=""
+                  visible={true}
+                  ariaLabel="oval-loading"
+                  secondaryColor="#4fa94d"
+                  strokeWidth={2}
+                  strokeWidthSecondary={2}
+                />
               )}
 
-              {content == "profile" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <Profile />
-                  </Paper>
-                </Grid>
-              )}
+              {!spinner && (
+                <>
+                  {content == "home" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "80vh",
+                        }}
+                      >
+                        <Home />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "Lang1" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <LANG1 />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "profile" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <Profile />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "MAT1" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <MAT1 />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "Lang1" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <LANG1 />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "RepMAT" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <RepMAT />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "MAT1" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <MAT1 />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "TSV" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <TSV />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "RepMAT" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <RepMAT />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "BasicPRG" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <BasicPRG />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "TSV" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <TSV />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "BasicELE" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <BasicELE />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "BasicPRG" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <BasicPRG />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "BasicING" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <BasicING />
-                  </Paper>
-                </Grid>
-              )}
+                  {content == "BasicELE" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <BasicELE />
+                      </Paper>
+                    </Grid>
+                  )}
 
-              {content == "IntroductionING" && (
-                <Grid item xs={12} md={15} lg={15}>
-                  <Paper
-                    sx={{
-                      p: 2,
-                      flexDirection: "column",
-                      minHeight: "85vh",
-                    }}
-                  >
-                    <IntroductionING />
-                  </Paper>
-                </Grid>
+                  {content == "BasicING" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <BasicING />
+                      </Paper>
+                    </Grid>
+                  )}
+
+                  {content == "IntroductionING" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <IntroductionING />
+                      </Paper>
+                    </Grid>
+                  )}
+                </>
               )}
             </Grid>
             <Copyright sx={{ mt: 7 }} />
