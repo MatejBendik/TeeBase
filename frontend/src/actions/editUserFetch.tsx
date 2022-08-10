@@ -15,6 +15,8 @@ export const editUserFetch = async ({
   username,
   email,
 }: userProperties) => {
+  const accessToken = localStorage.getItem("accessToken");
+
   try {
     const response = await fetch(`${baseUrl}/user/${id}/editUser`, {
       method: "PUT",
@@ -22,6 +24,7 @@ export const editUserFetch = async ({
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         firstName: firstName,

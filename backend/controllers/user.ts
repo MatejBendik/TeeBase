@@ -82,8 +82,8 @@ export function authenticateToken(req: Request, res: Response, next: any) {
 
   const token = authHeader && authHeader.split(" ")[1];
 
-  if (token == null)
-    return res.status(404).json({ message: "Neautorizovaný !" });
+  if (token == null) console.log(token);
+  return res.status(404).json({ message: "Neautorizovaný !" });
 
   const JWT_SECRET = process.env.JWT_SECRET ?? "nie je";
 

@@ -12,11 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-<<<<<<< HEAD
-exports.editUser = exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
-=======
-exports.changePassword = exports.deleteUser = exports.getUser = exports.authenticateToken = exports.register = exports.login = void 0;
->>>>>>> origin/main
+exports.editUser = exports.changePassword = exports.deleteUser = exports.getUser = exports.authenticateToken = exports.register = exports.login = void 0;
 require("dotenv").config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -84,7 +80,8 @@ function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null)
-        return res.status(404).json({ message: "Neautorizovaný !" });
+        console.log(token);
+    return res.status(404).json({ message: "Neautorizovaný !" });
     const JWT_SECRET = (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : "nie je";
     jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, data) => {
         if (err)

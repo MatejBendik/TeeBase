@@ -8,14 +8,8 @@ const user_1 = require("../controllers/user");
 const router = express_1.default.Router();
 router.post("/login", user_1.login);
 router.post("/register", user_1.register);
-<<<<<<< HEAD
-router.get("/getUser/:id", user_1.getUser);
-router.get("/deleteUser/:id", user_1.deleteUser);
-router.put("/:id/changePassword", user_1.changePassword);
-router.put("/:id/editUser", user_1.editUser);
-=======
 router.get("/getUser/:id", user_1.authenticateToken, user_1.getUser);
 router.delete("/deleteUser/:id", user_1.authenticateToken, user_1.deleteUser);
 router.put("/:id/changePassword", user_1.authenticateToken, user_1.changePassword);
->>>>>>> origin/main
+router.put("/:id/editUser", user_1.authenticateToken, user_1.editUser);
 exports.default = router;

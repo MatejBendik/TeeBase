@@ -1,6 +1,8 @@
 import { baseUrl } from "./../api/index";
 
 export const getUserFetch = async (userId: any, dispatch: any) => {
+  const accessToken = localStorage.getItem("accessToken");
+
   try {
     const response = await fetch(`${baseUrl}/user/getUser/${userId}`, {
       method: "GET",
@@ -8,6 +10,7 @@ export const getUserFetch = async (userId: any, dispatch: any) => {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
