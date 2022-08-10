@@ -12,6 +12,7 @@ app.use(express.json(), cors({ origin: "*" }));
 app.use("/user", userRoutes);
 app.use(cookieParser());
 
+// Pripojenie na databazu
 mongoose
   .connect(process.env.MONGO_URI as string)
   .then(() => {

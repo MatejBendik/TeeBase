@@ -38,10 +38,13 @@
   margin-bottom: 30px;
   border-radius: 20px;
   width: 100%;
+  border: none;
+  color: black;
 }
 
 .flex-container {
   display: flex;
+  justify-content: space-between;
 }
 
 /* pravý stlpec */

@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
 import "./profile.css";
 
 import { formatDate } from "../../utils/formatDate";
 import { deleteUserFetch } from "../../actions/deleteUserFetch";
 import { changePasswordFetch } from "../../actions/changePasswordFetch";
+import { editUserFetch } from "../../actions/editUserFetch";
+import { getUserFetch } from "../../actions/getUserFetch";
+
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";
 interface userData {
@@ -23,6 +28,7 @@ interface userData {
 
 export default function Profile() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const userData = useSelector((state: any) => state.userData);
 
   const [setPassData, setSetPassData] = useState({
@@ -63,27 +69,143 @@ export default function Profile() {
     setSetPassData({ ...setPassData, [e.target.name]: e.target.value });
   };
 
+  /* Changing user data */
+
+  const [areEditable, setAreEditable] = useState(false);
+  const [editUserData, setEditUserData] = useState({
+    id: String(userData._id),
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+  });
+
+  const handleEditing = () => {
+    setAreEditable(!areEditable);
+  };
+
+  const saveEditedData = async () => {
+    console.log(editUserData);
+    editUserFetch(editUserData);
+    getUserFetch(userData._id, dispatch);
+  };
+
+  const handleChangeEditUserData = (e: any) => {
+    setEditUserData({ ...editUserData, [e.target.name]: e.target.value });
+  };
+
   return (
     <>
       <h2 className="title">Tvoj profil</h2>
-
       <div className="container">
         <div className="profileDiv">
-          <h1 className="containerTitle">Údaje</h1>
+          <div className="flex-container">
+            <h1 className="containerTitle">Údaje</h1>
+            {areEditable && (
+              <SaveIcon
+                fontSize="medium"
+                style={{ marginTop: "30px", marginRight: "10px" }}
+                cursor="pointer"
+                onClick={() => {
+                  handleEditing();
+                  saveEditedData();
+                }}
+              />
+            )}
+            {!areEditable && (
+              <EditIcon
+                fontSize="medium"
+                style={{ marginTop: "30px", marginRight: "10px" }}
+                cursor="pointer"
+                onClick={handleEditing}
+              />
+            )}
+          </div>
           <p className="dataName">Celé meno</p>
           <div className="flex-container">
-            <p className="dataLabel">{userData?.firstName}</p>
-            <p style={{ margin: "10px" }}></p>
-            <p className="dataLabel">{userData?.lastName}</p>
+            {areEditable && (
+              <>
+                <input
+                  className="dataLabel"
+                  placeholder={userData?.firstName}
+                  name="firstName"
+                  style={{ border: "1px solid blue" }}
+                  onChange={handleChangeEditUserData}
+                  value={editUserData?.firstName}
+                />
+                <p style={{ margin: "10px" }}></p>
+                <input
+                  className="dataLabel"
+                  name="lastName"
+                  placeholder={userData?.lastName}
+                  style={{ border: "1px solid blue" }}
+                  onChange={handleChangeEditUserData}
+                  value={editUserData?.lastName}
+                />
+              </>
+            )}
+            {!areEditable && (
+              <>
+                <input
+                  className="dataLabel"
+                  value={userData?.firstName}
+                  disabled
+                />
+                <p style={{ margin: "10px" }}></p>
+                <input
+                  className="dataLabel"
+                  value={userData?.lastName}
+                  disabled
+                />
+              </>
+            )}
           </div>
-          <p className="dataName">Email</p>
-          <p className="dataLabel">{userData?.email}</p>
-          <p className="dataName">Používateľské meno</p>
-          <p className="dataLabel">{userData?.username}</p>
+          {areEditable && (
+            <>
+              <p className="dataName">Email</p>
+              <input
+                className="dataLabel"
+                type="email"
+                placeholder={userData?.email}
+                name="email"
+                style={{ border: "1px solid blue" }}
+                onChange={handleChangeEditUserData}
+                value={editUserData?.email}
+              />
+              <p className="dataName">Používateľské meno</p>
+              <input
+                className="dataLabel"
+                name="username"
+                placeholder={userData?.username}
+                style={{ border: "1px solid blue" }}
+                onChange={handleChangeEditUserData}
+                value={editUserData?.username}
+              />
+            </>
+          )}
+          {!areEditable && (
+            <>
+              <p className="dataName">Email</p>
+              <input
+                className="dataLabel"
+                type="email"
+                value={userData?.email}
+                disabled
+              />
+              <p className="dataName">Používateľské meno</p>
+              <input
+                className="dataLabel"
+                value={userData?.username}
+                disabled
+              />
+            </>
+          )}
           <p className="dataName">Dátum vytvorenia:</p>
-          <p className="dataLabel">
-            {formatDate(String(userData?.registeredAt))}
-          </p>
+          <input
+            className="dataLabel"
+            value={formatDate(String(userData?.registeredAt))}
+            disabled
+          />
           <Button
             type="submit"
             variant="contained"

@@ -3,7 +3,6 @@ import { Response, Request } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user";
-import console from "console";
 
 export const login = async (req: Request, res: Response) => {
   const { username, password } = req.body;
@@ -152,6 +151,36 @@ export const changePassword = async (req: Request, res: Response) => {
     );
 
     res.status(200).json({ message: "Heslo bolo zmenené" });
+  } catch (error) {
+    res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+  }
+};
+
+export const editUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const { firstName, lastName, email, username } = req.body;
+
+  try {
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    User.updateOne(
+      { _id: userId },
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        username: username,
+      },
+      (err: any, user: any) => {
+        console.log(err);
+      }
+    );
+
+    res.status(200).json({ message: "Zmeny boly uložené" });
   } catch (error) {
     res.status(500).json({ message: "Nepodarilo sa načítat profil" });
   }

@@ -12,12 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
+exports.editUser = exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
 require("dotenv").config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
-const console_1 = __importDefault(require("console"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;
     try {
@@ -128,7 +127,7 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
         }
         let newHashedPassword = yield bcryptjs_1.default.hash(newPassword, 12);
         user_1.default.updateOne({ _id: userId }, { password: newHashedPassword }, (err, user) => {
-            console_1.default.log(err);
+            console.log(err);
         });
         res.status(200).json({ message: "Heslo bolo zmenené" });
     }
@@ -137,3 +136,26 @@ const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.changePassword = changePassword;
+const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const userId = req.params.id;
+    const { firstName, lastName, email, username } = req.body;
+    try {
+        const existingUser = yield user_1.default.findById(userId);
+        if (!existingUser) {
+            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+        }
+        user_1.default.updateOne({ _id: userId }, {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            username: username,
+        }, (err, user) => {
+            console.log(err);
+        });
+        res.status(200).json({ message: "Zmeny boly uložené" });
+    }
+    catch (error) {
+        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+    }
+});
+exports.editUser = editUser;

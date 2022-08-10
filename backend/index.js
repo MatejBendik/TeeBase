@@ -14,6 +14,7 @@ const port = 8080;
 app.use(express_1.default.json(), cors({ origin: "*" }));
 app.use("/user", users_1.default);
 app.use((0, cookie_parser_1.default)());
+// Pripojenie na databazu
 mongoose_1.default
     .connect(process.env.MONGO_URI)
     .then(() => {

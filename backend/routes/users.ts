@@ -5,6 +5,7 @@ import {
   getUser,
   deleteUser,
   changePassword,
+  editUser,
 } from "../controllers/user";
 
 const router = express.Router();
@@ -14,5 +15,6 @@ router.post("/register", register);
 router.get("/getUser/:id", getUser);
 router.get("/deleteUser/:id", deleteUser);
 router.put("/:id/changePassword", changePassword);
+router.put("/:id/editUser", editUser);
 
 export default router;
