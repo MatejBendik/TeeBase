@@ -78,6 +78,24 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+export function authenticateToken(req: Request, res: Response, next: any) {
+  const authHeader = req.headers["authorization"];
+
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null)
+    return res.status(404).json({ message: "Neautorizovaný !" });
+
+  const JWT_SECRET = process.env.JWT_SECRET ?? "nie je";
+
+  jwt.verify(token, JWT_SECRET, (err: any, data: any) => {
+    if (err)
+      return res.status(405).json({ message: "Error with authentication!" });
+
+    next();
+  });
+}
+
 export const getUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
 
@@ -94,10 +112,11 @@ export const getUser = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request, res: Response, next: any) => {
   const userId = req.params.id;
 
   try {
+    /* authenticateToken(req, res, next); */
     const existingUser = await User.findByIdAndDelete(userId);
 
     if (!existingUser) {

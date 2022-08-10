@@ -105,7 +105,7 @@ function DashboardContent() {
   const userID = localStorage.getItem("user_id");
 
   useEffect(() => {
-    const userToken = localStorage.getItem("accesToken");
+    const userToken = localStorage.getItem("accessToken");
     getUserData();
 
     if (!userToken) {

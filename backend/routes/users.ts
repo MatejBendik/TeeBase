@@ -5,14 +5,15 @@ import {
   getUser,
   deleteUser,
   changePassword,
+  authenticateToken,
 } from "../controllers/user";
 
 const router = express.Router();
 
 router.post("/login", login);
 router.post("/register", register);
-router.get("/getUser/:id", getUser);
-router.get("/deleteUser/:id", deleteUser);
-router.put("/:id/changePassword", changePassword);
+router.get("/getUser/:id", authenticateToken, getUser);
+router.delete("/deleteUser/:id", authenticateToken, deleteUser);
+router.put("/:id/changePassword", authenticateToken, changePassword);
 
 export default router;

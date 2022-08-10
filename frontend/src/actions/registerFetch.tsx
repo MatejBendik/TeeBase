@@ -41,7 +41,7 @@ export const sendRegister = async (
     }
 
     const json = await response.json();
-    localStorage.setItem("accesToken", json.token);
+    localStorage.setItem("accessToken", json.token);
     localStorage.setItem("user_id", json.newUser._id);
     navigate("/app");
   } catch (error) {

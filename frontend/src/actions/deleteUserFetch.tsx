@@ -1,13 +1,16 @@
 import { baseUrl } from "./../api/index";
 
 export const deleteUserFetch = async (userId: any, navigate: any) => {
+  const accessToken = localStorage.getItem("accessToken");
+
   try {
     const response = await fetch(`${baseUrl}/user/deleteUser/${userId}`, {
-      method: "GET",
+      method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
