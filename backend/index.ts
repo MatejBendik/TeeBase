@@ -2,6 +2,7 @@ require("dotenv").config();
 import express, { Express, Request, Response } from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/users";
+import subjectRoutes from "./routes/subject";
 import cookieParser from "cookie-parser";
 
 const cors = require("cors");
@@ -10,6 +11,7 @@ const port = 8080;
 
 app.use(express.json(), cors({ origin: "*" }));
 app.use("/user", userRoutes);
+app.use("/subject", subjectRoutes);
 app.use(cookieParser());
 
 // Pripojenie na databazu

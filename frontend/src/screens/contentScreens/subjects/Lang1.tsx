@@ -7,6 +7,8 @@ import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 
+import { saveNote } from "./../../../actions/saveNote";
+
 export default function LANG1() {
   /* Poznamky */
   const [checkedPoznamky, setCheckedPoznamky] = useState(true);
@@ -85,6 +87,7 @@ export default function LANG1() {
           className="setEdit"
           onClick={() => {
             setEditableUlohy(!editableUlohy);
+            saveNote("111", "Nova poznamocka");
           }}
         >
           {editableUlohy ? "Uložiť" : "Pridať"}

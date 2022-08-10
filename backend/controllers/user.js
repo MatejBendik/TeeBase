@@ -80,8 +80,7 @@ function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
     if (token == null)
-        console.log(token);
-    return res.status(404).json({ message: "Neautorizovaný !" });
+        return res.status(404).json({ message: "Neautorizovaný !" });
     const JWT_SECRET = (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : "nie je";
     jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, data) => {
         if (err)

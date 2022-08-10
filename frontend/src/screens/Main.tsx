@@ -20,6 +20,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Oval } from "react-loader-spinner";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
 import MainListItems from "../components/MainListItems";
 import SecondaryListItems from "../components/SecondaryListItems";
@@ -141,44 +142,56 @@ function DashboardContent() {
               <MenuIcon />
             </IconButton>
             {/* Horné ikony */}
-            <IconButton color="inherit">
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                onClick={() => {
-                  dispatch({ type: "SET_SCREEN_CONTENT", payload: "home" });
-                }}
-              >
-                Nástenka
-              </Typography>
-            </IconButton>
-
-            <IconButton color="inherit">
-              <Typography
-                component="h1"
-                variant="h6"
-                color="inherit"
-                noWrap
-                onClick={() => {
-                  dispatch({ type: "SET_SCREEN_CONTENT", payload: "profile" });
-                }}
-              >
-                {userData.username}
-              </Typography>
-            </IconButton>
-
-            <IconButton color="inherit">
-              <Badge>
-                <LogoutIcon
+            <div style={{ display: "flex" }}>
+              <IconButton color="inherit">
+                <Typography
+                  component="h1"
+                  variant="h6"
+                  color="inherit"
+                  noWrap
                   onClick={() => {
-                    localStorage.clear();
-                    navigate("/");
+                    dispatch({ type: "SET_SCREEN_CONTENT", payload: "home" });
+                  }}
+                >
+                  Nástenka
+                </Typography>
+              </IconButton>
+
+              <div style={{ alignItems: "end" }}>
+                <IconButton color="inherit">
+                  <Typography
+                    component="h1"
+                    variant="h6"
+                    color="inherit"
+                    noWrap
+                    onClick={() => {
+                      dispatch({
+                        type: "SET_SCREEN_CONTENT",
+                        payload: "profile",
+                      });
+                    }}
+                  >
+                    {userData.username}
+                  </Typography>
+                </IconButton>
+                <PersonOutlineIcon
+                  sx={{
+                    fontSize: 27,
                   }}
                 />
-              </Badge>
-            </IconButton>
+
+                <IconButton color="inherit">
+                  <Badge>
+                    <LogoutIcon
+                      onClick={() => {
+                        localStorage.clear();
+                        navigate("/");
+                      }}
+                    />
+                  </Badge>
+                </IconButton>
+              </div>
+            </div>
           </Toolbar>
         </AppBar>
 
