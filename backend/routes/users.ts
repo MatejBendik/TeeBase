@@ -6,15 +6,16 @@ import {
   deleteUser,
   changePassword,
   editUser,
+  authenticateToken,
 } from "../controllers/user";
 
 const router = express.Router();
 
 router.post("/login", login);
 router.post("/register", register);
-router.get("/getUser/:id", getUser);
-router.get("/deleteUser/:id", deleteUser);
-router.put("/:id/changePassword", changePassword);
-router.put("/:id/editUser", editUser);
+router.get("/getUser/:id", authenticateToken, getUser);
+router.delete("/deleteUser/:id", authenticateToken, deleteUser);
+router.put("/:id/changePassword", authenticateToken, changePassword);
+router.put("/:id/editUser", authenticateToken, editUser);
 
 export default router;

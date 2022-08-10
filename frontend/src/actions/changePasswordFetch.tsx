@@ -12,6 +12,8 @@ export const changePasswordFetch = async ({
   newPassword,
   copyNewPassword,
 }: loginProperties) => {
+  const accessToken = localStorage.getItem("accessToken");
+
   try {
     const response = await fetch(`${baseUrl}/user/${id}/changePassword`, {
       method: "PUT",
@@ -19,6 +21,7 @@ export const changePasswordFetch = async ({
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         oldPassword: oldPassword,
@@ -40,6 +43,18 @@ export const changePasswordFetch = async ({
     }
 
     if (response.status === 402) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
+    if (response.status === 403) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
+    if (response.status === 403) {
       const json = await response.json();
       alert(json.message);
       return;
