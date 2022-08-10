@@ -1,130 +1,63 @@
 import { useState } from "react";
 import ContentEditable from "react-contenteditable";
-import "./Lang1.css";
 import sanitizeHtml from "sanitize-html";
 
+import "./Lang1.css";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 
 export default function LANG1() {
+  /* Poznamky */
   const [checkedPoznamky, setCheckedPoznamky] = useState(true);
+  const [contentPoznamky, editContentPoznamky] = useState(
+    "Sem môžeš začať pridávať svoje poznámky ..."
+  );
+  const [editablePoznamky, setRditablepoznamky] = useState(false);
+
+  /* Ulohy */
   const [checkedUlohy, setCheckedlohy] = useState(false);
-
-  const [content, editContent] = useState("s");
-  const [editable, setRditable] = useState(false);
-
-  const handleChange = (textPrisiel: string) => {
-    editContent(textPrisiel);
-  };
+  const [contentULohy, editContentUlohy] = useState(
+    "Sem môžeš začať pridávať svoje úlohy ....................................................................................... ..............."
+  );
+  const [editableUlohy, setEditableUlohy] = useState(false);
 
   const sanitizeConf = {
-    allowedTags: ["b", "i", "em", "strong", "a", "p", "h1", "img"],
+    allowedTags: ["b", "i", "em", "strong", "a", "p", "h1", "h2", "h3", "img"],
     allowedAttributes: { a: ["href"], img: ["src"] },
   };
 
   const sanitize = () => {
-    editContent(sanitizeHtml(content, sanitizeConf));
+    editContentPoznamky(sanitizeHtml(contentPoznamky, sanitizeConf));
   };
 
   const poznamky = (
     <Paper sx={{ m: 1 }} elevation={4}>
       <div className="poznamky">
-        <h2>Plechy</h2>
         <ContentEditable
           tagName="pre"
-          html={content}
+          html={contentPoznamky}
           disabled={true}
-          onChange={(e: any) => {
-            handleChange(e.target.value);
-          }}
+          onChange={() => {}}
         />
 
         <textarea
-          style={{ minWidth: "100%", height: 100 }}
-          className={editable ? "show" : "hide"}
-          value={content}
+          className={editablePoznamky ? "show" : "hide"}
+          value={contentPoznamky}
           onChange={(e: any) => {
-            handleChange(e.target.value);
+            editContentPoznamky(e.target.value);
           }}
           onBlur={sanitize}
         />
 
         <button
+          className="setEdit"
           onClick={() => {
-            setRditable(!editable);
+            setRditablepoznamky(!editablePoznamky);
           }}
         >
-          {editable ? "Uložiť" : "Upraviť"}
+          {editablePoznamky ? "Uložiť" : "Pridať"}
         </button>
-
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
-        <h2>Materiály</h2>
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
-        <h2>Výroba</h2>
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
-        <h2>Výroba</h2>
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
       </div>
     </Paper>
   );
@@ -132,57 +65,30 @@ export default function LANG1() {
   const ulohy = (
     <Paper sx={{ m: 1 }} elevation={4}>
       <div className="ulohy">
-        <h2>Domáca 1</h2>
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
-        <h2>Domáca 2</h2>
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
-        <h2>Domáca 3</h2>
-        <p>
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as asdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as hyUlohyUloh
-          sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s as
-          asyUlohyUlohyUlohy hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s asasdasdd saltRoundsasas sa s asasdasdd
-          saltRoundsasas sa s as as hyUlohyUloh sasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          hyUlohyUloh sasdasdd saltRoundsasas sa s asasdasdd saltRoundsasas sa s
-          asasdasdd saltRoundsasas sa
-        </p>
+        <ContentEditable
+          tagName="pre"
+          html={contentULohy}
+          disabled={true}
+          onChange={() => {}}
+        />
+
+        <textarea
+          className={editableUlohy ? "show" : "hide"}
+          value={contentULohy}
+          onChange={(e: any) => {
+            editContentUlohy(e.target.value);
+          }}
+          onBlur={sanitize}
+        />
+
+        <button
+          className="setEdit"
+          onClick={() => {
+            setEditableUlohy(!editableUlohy);
+          }}
+        >
+          {editableUlohy ? "Uložiť" : "Pridať"}
+        </button>
       </div>
     </Paper>
   );

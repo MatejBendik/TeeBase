@@ -5,13 +5,13 @@
   margin-right: 10px;
   cursor: pointer;
   line-height: 25px;
-  padding: 5px;
+  padding: 9px;
   transition-duration: 300ms;
   border-bottom: 2px solid rgb(196, 196, 196);
 }
 
 .switchContainer > h3:hover {
-  background-color: lightGrey;
+  background-color: rgba(211, 211, 211, 0.615);
   border-radius: 10px;
   transition-duration: 300ms;
 }
@@ -21,6 +21,59 @@
   display: flex;
 }
 
+.poznamky {
+  background-color: rgba(238, 238, 238, 0.595);
+  height: 100vh;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.css-14vyde3-MuiCollapse-wrapperInner {
+  width: 100% !important;
+  height: 100%;
+}
+
+.ulohy {
+  background-color: rgba(238, 238, 238, 0.595);
+  height: 100vh;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+textarea {
+  border: none;
+  outline: none;
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.241);
+  padding: 10px;
+  font-size: 15px;
+  line-height: 16px;
+  min-width: 99%;
+  height: 150px;
+  border-radius: 6px;
+}
+.setEdit {
+  padding: 14px;
+  border: none;
+  outline: none;
+  background-color: rgb(203, 203, 203);
+  border-radius: 6px;
+  margin-top: 15px;
+  transition-duration: 300ms;
+}
+.setEdit:hover {
+  background-color: rgb(174, 174, 174);
+  cursor: pointer;
+  color: white;
+}
+
+.show {
+  display: inline-block;
+}
+.hide {
+  display: none;
+}
+
+/*  */
 @media only screen and (min-width: 320px) and (max-width: 479px) {
   .container {
     display: block;
@@ -31,24 +84,4 @@
   .switchContainer {
     display: none;
   }
-}
-
-.poznamky {
-  background-color: #eee;
-  height: 100vh;
-  overflow-x: auto;
-  padding: 10px;
-}
-.ulohy {
-  background-color: #eee;
-  height: 100vh;
-  overflow-x: auto;
-  padding: 10px;
-}
-
-.show {
-  display: inline-block;
-}
-.hide {
-  display: none;
 }
