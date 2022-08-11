@@ -9,9 +9,12 @@ export const saveNote = async (req: Request, res: Response) => {
 
   try {
     const newNote = await Subject.create({
-      id: subjectId,
-      userId: userId,
-      content,
+      data: {
+        notes: {
+          userId: userId,
+          content: content,
+        },
+      },
     });
 
     newNote.save();
