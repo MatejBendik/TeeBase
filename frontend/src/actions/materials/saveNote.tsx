@@ -1,12 +1,17 @@
 import { baseUrl } from "../../api/index";
-interface noteProperties {
+export interface noteProperties {
+  subjectID: string;
   userId: string;
   content: string;
 }
 
-export const saveNote = async (userId: any, content: any) => {
+export const saveNote = async (
+  subjectID: string,
+  userId: string,
+  content: string
+) => {
   try {
-    const response = await fetch(`${baseUrl}/subject/saveNote/${1}`, {
+    const response = await fetch(`${baseUrl}/subject/saveNote/${subjectID}`, {
       method: "POST",
       headers: {
         Accept: "application/json",
