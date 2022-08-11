@@ -25,6 +25,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import MainListItems from "../components/MainListItems";
 import SecondaryListItems from "../components/SecondaryListItems";
 import Copyright from "./../components/Copyright";
+import "./main.css";
 
 import Home from "./contentScreens/Home";
 import Profile from "./contentScreens/Profile";
@@ -150,7 +151,7 @@ function DashboardContent() {
               }}
             >
               <div>
-                <IconButton color="inherit">
+                <IconButton color="inherit" className="hornaIkona">
                   <Typography
                     component="h1"
                     variant="h6"
@@ -166,7 +167,11 @@ function DashboardContent() {
               </div>
 
               <div>
-                <IconButton color="inherit" sx={{ marginRight: 5 }}>
+                <IconButton
+                  color="inherit"
+                  sx={{ marginRight: 5 }}
+                  className="hornaIkona"
+                >
                   <PersonOutlineIcon
                     sx={{
                       fontSize: 27,
@@ -189,7 +194,7 @@ function DashboardContent() {
                   </Typography>
                 </IconButton>
 
-                <IconButton color="inherit">
+                <IconButton color="inherit" className="hornaIkona">
                   <Badge>
                     <LogoutIcon
                       onClick={() => {
