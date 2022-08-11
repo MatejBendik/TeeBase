@@ -13,7 +13,7 @@ export const saveNote = async ({
   try {
     console.log(subjectID, userId, content);
     const response = await fetch(`${baseUrl}/subject/saveNote/${subjectID}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

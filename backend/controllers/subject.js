@@ -17,19 +17,16 @@ require("dotenv").config();
 const subject_1 = __importDefault(require("../models/subject"));
 const saveNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const subjectId = req.params.id;
-    const { content, userId } = req.body.content;
+    const { userId, content } = req.body;
     console.log(subjectId, content, userId);
     try {
-        const newNote = yield subject_1.default.create({
-            data: {
-                notes: {
-                    userId: userId,
-                    content: content,
-                },
+        yield subject_1.default.updateOne({ subjectId: subjectId, "data.notes.user.userId": userId }, {
+            $set: {
+                "data.notes.user.userId.content": content,
             },
+        }, () => {
+            return res.status(200).json({ message: "Nahralo to" });
         });
-        newNote.save();
-        res.status(200).json({ newNote });
     }
     catch (error) {
         res.status(500).json({ message: "Chyba servera" });
