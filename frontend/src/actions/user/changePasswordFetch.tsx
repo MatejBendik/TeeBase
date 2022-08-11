@@ -1,4 +1,4 @@
-import { baseUrl } from "./../api/index";
+import { baseUrl } from "../../api/index";
 interface loginProperties {
   id: string;
   oldPassword: string;

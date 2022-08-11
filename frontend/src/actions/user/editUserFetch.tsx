@@ -1,38 +1,38 @@
-import { baseUrl } from "./../api/index";
-interface registerProperties {
+import { baseUrl } from "../../api/index";
+
+interface userProperties {
+  id: string;
   firstName: string;
   lastName: string;
-  email: string;
   username: string;
-  password: string;
+  email: string;
 }
 
-export const sendRegister = async (
-  { firstName, lastName, email, username, password }: registerProperties,
-  navigate: any
-) => {
+export const editUserFetch = async ({
+  id,
+  firstName,
+  lastName,
+  username,
+  email,
+}: userProperties) => {
+  const accessToken = localStorage.getItem("accessToken");
+
   try {
-    const response = await fetch(`${baseUrl}/user/register`, {
-      method: "POST",
+    const response = await fetch(`${baseUrl}/user/${id}/editUser`, {
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         firstName: firstName,
         lastName: lastName,
-        email: email,
         username: username,
-        password: password,
+        email: email,
       }),
     });
-
-    if (response.status == 400) {
-      const json = await response.json();
-      alert(json.message);
-      return;
-    }
 
     if (response.status === 500) {
       const json = await response.json();
@@ -40,10 +40,14 @@ export const sendRegister = async (
       return;
     }
 
+    if (response.status === 405) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
     const json = await response.json();
-    localStorage.setItem("accessToken", json.token);
-    localStorage.setItem("user_id", json.newUser._id);
-    await navigate("/app");
+    alert(json.message);
   } catch (error) {
     console.error(error);
     return;

@@ -1,43 +1,40 @@
 import mongoose from "mongoose";
 
 const subjectSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
   data: {
-    subjects: [
-      {
-        id: { type: String, required: true },
-        title: { type: String, required: true },
-
-        notes: {
-          userId: {
-            type: String,
-            required: true,
-          },
-          content: {
-            type: String,
-            required: true,
-          },
-          createAt: {
-            type: Date,
-            default: new Date(),
-          },
-        },
-
-        tasks: {
-          userId: {
-            type: String,
-            required: true,
-          },
-          content: {
-            type: String,
-            required: true,
-          },
-          createAt: {
-            type: Date,
-            default: new Date(),
-          },
-        },
+    notes: {
+      userId: {
+        type: String,
+        required: true,
       },
-    ],
+      content: {
+        type: String,
+        required: true,
+      },
+      createAt: {
+        type: Date,
+        default: new Date(),
+      },
+    },
+
+    tasks: {
+      userId: {
+        type: String,
+        required: true,
+      },
+      content: {
+        type: String,
+        required: true,
+      },
+      createAt: {
+        type: Date,
+        default: new Date(),
+      },
+    },
   },
 });
 

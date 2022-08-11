@@ -1,4 +1,4 @@
-import { baseUrl } from "./../api/index";
+import { baseUrl } from "../../api/index";
 
 export const getUserFetch = async (userId: any, dispatch: any) => {
   const accessToken = localStorage.getItem("accessToken");

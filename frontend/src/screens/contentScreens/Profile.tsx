@@ -9,10 +9,10 @@ import SaveIcon from "@mui/icons-material/Save";
 import "./profile.css";
 
 import { formatDate } from "../../utils/formatDate";
-import { deleteUserFetch } from "../../actions/deleteUserFetch";
-import { changePasswordFetch } from "../../actions/changePasswordFetch";
-import { editUserFetch } from "../../actions/editUserFetch";
-import { getUserFetch } from "../../actions/getUserFetch";
+import { deleteUserFetch } from "../../actions/user/deleteUserFetch";
+import { changePasswordFetch } from "../../actions/user/changePasswordFetch";
+import { editUserFetch } from "../../actions/user/editUserFetch";
+import { getUserFetch } from "../../actions/user/getUserFetch";
 
 import Input from "../../components/Input";
 import Modal from "../../components/Modal";

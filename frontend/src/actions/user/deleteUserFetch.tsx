@@ -1,40 +1,20 @@
-import { baseUrl } from "./../api/index";
+import { baseUrl } from "../../api/index";
 
-interface userProperties {
-  id: string;
-  firstName: string;
-  lastName: string;
-  username: string;
-  email: string;
-}
-
-export const editUserFetch = async ({
-  id,
-  firstName,
-  lastName,
-  username,
-  email,
-}: userProperties) => {
+export const deleteUserFetch = async (userId: any, navigate: any) => {
   const accessToken = localStorage.getItem("accessToken");
 
   try {
-    const response = await fetch(`${baseUrl}/user/${id}/editUser`, {
-      method: "PUT",
+    const response = await fetch(`${baseUrl}/user/deleteUser/${userId}`, {
+      method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
         Authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify({
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-        email: email,
-      }),
     });
 
-    if (response.status === 500) {
+    if (response.status === 400) {
       const json = await response.json();
       alert(json.message);
       return;
@@ -46,8 +26,18 @@ export const editUserFetch = async ({
       return;
     }
 
+    if (response.status === 500) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
     const json = await response.json();
+    localStorage.clear();
     alert(json.message);
+    await navigate("/");
+
+    return json;
   } catch (error) {
     console.error(error);
     return;

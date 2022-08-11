@@ -1,15 +1,18 @@
-import { baseUrl } from "./../api/index";
-interface loginProperties {
+import { baseUrl } from "../../api/index";
+interface registerProperties {
+  firstName: string;
+  lastName: string;
+  email: string;
   username: string;
   password: string;
 }
 
-export const sendLogin = async (
-  { username, password }: loginProperties,
+export const sendRegister = async (
+  { firstName, lastName, email, username, password }: registerProperties,
   navigate: any
 ) => {
   try {
-    const response = await fetch(`${baseUrl}/user/login`, {
+    const response = await fetch(`${baseUrl}/user/register`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -17,18 +20,15 @@ export const sendLogin = async (
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
         username: username,
         password: password,
       }),
     });
 
-    if (response.status === 401) {
-      const json = await response.json();
-      alert(json.message);
-      return;
-    }
-
-    if (response.status === 403) {
+    if (response.status == 400) {
       const json = await response.json();
       alert(json.message);
       return;
@@ -42,7 +42,7 @@ export const sendLogin = async (
 
     const json = await response.json();
     localStorage.setItem("accessToken", json.token);
-    localStorage.setItem("user_id", json.user._id);
+    localStorage.setItem("user_id", json.newUser._id);
     await navigate("/app");
   } catch (error) {
     console.error(error);

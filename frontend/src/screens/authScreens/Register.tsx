@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import Input from "../../components/Input";
-import { sendRegister } from "../../actions/registerFetch";
+import { sendRegister } from "../../actions/user/registerFetch";
 
 export default function Register() {
   const navigate = useNavigate();

@@ -38,7 +38,7 @@ import MAT1 from "./contentScreens/subjects/MAT1";
 import RepMAT from "./contentScreens/subjects/RepMAT";
 import TSV from "./contentScreens/subjects/TSV";
 
-import { getUserFetch } from "../actions/getUserFetch";
+import { getUserFetch } from "../actions/user/getUserFetch";
 
 const drawerWidth: number = 390;
 

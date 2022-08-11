@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 
-import { saveNote } from "./../../../actions/saveNote";
+import { saveNote } from "../../../actions/materials/saveNote";
 
 export default function LANG1() {
   /* Poznamky */

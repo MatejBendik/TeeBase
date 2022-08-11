@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import Input from "../../components/Input";
-import { sendLogin } from "../../actions/loginFetch";
+import { sendLogin } from "../../actions/user/loginFetch";
 
 export default function Login() {
   const navigate = useNavigate();
