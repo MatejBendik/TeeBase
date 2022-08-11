@@ -8,6 +8,7 @@ import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 
 import { saveNote } from "../../../actions/materials/saveNote";
+import { noteProperties } from "./../../../actions/materials/saveNote";
 
 export default function LANG1() {
   /* Poznamky */
@@ -91,7 +92,7 @@ export default function LANG1() {
           className="setEdit"
           onClick={() => {
             setEditableUlohy(!editableUlohy);
-            saveNote("111", "Nova poznamocka");
+            saveNote("1", "2", "Poznamky");
           }}
         >
           {editableUlohy ? "Uložiť" : "Pridať"}
