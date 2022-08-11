@@ -18,12 +18,15 @@ const subject_1 = __importDefault(require("../models/subject"));
 const saveNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const subjectId = req.params.id;
     const { content, userId } = req.body.content;
-    console.log(subjectId);
+    console.log(subjectId, content, userId);
     try {
         const newNote = yield subject_1.default.create({
-            id: subjectId,
-            userId: userId,
-            content,
+            data: {
+                notes: {
+                    userId: userId,
+                    content: content,
+                },
+            },
         });
         newNote.save();
         res.status(200).json({ newNote });

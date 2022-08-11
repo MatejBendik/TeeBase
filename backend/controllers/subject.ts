@@ -5,7 +5,7 @@ import Subject from "../models/subject";
 export const saveNote = async (req: Request, res: Response) => {
   const subjectId = req.params.id;
   const { content, userId } = req.body.content;
-  console.log(subjectId);
+  console.log(subjectId, content, userId);
 
   try {
     const newNote = await Subject.create({
