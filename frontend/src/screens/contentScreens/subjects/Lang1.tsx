@@ -15,6 +15,7 @@ export default function LANG1() {
   const [contentPoznamky, editContentPoznamky] = useState(
     "<p>Sem môžeš začať pridávať svoje poznámky ...</p>"
   );
+  const [newPoznamky, setNewPoznamky] = useState("");
   const [editablePoznamky, setEditablepoznamky] = useState(false);
 
   /* Ulohy */
@@ -22,6 +23,8 @@ export default function LANG1() {
   const [contentULohy, editContentUlohy] = useState(
     "<p>Sem môžeš začať pridávať svoje úlohy ....................................................................................... ............... </p>"
   );
+  const [newUlohy, setNewUlohy] = useState("");
+
   const [editableUlohy, setEditableUlohy] = useState(false);
 
   const sanitizeConf = {
@@ -30,8 +33,8 @@ export default function LANG1() {
   };
 
   const sanitize = () => {
-    editContentPoznamky(sanitizeHtml(contentPoznamky, sanitizeConf));
-    editContentUlohy(sanitizeHtml(contentPoznamky, sanitizeConf));
+    setNewPoznamky(sanitizeHtml(newPoznamky, sanitizeConf));
+    setNewUlohy(sanitizeHtml(newUlohy, sanitizeConf));
   };
 
   const poznamky = (
@@ -46,9 +49,9 @@ export default function LANG1() {
 
         <textarea
           className={editablePoznamky ? "show" : "hide"}
-          value={contentPoznamky}
+          value={newPoznamky}
           onChange={(e: any) => {
-            editContentPoznamky(e.target.value);
+            setNewPoznamky(e.target.value);
           }}
           onBlur={sanitize}
         />
@@ -77,9 +80,9 @@ export default function LANG1() {
 
         <textarea
           className={editableUlohy ? "show" : "hide"}
-          value={contentULohy}
+          value={newUlohy}
           onChange={(e: any) => {
-            editContentUlohy(e.target.value);
+            setNewUlohy(e.target.value);
           }}
           onBlur={sanitize}
         />
