@@ -7,11 +7,11 @@
   line-height: 25px;
   padding: 9px;
   transition-duration: 300ms;
-  border-bottom: 2px solid rgb(196, 196, 196);
+  border-bottom: 2px solid rgba(211, 211, 211, 0.615);
 }
 
 .switchContainer > h3:hover {
-  background-color: rgba(211, 211, 211, 0.615);
+  background-color: rgba(206, 205, 205, 0.218);
   border-radius: 10px;
   transition-duration: 300ms;
 }
@@ -22,7 +22,7 @@
 }
 
 .poznamky {
-  background-color: rgba(238, 238, 238, 0.595);
+  background-color: rgba(206, 205, 205, 0.218);
   height: 100vh;
   overflow-x: auto;
   padding: 10px;
@@ -34,7 +34,7 @@
 }
 
 .ulohy {
-  background-color: rgba(238, 238, 238, 0.595);
+  background-color: rgba(206, 205, 205, 0.218);
   height: 100vh;
   overflow-x: auto;
   padding: 10px;

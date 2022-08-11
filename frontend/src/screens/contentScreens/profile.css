@@ -14,7 +14,7 @@
   background-color: rgba(255, 255, 255, 0.574);
   padding: 8px;
   width: 100px;
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 /* ľavý stlpec */
@@ -22,7 +22,7 @@
   background-color: rgba(206, 205, 205, 0.218);
   width: 60%;
   min-height: 80%;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 2%;
 }
 
@@ -36,7 +36,7 @@
   background-color: rgba(255, 255, 255, 0.738);
   padding: 15px;
   margin-bottom: 30px;
-  border-radius: 20px;
+  border-radius: 15px;
   width: 100%;
   border: none;
   color: black;
@@ -45,17 +45,20 @@
 
 .dataLabel:focus {
   outline: none;
-  border: 1px solid blue;
-  border-radius: 20px;
+  border: 1px solid #1976d2;
+  border-radius: 15px;
 }
 
 .editableLabel {
-  border: 1px solid rgba(0, 0, 255, 0.319);
+  border: 1px solid #1976d271;
 }
 
 .flex-container {
   display: flex;
   justify-content: space-between;
+}
+.deleteUserButton:hover {
+  background-color: rgb(229, 0, 0) !important;
 }
 
 /* pravý stlpec */
@@ -63,7 +66,7 @@
   background-color: rgba(206, 205, 205, 0.218);
   width: 30%;
   min-height: 80%;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 2%;
 }
 

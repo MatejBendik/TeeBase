@@ -61,6 +61,7 @@ export default function TransitionsModal({
             {subTitle}
           </Typography>
           <Button
+            className="deleteUserButton"
             type="submit"
             fullWidth
             variant="contained"

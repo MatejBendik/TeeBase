@@ -203,6 +203,7 @@ export default function Profile() {
             disabled
           />
           <Button
+            className="deleteUserButton"
             type="submit"
             variant="contained"
             sx={{ mt: 3, mb: 2, backgroundColor: "red" }}
