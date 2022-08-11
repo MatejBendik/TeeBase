@@ -5,12 +5,13 @@ export interface noteProperties {
   content: string;
 }
 
-export const saveNote = async (
-  subjectID: string,
-  userId: string,
-  content: string
-) => {
+export const saveNote = async ({
+  subjectID,
+  userId,
+  content,
+}: noteProperties) => {
   try {
+    console.log(subjectID, userId, content);
     const response = await fetch(`${baseUrl}/subject/saveNote/${subjectID}`, {
       method: "POST",
       headers: {

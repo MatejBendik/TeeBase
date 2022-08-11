@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
+import { useSelector } from "react-redux";
 
 import "./Lang1.css";
 import Box from "@mui/material/Box";
@@ -8,7 +9,6 @@ import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
 
 import { saveNote } from "../../../actions/materials/saveNote";
-import { noteProperties } from "./../../../actions/materials/saveNote";
 
 export default function LANG1() {
   /* Poznamky */
@@ -38,6 +38,13 @@ export default function LANG1() {
     setNewUlohy(sanitizeHtml(newUlohy, sanitizeConf));
   };
 
+  const userData = useSelector((state: any) => state.userData);
+  const [newNote, setNewNote] = useState({
+    subjectID: "1",
+    userId: userData._id,
+    content: "Nové datatataatatta",
+  });
+
   const poznamky = (
     <Paper sx={{ m: 1 }} elevation={4}>
       <div className="poznamky">
@@ -61,6 +68,7 @@ export default function LANG1() {
           className="setEdit"
           onClick={() => {
             setEditablepoznamky(!editablePoznamky);
+            saveNote(newNote);
           }}
         >
           {editablePoznamky ? "Uložiť" : "Pridať"}
@@ -92,7 +100,6 @@ export default function LANG1() {
           className="setEdit"
           onClick={() => {
             setEditableUlohy(!editableUlohy);
-            saveNote("1", "2", "Poznamky");
           }}
         >
           {editableUlohy ? "Uložiť" : "Pridať"}
