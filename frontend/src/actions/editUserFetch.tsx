@@ -40,6 +40,12 @@ export const editUserFetch = async ({
       return;
     }
 
+    if (response.status === 405) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
     const json = await response.json();
     alert(json.message);
   } catch (error) {

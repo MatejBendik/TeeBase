@@ -20,6 +20,12 @@ export const getUserFetch = async (userId: any, dispatch: any) => {
       return;
     }
 
+    if (response.status === 405) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
     if (response.status === 500) {
       const json = await response.json();
       alert(json.message);

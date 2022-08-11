@@ -20,6 +20,12 @@ export const deleteUserFetch = async (userId: any, navigate: any) => {
       return;
     }
 
+    if (response.status === 405) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
+
     if (response.status === 500) {
       const json = await response.json();
       alert(json.message);
@@ -27,8 +33,9 @@ export const deleteUserFetch = async (userId: any, navigate: any) => {
     }
 
     const json = await response.json();
+    localStorage.clear();
     alert(json.message);
-    navigate("/");
+    await navigate("/");
 
     return json;
   } catch (error) {

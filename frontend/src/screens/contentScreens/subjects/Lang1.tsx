@@ -13,14 +13,14 @@ export default function LANG1() {
   /* Poznamky */
   const [checkedPoznamky, setCheckedPoznamky] = useState(true);
   const [contentPoznamky, editContentPoznamky] = useState(
-    "Sem môžeš začať pridávať svoje poznámky ..."
+    "<p>Sem môžeš začať pridávať svoje poznámky ...</p>"
   );
-  const [editablePoznamky, setRditablepoznamky] = useState(false);
+  const [editablePoznamky, setEditablepoznamky] = useState(false);
 
   /* Ulohy */
   const [checkedUlohy, setCheckedlohy] = useState(false);
   const [contentULohy, editContentUlohy] = useState(
-    "Sem môžeš začať pridávať svoje úlohy ....................................................................................... ..............."
+    "<p>Sem môžeš začať pridávať svoje úlohy ....................................................................................... ............... </p>"
   );
   const [editableUlohy, setEditableUlohy] = useState(false);
 
@@ -31,6 +31,7 @@ export default function LANG1() {
 
   const sanitize = () => {
     editContentPoznamky(sanitizeHtml(contentPoznamky, sanitizeConf));
+    editContentUlohy(sanitizeHtml(contentPoznamky, sanitizeConf));
   };
 
   const poznamky = (
@@ -55,7 +56,7 @@ export default function LANG1() {
         <button
           className="setEdit"
           onClick={() => {
-            setRditablepoznamky(!editablePoznamky);
+            setEditablepoznamky(!editablePoznamky);
           }}
         >
           {editablePoznamky ? "Uložiť" : "Pridať"}

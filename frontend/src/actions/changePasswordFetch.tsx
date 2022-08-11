@@ -54,13 +54,13 @@ export const changePasswordFetch = async ({
       return;
     }
 
-    if (response.status === 403) {
+    if (response.status === 404) {
       const json = await response.json();
       alert(json.message);
       return;
     }
 
-    if (response.status === 403) {
+    if (response.status === 405) {
       const json = await response.json();
       alert(json.message);
       return;

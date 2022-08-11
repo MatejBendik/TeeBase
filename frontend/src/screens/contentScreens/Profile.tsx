@@ -45,11 +45,10 @@ export default function Profile() {
 
   /* Deleting user */
   const deleteUser = async () => {
-    localStorage.clear();
     await deleteUserFetch(String(userData._id), navigate);
   };
 
-  /* Changing user's password */
+  /* Changing user password */
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -70,7 +69,6 @@ export default function Profile() {
   };
 
   /* Changing user data */
-
   const [areEditable, setAreEditable] = useState(false);
   const [editUserData, setEditUserData] = useState({
     id: String(userData._id),
@@ -86,8 +84,8 @@ export default function Profile() {
 
   const saveEditedData = async () => {
     console.log(editUserData);
-    editUserFetch(editUserData);
-    getUserFetch(userData._id, dispatch);
+    await editUserFetch(editUserData);
+    await getUserFetch(userData._id, dispatch);
   };
 
   const handleChangeEditUserData = (e: any) => {
@@ -101,6 +99,7 @@ export default function Profile() {
         <div className="profileDiv">
           <div className="flex-container">
             <h1 className="containerTitle">Údaje</h1>
+
             {areEditable && (
               <SaveIcon
                 fontSize="medium"
@@ -121,24 +120,23 @@ export default function Profile() {
               />
             )}
           </div>
+
           <p className="dataName">Celé meno</p>
           <div className="flex-container">
             {areEditable && (
               <>
                 <input
-                  className="dataLabel"
+                  className="dataLabel editableLabel"
                   placeholder={userData?.firstName}
                   name="firstName"
-                  style={{ border: "1px solid blue" }}
                   onChange={handleChangeEditUserData}
                   value={editUserData?.firstName}
                 />
                 <p style={{ margin: "10px" }}></p>
                 <input
-                  className="dataLabel"
+                  className="dataLabel editableLabel"
                   name="lastName"
                   placeholder={userData?.lastName}
-                  style={{ border: "1px solid blue" }}
                   onChange={handleChangeEditUserData}
                   value={editUserData?.lastName}
                 />
@@ -162,22 +160,20 @@ export default function Profile() {
           </div>
           {areEditable && (
             <>
-              <p className="dataName">Email</p>
+              <p className="dataName ">Email</p>
               <input
-                className="dataLabel"
+                className="dataLabel editableLabel"
                 type="email"
                 placeholder={userData?.email}
                 name="email"
-                style={{ border: "1px solid blue" }}
                 onChange={handleChangeEditUserData}
                 value={editUserData?.email}
               />
               <p className="dataName">Používateľské meno</p>
               <input
-                className="dataLabel"
+                className="dataLabel editableLabel"
                 name="username"
                 placeholder={userData?.username}
-                style={{ border: "1px solid blue" }}
                 onChange={handleChangeEditUserData}
                 value={editUserData?.username}
               />

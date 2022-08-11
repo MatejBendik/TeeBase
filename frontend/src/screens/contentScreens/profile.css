@@ -40,6 +40,17 @@
   width: 100%;
   border: none;
   color: black;
+  transition-duration: 300ms;
+}
+
+.dataLabel:focus {
+  outline: none;
+  border: 1px solid blue;
+  border-radius: 20px;
+}
+
+.editableLabel {
+  border: 1px solid rgba(0, 0, 255, 0.319);
 }
 
 .flex-container {
