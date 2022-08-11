@@ -114,8 +114,8 @@ function DashboardContent() {
     }
   }, []);
 
-  const getUserData = () => {
-    getUserFetch(String(userID), dispatch);
+  const getUserData = async () => {
+    await getUserFetch(String(userID), dispatch);
     setSpinner(false);
   };
 
@@ -142,23 +142,37 @@ function DashboardContent() {
               <MenuIcon />
             </IconButton>
             {/* Horné ikony */}
-            <div style={{ display: "flex" }}>
-              <IconButton color="inherit">
-                <Typography
-                  component="h1"
-                  variant="h6"
-                  color="inherit"
-                  noWrap
-                  onClick={() => {
-                    dispatch({ type: "SET_SCREEN_CONTENT", payload: "home" });
-                  }}
-                >
-                  Nástenka
-                </Typography>
-              </IconButton>
-
-              <div style={{ alignItems: "end" }}>
+            <div
+              style={{
+                width: "95%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>
                 <IconButton color="inherit">
+                  <Typography
+                    component="h1"
+                    variant="h6"
+                    color="inherit"
+                    noWrap
+                    onClick={() => {
+                      dispatch({ type: "SET_SCREEN_CONTENT", payload: "home" });
+                    }}
+                  >
+                    Nástenka
+                  </Typography>
+                </IconButton>
+              </div>
+
+              <div>
+                <IconButton color="inherit" sx={{ marginRight: 5 }}>
+                  <PersonOutlineIcon
+                    sx={{
+                      fontSize: 27,
+                      marginRight: 1,
+                    }}
+                  />
                   <Typography
                     component="h1"
                     variant="h6"
@@ -171,14 +185,9 @@ function DashboardContent() {
                       });
                     }}
                   >
-                    {userData.username}
+                    {userData.firstName}
                   </Typography>
                 </IconButton>
-                <PersonOutlineIcon
-                  sx={{
-                    fontSize: 27,
-                  }}
-                />
 
                 <IconButton color="inherit">
                   <Badge>
