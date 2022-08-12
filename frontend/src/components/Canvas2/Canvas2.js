@@ -13,7 +13,6 @@ export default function App() {
   // const [savedData, setSavedData] = useState('');
 
   const canvasRef = useRef(null);
-  const canvasRef2 = useRef(null);
 
   const handleColorChange = React.useCallback((color) => {
     const {
@@ -37,8 +36,9 @@ export default function App() {
 
   const saveData = () => {
     const data = canvasRef.current.getSaveData();
-    canvasRef2.current.loadSaveData(data);
+    console.log(data);
   };
+
   return (
     <>
       <div className="left-container">
