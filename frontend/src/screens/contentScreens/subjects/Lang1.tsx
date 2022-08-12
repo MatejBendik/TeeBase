@@ -7,7 +7,8 @@ import "./Lang1.css";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
-/* import CanvasDraw from "react-canvas-draw"; */
+import Canvas2 from "../../../components/Canvas2/Canvas2";
+
 import { saveNote } from "../../../actions/materials/saveNote";
 
 export default function LANG1() {
@@ -18,6 +19,7 @@ export default function LANG1() {
   );
   const [newPoznamky, setNewPoznamky] = useState("");
   const [editablePoznamky, setEditablepoznamky] = useState(false);
+  const [editableDraw, setEditableDraw] = useState(false);
 
   /* Ulohy */
   const [checkedUlohy, setCheckedlohy] = useState(false);
@@ -74,7 +76,19 @@ export default function LANG1() {
           {editablePoznamky ? "Uložiť" : "Pridať"}
         </button>
 
-        {/* <CanvasDraw onChange={() => console.log("onChange")} /> */}
+        <div className={editableDraw ? "showCanvas" : "hideCanvas"}>
+          <Canvas2 />
+        </div>
+
+        <button
+          className="setEdit"
+          style={{ marginLeft: 10 }}
+          onClick={() => {
+            setEditableDraw(!editableDraw);
+          }}
+        >
+          {editableDraw ? "Ukončiť" : "Kresliť"}
+        </button>
       </div>
     </Paper>
   );
