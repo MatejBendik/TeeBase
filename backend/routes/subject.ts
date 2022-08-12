@@ -3,6 +3,6 @@ import { saveNote } from "../controllers/subject";
 
 const router = express.Router();
 
-router.post("/saveNote/:id", saveNote);
+router.put("/saveNote/:id", saveNote);
 
 export default router;
