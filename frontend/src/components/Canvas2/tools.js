@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+//import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEraser, faPen, faUndo } from "@fortawesome/free-solid-svg-icons";
+import UndoIcon from "@mui/icons-material/Undo";
+import ModeIcon from "@mui/icons-material/Mode";
+import FormatPaintIcon from "@mui/icons-material/FormatPaint";
+
 import Slider from "react-input-slider";
 
 const Tools = ({
@@ -20,7 +24,7 @@ const Tools = ({
     <div style={{ boxShadow: "none" }}>
       <div className="slider-container">
         <div className="icon-container">
-          <FontAwesomeIcon
+          <FormatPaintIcon
             icon={faEraser}
             onClick={() => {
               handleToolChange("eraser");
@@ -46,10 +50,7 @@ const Tools = ({
 
       <div className="slider-container">
         <div className="icon-container">
-          <FontAwesomeIcon
-            onClick={() => handleToolChange("pen", brushSize)}
-            icon={faPen}
-          />
+          <ModeIcon onClick={() => handleToolChange("pen", brushSize)} />
         </div>
         <Slider
           axis="y"
@@ -66,7 +67,11 @@ const Tools = ({
         />
         <p style={{ marginBottom: 0, marginTop: "5px" }}>{brushSize}</p>
       </div>
-      <FontAwesomeIcon icon={faUndo} onClick={() => canvasRef.current.undo()} />
+      <UndoIcon
+        icon={faUndo}
+        cursor="pointer"
+        onClick={() => canvasRef.current.undo()}
+      />
     </div>
   );
 };

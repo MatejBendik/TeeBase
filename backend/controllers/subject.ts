@@ -20,6 +20,6 @@ export const saveNote = async (req: Request, res: Response) => {
       }
     );
   } catch (error) {
-    res.status(500).json({ message: "Chyba servera" });
+    //res.status(500).json({ message: "Chyba servera: " + error });
   }
 };
