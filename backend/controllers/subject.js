@@ -21,9 +21,12 @@ const saveNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(subjectId);
     try {
         const newNote = yield subject_1.default.create({
-            id: subjectId,
-            userId: userId,
-            content,
+            data: {
+                notes: {
+                    userId: userId,
+                    content: content,
+                },
+            },
         });
         newNote.save();
         res.status(200).json({ newNote });

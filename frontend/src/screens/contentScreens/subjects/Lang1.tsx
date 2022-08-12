@@ -7,7 +7,7 @@ import "./Lang1.css";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
 import Paper from "@mui/material/Paper";
-
+/* import CanvasDraw from "react-canvas-draw"; */
 import { saveNote } from "../../../actions/materials/saveNote";
 
 export default function LANG1() {
@@ -73,6 +73,8 @@ export default function LANG1() {
         >
           {editablePoznamky ? "Uložiť" : "Pridať"}
         </button>
+
+        {/* <CanvasDraw onChange={() => console.log("onChange")} /> */}
       </div>
     </Paper>
   );
