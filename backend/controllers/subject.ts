@@ -8,11 +8,28 @@ export const saveNote = async (req: Request, res: Response) => {
   console.log(subjectId, content, userId);
 
   try {
+    /*
+    const testNote = new Subject({
+      title: subjectId,
+      data: {
+        note: {
+          creatorId: userId,
+          content: content,
+        },
+        task: {
+          creatorId: userId,
+          content: content,
+        },
+      },
+    });
+
+    testNote.save();
+*/
     await Subject.updateOne(
-      { subjectId: subjectId, "data.notes.user.userId": userId },
+      { title: subjectId, "data.note.creatorId": userId },
       {
         $set: {
-          "data.notes.user.userId.content": content,
+          "data.note.content": content,
         },
       },
       () => {

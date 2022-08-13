@@ -6,8 +6,8 @@ const subjectSchema = new mongoose.Schema({
     required: true,
   },
   data: {
-    notes: {
-      userId: {
+    note: {
+      creatorId: {
         type: String,
         required: true,
       },
@@ -21,8 +21,8 @@ const subjectSchema = new mongoose.Schema({
       },
     },
 
-    tasks: {
-      userId: {
+    task: {
+      creatorId: {
         type: String,
         required: true,
       },

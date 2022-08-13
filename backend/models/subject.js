@@ -10,8 +10,8 @@ const subjectSchema = new mongoose_1.default.Schema({
         required: true,
     },
     data: {
-        notes: {
-            userId: {
+        note: {
+            creatorId: {
                 type: String,
                 required: true,
             },
@@ -24,8 +24,8 @@ const subjectSchema = new mongoose_1.default.Schema({
                 default: new Date(),
             },
         },
-        tasks: {
-            userId: {
+        task: {
+            creatorId: {
                 type: String,
                 required: true,
             },

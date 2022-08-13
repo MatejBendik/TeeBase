@@ -20,9 +20,26 @@ const saveNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId, content } = req.body;
     console.log(subjectId, content, userId);
     try {
-        yield subject_1.default.updateOne({ subjectId: subjectId, "data.notes.user.userId": userId }, {
+        /*
+        const testNote = new Subject({
+          title: subjectId,
+          data: {
+            note: {
+              creatorId: userId,
+              content: content,
+            },
+            task: {
+              creatorId: userId,
+              content: content,
+            },
+          },
+        });
+    
+        testNote.save();
+    */
+        yield subject_1.default.updateOne({ title: subjectId, "data.note.creatorId": userId }, {
             $set: {
-                "data.notes.user.userId.content": content,
+                "data.note.content": content,
             },
         }, () => {
             return res.status(200).json({ message: "Nahralo to" });
