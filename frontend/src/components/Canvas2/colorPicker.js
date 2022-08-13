@@ -4,7 +4,7 @@ import { SketchPicker } from "react-color";
 const ColorPicker = React.memo(({ brushColor, handleColorChange }) => {
   return (
     <SketchPicker
-      width="100px"
+      width="120px"
       color={brushColor}
       onChangeComplete={handleColorChange}
     />

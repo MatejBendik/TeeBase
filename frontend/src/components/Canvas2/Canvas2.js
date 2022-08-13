@@ -4,8 +4,14 @@ import axios from "axios";
 import CanvasDraw from "react-canvas-draw";
 import ColorPicker from "./colorPicker";
 import Tools from "./tools.js";
-
 import "./styles.css";
+
+import {
+  exportComponentAsJPEG,
+  exportComponentAsPDF,
+  exportComponentAsPNG,
+} from "react-component-export-image";
+
 export default function App() {
   const [brushColor, setBrusholor] = useState("#444");
   const [lastPenColor, setLastPenColor] = useState("#444");
@@ -52,6 +58,7 @@ export default function App() {
             brushColor={brushColor}
             brushRadius={brushRadius}
             lazyRadius={5}
+            hideGrid={true}
           />
         </div>
         <Tools
@@ -65,6 +72,12 @@ export default function App() {
       <div className="saveCanvasDiv">
         <button className="saveCanvas" onClick={saveData}>
           Ulož kresbu
+        </button>
+        <button
+          className="saveCanvas"
+          onClick={() => exportComponentAsJPEG(canvasRef)}
+        >
+          Uložiť ako fotku
         </button>
       </div>
     </>

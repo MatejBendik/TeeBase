@@ -67,7 +67,7 @@
     rgba(0, 0, 0, 0.15) 0px 8px 16px !important;
 }
 .icon-container {
-  padding: 3px;
+  padding-top: 5px;
   margin-bottom: 4px;
   border-radius: 8px;
   border: 1px solid transparent;
