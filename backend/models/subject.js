@@ -5,7 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const subjectSchema = new mongoose_1.default.Schema({
+    subjectId: {
+        type: String,
+        required: true,
+    },
     title: {
+        type: String,
+        required: true,
+    },
+    inShort: {
         type: String,
         required: true,
     },

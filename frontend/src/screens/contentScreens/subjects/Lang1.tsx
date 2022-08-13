@@ -44,7 +44,7 @@ export default function LANG1() {
   const [newNote, setNewNote] = useState({
     subjectID: "1",
     userId: userData._id,
-    content: "Zmena prveho",
+    content: "Updateee",
   });
 
   const poznamky = (

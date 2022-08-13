@@ -8,9 +8,40 @@ export const saveNote = async (req: Request, res: Response) => {
   console.log(subjectId, content, userId);
 
   try {
+    // TODO:
+    // urobit novu schemu pre notes
+    // urobit novu schemu pre tasks
+    // ukladat do notes a tasks:
+    //  _id, creatorId, content, createdAt
+
+    /*
+    await Subject.findOne(
+      { subjectId: subjectId },
+      (err: any, foundSubject: any) => {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(foundSubject);
+        }
+      }
+    );
+*/
+    await Subject.updateOne(
+      { title: subjectId, "data.note.creatorId": userId },
+      {
+        $set: {
+          "data.note.content": content,
+        },
+      },
+      () => {
+        return res.status(200).json({ message: "Nahralo to" });
+      }
+    );
+
     /*
     const testNote = new Subject({
-      title: subjectId,
+      title: "Jazyk 1",
+      subjectId: subjectId,
       data: {
         note: {
           creatorId: userId,
@@ -24,18 +55,8 @@ export const saveNote = async (req: Request, res: Response) => {
     });
 
     testNote.save();
-*/
-    await Subject.updateOne(
-      { title: subjectId, "data.note.creatorId": userId },
-      {
-        $set: {
-          "data.note.content": content,
-        },
-      },
-      () => {
-        return res.status(200).json({ message: "Nahralo to" });
-      }
-    );
+
+    */
   } catch (error) {
     //res.status(500).json({ message: "Chyba servera: " + error });
   }
