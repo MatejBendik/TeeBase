@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
+import { useGeolocated } from "react-geolocated";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -91,6 +92,25 @@ export default function Profile() {
   const handleChangeEditUserData = (e: any) => {
     setEditUserData({ ...editUserData, [e.target.name]: e.target.value });
   };
+
+  /* Getting user location */
+  const [location, setLocation] = useState<object>();
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  console.log(coords);
+  useEffect(() => {
+    !isGeolocationAvailable
+      ? setLocation({ message: "Your browser does not support Geolocation" })
+      : !isGeolocationEnabled
+      ? setLocation({ message: "Geolocation is not enabled" })
+      : setLocation({ location: coords });
+  }, []);
 
   return (
     <>
