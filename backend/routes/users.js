@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const user_1 = require("../controllers/user");
 const router = express_1.default.Router();
-router.post("/login", user_1.login);
+router.put("/login", user_1.login);
 router.post("/register", user_1.register);
 router.get("/getUser/:id", user_1.authenticateToken, user_1.getUser);
 router.delete("/deleteUser/:id", user_1.authenticateToken, user_1.deleteUser);

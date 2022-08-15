@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+
+import { useGeolocated } from "react-geolocated";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -10,6 +13,22 @@ import { sendLogin } from "../../actions/user/loginFetch";
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const [loginData, setLoginData] = useState({
+    username: "",
+    password: "",
+    lat: "",
+    lng: "",
+  });
+
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      userDecisionTimeout: 5000,
+    });
 
   useEffect(() => {
     const userToken = localStorage.getItem("accesToken");
@@ -19,10 +38,26 @@ export default function Login() {
     }
   }, []);
 
-  const [loginData, setLoginData] = useState({
-    username: "",
-    password: "",
-  });
+  useEffect(() => {
+    /* Getting user location */
+    !isGeolocationAvailable
+      ? setLoginData({
+          ...loginData,
+          lat: "Your browser does not support Geolocation",
+          lng: "Your browser does not support Geolocation",
+        })
+      : !isGeolocationEnabled
+      ? setLoginData({
+          ...loginData,
+          lat: "Geolocation is not enabled",
+          lng: "Geolocation is not enabled",
+        })
+      : setLoginData({
+          ...loginData,
+          lat: String(coords?.latitude),
+          lng: String(coords?.longitude),
+        });
+  }, [coords]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -32,7 +67,7 @@ export default function Login() {
       return;
     }
 
-    sendLogin(loginData, navigate);
+    sendLogin(loginData, navigate, dispatch);
     setLoginData({ ...loginData, ["username"]: "", ["password"]: "" });
   };
 

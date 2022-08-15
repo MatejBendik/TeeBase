@@ -18,7 +18,8 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../models/user"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password } = req.body;
+    const { username, password, lat, lng } = req.body;
+    console.log(lat, lng);
     try {
         const existingUser = yield user_1.default.findOne({ username: username });
         if (!existingUser) {
@@ -30,14 +31,13 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         }
         const token = jsonwebtoken_1.default.sign({
             id: existingUser._id,
-        }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        /* cookies nejdu
-        res.cookie("access-token", token, {
-          expires: new Date(Date.now() * 3600000),         // cas sa zadava v ms, 1hod = 3 600 000ms
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production"    // ked to je v produkcii secure je true, ked ne ta false, ked je true tak v produkcii musime mat SSL
+        }, process.env.JWT_SECRET, { expiresIn: "24h" });
+        const user = yield user_1.default.updateOne({ username: username }, {
+            $set: {
+                "location.lat": lat,
+                "location.lng": lng,
+            },
         });
-        */
         return res.status(200).json({ user: existingUser, token: token });
     }
     catch (error) {
@@ -46,7 +46,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.login = login;
 const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, email, username, password } = req.body;
+    const { firstName, lastName, email, username, password, lat, lng } = req.body;
     try {
         const existingUser = yield user_1.default.findOne({ username });
         if (existingUser)
@@ -61,12 +61,13 @@ const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             email,
             username,
             password: hashedPassword,
+            location: { lat, lng },
         });
         const token = jsonwebtoken_1.default.sign({
             id: newUser._id,
             username: newUser.username,
             password: newUser.password,
-        }, "test", { expiresIn: "1h" });
+        }, "test", { expiresIn: "24h" });
         newUser.save();
         res.status(200).json({ newUser, token });
     }
@@ -175,3 +176,10 @@ function authenticateToken(req, res, next) {
     });
 }
 exports.authenticateToken = authenticateToken;
+/* cookies nejdu
+    res.cookie("access-token", token, {
+      expires: new Date(Date.now() * 3600000),         // cas sa zadava v ms, 1hod = 3 600 000ms
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production"    // ked to je v produkcii secure je true, ked ne ta false, ked je true tak v produkcii musime mat SSL
+    });
+    */

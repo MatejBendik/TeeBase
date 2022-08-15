@@ -32,6 +32,10 @@ const userSchema = new mongoose_1.default.Schema({
         type: Date,
         default: new Date(),
     },
+    location: {
+        lat: { type: String, required: true },
+        lng: { type: String, required: true },
+    },
 });
 const User = mongoose_1.default.model("User", userSchema);
 exports.default = User;

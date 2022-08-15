@@ -2,15 +2,18 @@ import { baseUrl } from "../../api/index";
 interface loginProperties {
   username: string;
   password: string;
+  lat: String;
+  lng: String;
 }
 
 export const sendLogin = async (
-  { username, password }: loginProperties,
-  navigate: any
+  { username, password, lat, lng }: loginProperties,
+  navigate: any,
+  dispatch: any
 ) => {
   try {
     const response = await fetch(`${baseUrl}/user/login`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -19,6 +22,8 @@ export const sendLogin = async (
       body: JSON.stringify({
         username: username,
         password: password,
+        lat: lat,
+        lng: lng,
       }),
     });
 
@@ -42,7 +47,7 @@ export const sendLogin = async (
 
     const json = await response.json();
     localStorage.setItem("accessToken", json.token);
-    localStorage.setItem("user_id", json.user._id);
+    localStorage.setItem("userId", json.user._id);
     await navigate("/app");
   } catch (error) {
     console.error(error);

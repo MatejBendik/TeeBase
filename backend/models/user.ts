@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  location: {
+    lat: { type: String, required: true },
+    lng: { type: String, required: true },
+  },
 });
 
 const User = mongoose.model("User", userSchema);

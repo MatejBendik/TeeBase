@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
-import { useGeolocated } from "react-geolocated";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -31,6 +30,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const userData = useSelector((state: any) => state.userData);
+  const userId = localStorage.getItem("userId");
 
   const [setPassData, setSetPassData] = useState({
     id: String(userData._id),
@@ -46,7 +46,7 @@ export default function Profile() {
 
   /* Deleting user */
   const deleteUser = async () => {
-    await deleteUserFetch(String(userData._id), navigate);
+    await deleteUserFetch(String(userId), navigate);
   };
 
   /* Changing user password */
@@ -86,31 +86,12 @@ export default function Profile() {
   const saveEditedData = async () => {
     console.log(editUserData);
     await editUserFetch(editUserData);
-    await getUserFetch(userData._id, dispatch);
+    await getUserFetch(dispatch);
   };
 
   const handleChangeEditUserData = (e: any) => {
     setEditUserData({ ...editUserData, [e.target.name]: e.target.value });
   };
-
-  /* Getting user location */
-  const [location, setLocation] = useState<object>();
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      userDecisionTimeout: 5000,
-    });
-
-  console.log(coords);
-  useEffect(() => {
-    !isGeolocationAvailable
-      ? setLocation({ message: "Your browser does not support Geolocation" })
-      : !isGeolocationEnabled
-      ? setLocation({ message: "Geolocation is not enabled" })
-      : setLocation({ location: coords });
-  }, []);
 
   return (
     <>

@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/user";
 
 export const login = async (req: Request, res: Response) => {
-  const { username, password } = req.body;
+  const { username, password, lat, lng } = req.body;
+  console.log(lat, lng);
 
   try {
     const existingUser = await User.findOne({ username: username });
@@ -23,16 +24,19 @@ export const login = async (req: Request, res: Response) => {
         id: existingUser._id,
       },
       process.env.JWT_SECRET as string,
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
 
-    /* cookies nejdu
-    res.cookie("access-token", token, { 
-      expires: new Date(Date.now() * 3600000),         // cas sa zadava v ms, 1hod = 3 600 000ms 
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production"    // ked to je v produkcii secure je true, ked ne ta false, ked je true tak v produkcii musime mat SSL
-    });
-    */
+    const user = await User.updateOne(
+      { username: username },
+      {
+        $set: {
+          "location.lat": lat,
+          "location.lng": lng,
+        },
+      }
+    );
+
     return res.status(200).json({ user: existingUser, token: token });
   } catch (error) {
     res.status(500).json({ message: "Chyba servera" });
@@ -40,7 +44,7 @@ export const login = async (req: Request, res: Response) => {
 };
 
 export const register = async (req: Request, res: Response) => {
-  const { firstName, lastName, email, username, password } = req.body;
+  const { firstName, lastName, email, username, password, lat, lng } = req.body;
 
   try {
     const existingUser = await User.findOne({ username });
@@ -58,6 +62,7 @@ export const register = async (req: Request, res: Response) => {
       email,
       username,
       password: hashedPassword,
+      location: { lat, lng },
     });
 
     const token = jwt.sign(
@@ -67,7 +72,7 @@ export const register = async (req: Request, res: Response) => {
         password: newUser.password,
       },
       "test",
-      { expiresIn: "1h" }
+      { expiresIn: "24h" }
     );
 
     newUser.save();
@@ -206,3 +211,11 @@ export async function authenticateToken(
     next();
   });
 }
+
+/* cookies nejdu
+    res.cookie("access-token", token, { 
+      expires: new Date(Date.now() * 3600000),         // cas sa zadava v ms, 1hod = 3 600 000ms 
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production"    // ked to je v produkcii secure je true, ked ne ta false, ked je true tak v produkcii musime mat SSL
+    });
+    */

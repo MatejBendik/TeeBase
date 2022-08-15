@@ -37,6 +37,7 @@ import LANG1 from "./contentScreens/subjects/Lang1";
 import MAT1 from "./contentScreens/subjects/MAT1";
 import RepMAT from "./contentScreens/subjects/RepMAT";
 import TSV from "./contentScreens/subjects/TSV";
+import Map from "./contentScreens/Map";
 
 import { getUserFetch } from "../actions/user/getUserFetch";
 
@@ -103,20 +104,19 @@ function DashboardContent() {
 
   const content = useSelector((state: any) => state.contentScreen);
   const userData = useSelector((state: any) => state.userData);
-  const [spinner, setSpinner] = useState(true);
-  const userID = localStorage.getItem("user_id");
+  const [spinner, setSpinner] = useState(false);
 
   useEffect(() => {
     const userToken = localStorage.getItem("accessToken");
-    getUserData();
-
     if (!userToken) {
       navigate("/");
     }
+
+    getUserData();
   }, []);
 
   const getUserData = async () => {
-    await getUserFetch(String(userID), dispatch);
+    await getUserFetch(dispatch);
     setSpinner(false);
   };
 
@@ -404,6 +404,20 @@ function DashboardContent() {
                         }}
                       >
                         <IntroductionING />
+                      </Paper>
+                    </Grid>
+                  )}
+
+                  {content == "map" && (
+                    <Grid item xs={12} md={15} lg={15}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          flexDirection: "column",
+                          minHeight: "85vh",
+                        }}
+                      >
+                        <Map />
                       </Paper>
                     </Grid>
                   )}

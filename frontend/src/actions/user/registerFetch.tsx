@@ -5,10 +5,20 @@ interface registerProperties {
   email: string;
   username: string;
   password: string;
+  lat: String;
+  lng: String;
 }
 
 export const sendRegister = async (
-  { firstName, lastName, email, username, password }: registerProperties,
+  {
+    firstName,
+    lastName,
+    email,
+    username,
+    password,
+    lat,
+    lng,
+  }: registerProperties,
   navigate: any
 ) => {
   try {
@@ -25,6 +35,8 @@ export const sendRegister = async (
         email: email,
         username: username,
         password: password,
+        lat: lat,
+        lng: lng,
       }),
     });
 
@@ -42,7 +54,7 @@ export const sendRegister = async (
 
     const json = await response.json();
     localStorage.setItem("accessToken", json.token);
-    localStorage.setItem("user_id", json.newUser._id);
+    localStorage.setItem("userId", json.newUser._id);
     await navigate("/app");
   } catch (error) {
     console.error(error);

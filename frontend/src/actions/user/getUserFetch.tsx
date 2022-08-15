@@ -1,7 +1,8 @@
 import { baseUrl } from "../../api/index";
 
-export const getUserFetch = async (userId: any, dispatch: any) => {
+export const getUserFetch = async (dispatch: any) => {
   const accessToken = localStorage.getItem("accessToken");
+  const userId = localStorage.getItem("userId");
 
   try {
     const response = await fetch(`${baseUrl}/user/getUser/${userId}`, {

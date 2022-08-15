@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import { useGeolocated } from "react-geolocated";
 
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -11,6 +12,24 @@ import { sendRegister } from "../../actions/user/registerFetch";
 export default function Register() {
   const navigate = useNavigate();
 
+  const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+    lat: "",
+    lng: "",
+  });
+
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      userDecisionTimeout: 5000,
+    });
+
   useEffect(() => {
     const userToken = localStorage.getItem("accesToken");
 
@@ -19,13 +38,26 @@ export default function Register() {
     }
   }, []);
 
-  const [registerData, setRegisterData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    username: "",
-    password: "",
-  });
+  useEffect(() => {
+    /* Getting user location */
+    !isGeolocationAvailable
+      ? setRegisterData({
+          ...registerData,
+          lat: "Your browser does not support Geolocation",
+          lng: "Your browser does not support Geolocation",
+        })
+      : !isGeolocationEnabled
+      ? setRegisterData({
+          ...registerData,
+          lat: "Geolocation is not enabled",
+          lng: "Geolocation is not enabled",
+        })
+      : setRegisterData({
+          ...registerData,
+          lat: String(coords?.latitude),
+          lng: String(coords?.longitude),
+        });
+  }, [coords]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -49,6 +81,8 @@ export default function Register() {
       ["email"]: "",
       ["username"]: "",
       ["password"]: "",
+      ["lat"]: "",
+      ["lng"]: "",
     });
   };
 
