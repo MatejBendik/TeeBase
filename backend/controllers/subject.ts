@@ -9,8 +9,6 @@ export const saveNote = async (req: Request, res: Response) => {
 
   try {
     // TODO:
-    // urobit novu schemu pre notes
-    // urobit novu schemu pre tasks
     // ukladat do notes a tasks:
     //  _id, creatorId, content, createdAt
 
