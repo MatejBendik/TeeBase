@@ -21,8 +21,6 @@ const saveNote = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(subjectId, content, userId);
     try {
         // TODO:
-        // urobit novu schemu pre notes
-        // urobit novu schemu pre tasks
         // ukladat do notes a tasks:
         //  _id, creatorId, content, createdAt
         /*
