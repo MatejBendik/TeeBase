@@ -6,6 +6,7 @@ import {
   deleteUser,
   changePassword,
   editUser,
+  getUsersLocation,
   authenticateToken,
 } from "../controllers/user";
 
@@ -17,5 +18,6 @@ router.get("/getUser/:id", authenticateToken, getUser);
 router.delete("/deleteUser/:id", authenticateToken, deleteUser);
 router.put("/:id/changePassword", authenticateToken, changePassword);
 router.put("/:id/editUser", authenticateToken, editUser);
+router.get("/getUsersLocation", authenticateToken, getUsersLocation);
 
 export default router;

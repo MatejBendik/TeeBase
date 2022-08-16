@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authenticateToken = exports.editUser = exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
+exports.authenticateToken = exports.getUsersLocation = exports.editUser = exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
 require("dotenv").config();
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -160,6 +160,26 @@ const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.editUser = editUser;
+const getUsersLocation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const users = yield user_1.default.find({});
+        let userMap = {};
+        users.forEach((user) => {
+            userMap[user.username] = {
+                username: user.username,
+                location: user.location,
+            };
+        });
+        console.log(userMap);
+        res.status(200).json(userMap);
+    }
+    catch (error) {
+        res
+            .status(500)
+            .json({ message: "Nepodarilo sa načítat používateľov a ich lokácie" });
+    }
+});
+exports.getUsersLocation = getUsersLocation;
 function authenticateToken(req, res, next) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {

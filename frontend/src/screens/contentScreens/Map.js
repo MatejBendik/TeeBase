@@ -6,12 +6,14 @@ import {
   InfoWindow,
 } from "@react-google-maps/api";
 
+import { getUsersLocationFetch } from "../../actions/user/getUsersLocationFetch";
+
 const center = {
   lat: 49.0566535,
   lng: 20.3034108,
 };
 
-const usersLocation = [
+/* const usersLocation = [
   {
     name: "Miro",
     lat: 49.0566535,
@@ -37,7 +39,7 @@ const usersLocation = [
     lat: 49.0566535,
     lng: 20.734108,
   },
-];
+]; */
 
 const currentPosition = {
   lat: 49.0566535,
@@ -45,6 +47,25 @@ const currentPosition = {
 };
 
 function Map() {
+  const [usersLocation, setUsersLocation] = useState();
+
+  useEffect(() => {
+    const getLocations = async () => {
+      try {
+        const data = await getUsersLocationFetch();
+        if (data === null) {
+          alert("Nepodarilo sa načítať lokácie.");
+        } else {
+          setUsersLocation(Object.values(data));
+        }
+      } catch (err) {
+        alert("Nepodarilo sa načítať lokácie.");
+      }
+    };
+
+    getLocations();
+  }, []);
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
@@ -64,7 +85,18 @@ function Map() {
   }, []);
 
   return isLoaded ? (
-    <div style={{ display: "flex" }}>
+    <div>
+      <h2
+        style={{
+          backgroundColor: " rgba(206, 205, 205, 0.218)",
+          padding: 10,
+          textAlign: "center",
+          borderRadius: 20,
+        }}
+      >
+        Pozri, kde sa nachádzajú tvoji kamoši, ktorí sa tiež učia (alebo sa len
+        tvária ;) .
+      </h2>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
@@ -89,34 +121,35 @@ function Map() {
           </InfoWindow>
         </Marker>
 
-        {usersLocation.map((user) => {
-          let lat = parseFloat(user.lat);
-          let lng = parseFloat(user.lng);
-          return (
-            <Marker
-              position={{ lat: lat, lng: lng }}
-              icon={{
-                url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-              }}
-            >
-              <InfoWindow
-                options={{
-                  pixelOffset: {
-                    width: 0,
-                    height: -45,
-                  },
-                }}
-                position={{ lat: lat, lng: lng }}
-              >
-                <div>
-                  <p>{user.name}</p>
-                </div>
-              </InfoWindow>
-            </Marker>
-          );
-        })}
+        {Array.isArray(usersLocation)
+          ? usersLocation.map((user) => {
+              let lat = parseFloat(user.location.lat);
+              let lng = parseFloat(user.location.lng);
+              return (
+                <Marker
+                  position={{ lat: lat, lng: lng }}
+                  icon={{
+                    url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+                  }}
+                >
+                  <InfoWindow
+                    options={{
+                      pixelOffset: {
+                        width: 0,
+                        height: -45,
+                      },
+                    }}
+                    position={{ lat: lat, lng: lng }}
+                  >
+                    <div>
+                      <p>{user.username}</p>
+                    </div>
+                  </InfoWindow>
+                </Marker>
+              );
+            })
+          : null}
       </GoogleMap>
-      <div></div>
     </div>
   ) : (
     <></>

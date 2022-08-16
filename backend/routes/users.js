@@ -12,4 +12,5 @@ router.get("/getUser/:id", user_1.authenticateToken, user_1.getUser);
 router.delete("/deleteUser/:id", user_1.authenticateToken, user_1.deleteUser);
 router.put("/:id/changePassword", user_1.authenticateToken, user_1.changePassword);
 router.put("/:id/editUser", user_1.authenticateToken, user_1.editUser);
+router.get("/getUsersLocation", user_1.authenticateToken, user_1.getUsersLocation);
 exports.default = router;

@@ -191,6 +191,26 @@ export const editUser = async (req: Request, res: Response) => {
   }
 };
 
+export const getUsersLocation = async (req: Request, res: Response) => {
+  try {
+    const users = await User.find({});
+    let userMap = {};
+
+    users.forEach((user) => {
+      userMap[user.username] = {
+        username: user.username,
+        location: user.location,
+      };
+    });
+    console.log(userMap);
+    res.status(200).json(userMap);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Nepodarilo sa načítat používateľov a ich lokácie" });
+  }
+};
+
 export async function authenticateToken(
   req: Request,
   res: Response,
