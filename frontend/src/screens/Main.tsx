@@ -166,7 +166,11 @@ function DashboardContent() {
                 </IconButton>
               </div>
 
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
                 <IconButton
                   color="inherit"
                   sx={{ marginRight: 5 }}

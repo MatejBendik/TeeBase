@@ -1,80 +1,131 @@
-import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import Box from "@mui/material/Box";
-import Fab from "@mui/material/Fab";
-import NavigationIcon from "@mui/icons-material/Navigation";
+import React, { useState, useEffect } from "react";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibWFoYXJzaGktYnl0ZXMiLCJhIjoiY2t6bm9vZGhiMG4wbDJubWdramNuYXA0cCJ9.a3hxMhSWb5XrZncyOgPmug";
+const center = {
+  lat: 49.0566535,
+  lng: 20.3034108,
+};
 
-export default function Map() {
-  let [longitude, latitude, zoomSize] = [49, 20, 11];
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const [lng, setLng] = useState(longitude);
-  const [lat, setLat] = useState(latitude);
-  const [zoom, setZoom] = useState(zoomSize);
-  const [resetBtn, setResetBtn] = useState(0);
+const usersLocation = [
+  {
+    name: "Miro",
+    lat: 49.0566535,
+    lng: 20.4034108,
+  },
+  {
+    name: "Mato",
+    lat: 49.5566535,
+    lng: 20.3034108,
+  },
+  {
+    name: "Oliver",
+    lat: 49.4566535,
+    lng: 20.7034108,
+  },
+  {
+    name: "Lukas",
+    lat: 49.0566535,
+    lng: 20.8034108,
+  },
+  {
+    name: "David",
+    lat: 49.0566535,
+    lng: 20.734108,
+  },
+];
 
-  function updateMap(longitude, latitude) {
-    // reset and initialize the map
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [longitude, latitude],
-      zoom: zoomSize,
-    });
-    setLng(longitude);
-    setLat(latitude);
-    setZoom(zoomSize);
-  }
+const currentPosition = {
+  lat: 49.0566535,
+  lng: 20.3034108,
+};
 
-  /*   new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map.current);
-   */
-  function initialMap() {
-    // on click reset map location
-    setResetBtn(0);
-    updateMap(longitude, latitude);
-  }
-
-  useEffect(() => {
-    // initialize map only once
-    if (map.current) return;
-    updateMap(lng, lat);
+function Map() {
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
   });
 
-  useEffect(() => {
-    if (!map.current) return; // wait for map to initialize
-    map.current.on("move", () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
-      setResetBtn(1);
-    });
-  });
+  const [map, setMap] = React.useState(null);
 
-  return (
-    <>
-      <div className="sidebar">
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
+  const onLoad = React.useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    console.log(bounds);
+    // map.fitBounds(bounds);
+    setMap(map);
+  }, []);
 
-      <div ref={mapContainer} className="currentLocation" />
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null);
+  }, []);
 
-      {resetBtn === 1 && (
-        <Box sx={{ "& > :not(style)": { m: 1 } }}>
-          <Fab
-            variant="extended"
-            color="warning"
-            aria-label="add"
-            onClick={() => initialMap()}
-            title="Reset Location"
+  return isLoaded ? (
+    <div style={{ display: "flex" }}>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={10}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+        onDragEnd={() => console.log(map.getBounds())}
+      >
+        <Marker position={currentPosition}>
+          <InfoWindow
+            options={{
+              pixelOffset: {
+                width: 0,
+                height: -45,
+              },
+            }}
+            position={currentPosition}
           >
-            <NavigationIcon sx={{ mr: 1 }} />
-            Reset Location
-          </Fab>
-        </Box>
-      )}
-    </>
+            <div>
+              <p>Tu si ty</p>
+            </div>
+          </InfoWindow>
+        </Marker>
+
+        {usersLocation.map((user) => {
+          let lat = parseFloat(user.lat);
+          let lng = parseFloat(user.lng);
+          return (
+            <Marker
+              position={{ lat: lat, lng: lng }}
+              icon={{
+                url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+              }}
+            >
+              <InfoWindow
+                options={{
+                  pixelOffset: {
+                    width: 0,
+                    height: -45,
+                  },
+                }}
+                position={{ lat: lat, lng: lng }}
+              >
+                <div>
+                  <p>{user.name}</p>
+                </div>
+              </InfoWindow>
+            </Marker>
+          );
+        })}
+      </GoogleMap>
+      <div></div>
+    </div>
+  ) : (
+    <></>
   );
 }
+
+const containerStyle = {
+  width: "100%",
+  height: "80vh",
+};
+
+export default React.memo(Map);
