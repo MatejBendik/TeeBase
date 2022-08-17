@@ -5,6 +5,7 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
+import { useGeolocated } from "react-geolocated";
 
 import { getUsersLocationFetch } from "../../actions/user/getUsersLocationFetch";
 
@@ -13,41 +14,36 @@ const center = {
   lng: 20.3034108,
 };
 
-/* const usersLocation = [
-  {
-    name: "Miro",
-    lat: 49.0566535,
-    lng: 20.4034108,
-  },
-  {
-    name: "Mato",
-    lat: 49.5566535,
-    lng: 20.3034108,
-  },
-  {
-    name: "Oliver",
-    lat: 49.4566535,
-    lng: 20.7034108,
-  },
-  {
-    name: "Lukas",
-    lat: 49.0566535,
-    lng: 20.8034108,
-  },
-  {
-    name: "David",
-    lat: 49.0566535,
-    lng: 20.734108,
-  },
-]; */
-
-const currentPosition = {
-  lat: 49.0566535,
-  lng: 20.3034108,
-};
-
 function Map() {
   const [usersLocation, setUsersLocation] = useState();
+  const [userCurrentLocation, setUserCurrentLocation] = useState({
+    lat: "",
+    lng: "",
+  });
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+      userDecisionTimeout: 5000,
+    });
+  const [map, setMap] = React.useState(null);
+
+  const onLoad = React.useCallback(function callback(map) {
+    const bounds = new window.google.maps.LatLngBounds();
+    console.log(bounds);
+    // map.fitBounds(bounds);
+    setMap(map);
+  }, []);
+
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null);
+  }, []);
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
+  });
 
   useEffect(() => {
     const getLocations = async () => {
@@ -66,23 +62,33 @@ function Map() {
     getLocations();
   }, []);
 
-  const { isLoaded } = useJsApiLoader({
-    id: "google-map-script",
-    googleMapsApiKey: "AIzaSyC2-n39eQnutXECIDc-9tlNMNFmxzshDtE",
-  });
+  useEffect(() => {
+    !isGeolocationAvailable
+      ? setUserCurrentLocation({
+          ...userCurrentLocation,
+          lat: "Your browser does not support Geolocation",
+          lng: "Your browser does not support Geolocation",
+        })
+      : !isGeolocationEnabled
+      ? setUserCurrentLocation({
+          ...userCurrentLocation,
+          lat: "Geolocation is not enabled",
+          lng: "Geolocation is not enabled",
+        })
+      : setUserCurrentLocation({
+          ...userCurrentLocation,
+          lat: String(coords?.latitude),
+          lng: String(coords?.longitude),
+        });
+  }, [coords]);
 
-  const [map, setMap] = React.useState(null);
-
-  const onLoad = React.useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds();
-    console.log(bounds);
-    // map.fitBounds(bounds);
-    setMap(map);
-  }, []);
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null);
-  }, []);
+  localStorage.setItem(
+    "userLocation",
+    JSON.stringify({
+      lat: userCurrentLocation.lat,
+      lng: userCurrentLocation.lng,
+    })
+  );
 
   return isLoaded ? (
     <div>
@@ -105,7 +111,12 @@ function Map() {
         onUnmount={onUnmount}
         onDragEnd={() => console.log(map.getBounds())}
       >
-        <Marker position={currentPosition}>
+        <Marker
+          position={{
+            lat: parseFloat(userCurrentLocation.lat),
+            lng: parseFloat(userCurrentLocation.lng),
+          }}
+        >
           <InfoWindow
             options={{
               pixelOffset: {
@@ -113,7 +124,10 @@ function Map() {
                 height: -45,
               },
             }}
-            position={currentPosition}
+            position={{
+              lat: parseFloat(userCurrentLocation.lat),
+              lng: parseFloat(userCurrentLocation.lng),
+            }}
           >
             <div>
               <p>Tu si ty</p>
