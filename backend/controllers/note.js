@@ -3,13 +3,14 @@ dotenv.config();
 import Note from "../models/note.js";
 
 export const saveNote = async (req, res) => {
-  const { creatorId, subjectId, content } = req.body;
-  console.log(creatorId, subjectId, content);
+  const { creatorId, subjectId, type, content } = req.body;
+  console.log(creatorId, subjectId, type, content);
 
   try {
     const newNote = new Note({
       creatorId: creatorId,
       subjectId: subjectId,
+      type: type,
       content: content,
     });
 

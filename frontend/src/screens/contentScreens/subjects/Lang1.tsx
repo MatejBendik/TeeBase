@@ -37,6 +37,7 @@ export default function LANG1() {
   const [newNote, setNewNote] = useState({
     userId: userData._id,
     subjectId: "1",
+    type: "",
     content: "Sem môžeš pridať tvoju poznámku.",
   });
 
@@ -62,7 +63,11 @@ export default function LANG1() {
           className={editablePoznamky ? "show" : "hide"}
           value={newNote.content}
           onChange={(e: any) => {
-            setNewNote({ ...newNote, ["content"]: e.target.value });
+            setNewNote({
+              ...newNote,
+              ["type"]: "poznamka",
+              ["content"]: e.target.value,
+            });
           }}
           onBlur={sanitize}
         />
@@ -84,7 +89,7 @@ export default function LANG1() {
               setEditablepoznamky(!editablePoznamky);
             }}
           >
-            Pridať
+            Pridať poznámku
           </button>
         )}
 
@@ -92,15 +97,28 @@ export default function LANG1() {
           <Canvas2 />
         </div>
 
-        <button
-          className="setEdit"
-          style={{ marginLeft: 10 }}
-          onClick={() => {
-            setEditableDraw(!editableDraw);
-          }}
-        >
-          {editableDraw ? "Ukončiť" : "Kresliť"}
-        </button>
+        {editableDraw ? (
+          <button
+            style={{ marginLeft: 10 }}
+            className="setEdit"
+            onClick={() => {
+              setEditableDraw(!editableDraw);
+              saveNote(newNote);
+            }}
+          >
+            Uložiť
+          </button>
+        ) : (
+          <button
+            style={{ marginLeft: 10 }}
+            className="setEdit"
+            onClick={() => {
+              setEditableDraw(!editableDraw);
+            }}
+          >
+            Nakresliť
+          </button>
+        )}
       </div>
     </Paper>
   );

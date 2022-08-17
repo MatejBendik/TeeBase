@@ -2,16 +2,18 @@ import { baseUrl } from "../../api/index";
 export interface noteProperties {
   subjectId: string;
   userId: string;
+  type: string;
   content: string;
 }
 
 export const saveNote = async ({
   subjectId,
   userId,
+  type,
   content,
 }: noteProperties) => {
   try {
-    console.log(subjectId, userId, content);
+    console.log(subjectId, userId, type, content);
     const response = await fetch(`${baseUrl}/note/saveNote`, {
       method: "POST",
       headers: {
@@ -22,6 +24,7 @@ export const saveNote = async ({
       body: JSON.stringify({
         creatorId: userId,
         subjectId: subjectId,
+        type: type,
         content: content,
       }),
     });
