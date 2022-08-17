@@ -36,7 +36,7 @@ export default function LANG1() {
   const userData = useSelector((state: any) => state.userData);
   const [newNote, setNewNote] = useState({
     userId: userData._id,
-    subjectID: "1",
+    subjectId: "1",
     content: "Sem môžeš pridať tvoju poznámku.",
   });
 
@@ -45,7 +45,6 @@ export default function LANG1() {
       ...newNote,
       content: sanitizeHtml(newNote.content, sanitizeConf),
     });
-    console.log(newNote.content);
     setNewUlohy(sanitizeHtml(newUlohy, sanitizeConf));
   };
 

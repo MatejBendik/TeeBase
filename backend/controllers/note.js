@@ -3,19 +3,18 @@ dotenv.config();
 import Note from "../models/note.js";
 
 export const saveNote = async (req, res) => {
-  const subjectId = req.params.id;
-  const { userId, content } = req.body;
-  console.log(subjectId, content, userId);
+  const { creatorId, subjectId, content } = req.body;
+  console.log(creatorId, subjectId, content);
 
   try {
     const newNote = new Note({
-      creatorId: userId,
+      creatorId: creatorId,
       subjectId: subjectId,
       content: content,
     });
 
     newNote.save();
   } catch (error) {
-    //res.status(500).json({ message: "Chyba servera: " + error });
+    res.status(500).json({ message: "Chyba servera: " + error });
   }
 };

@@ -1,30 +1,36 @@
 import { baseUrl } from "../../api/index";
 export interface noteProperties {
-  subjectID: string;
+  subjectId: string;
   userId: string;
   content: string;
 }
 
 export const saveNote = async ({
-  subjectID,
+  subjectId,
   userId,
   content,
 }: noteProperties) => {
   try {
-    console.log(subjectID, userId, content);
-    const response = await fetch(`${baseUrl}/subject/saveNote`, {
-      method: "PUT",
+    console.log(subjectId, userId, content);
+    const response = await fetch(`${baseUrl}/note/saveNote`, {
+      method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
-        subjectID: subjectID,
-        userId: userId,
+        creatorId: userId,
+        subjectId: subjectId,
         content: content,
       }),
     });
+
+    if (response.status === 500) {
+      const json = await response.json();
+      alert(json.message);
+      return;
+    }
 
     const json = await response.json();
     console.log(json);
