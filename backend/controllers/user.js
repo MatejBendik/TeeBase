@@ -1,204 +1,236 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
+import dotenv from "dotenv";
+dotenv.config();
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/user.js";
+
+export const login = async (req, res) => {
+  const { username, password, lat, lng } = req.body;
+  console.log(lat, lng);
+
+  try {
+    const existingUser = await User.findOne({ username: username });
+    if (!existingUser) {
+      return res.status(401).json({ message: "Používateľ neexistuje !" });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, existingUser.password);
+    if (!passwordMatch) {
+      return res.status(403).json({ message: "Heslo sa nezhoduje s menom" });
+    }
+
+    const token = jwt.sign(
+      {
+        id: existingUser._id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "24h" }
+    );
+
+    const user = await User.updateOne(
+      { username: username },
+      {
+        $set: {
+          "location.lat": lat,
+          "location.lng": lng,
+        },
+      }
+    );
+
+    return res.status(200).json({ user: existingUser, token: token });
+  } catch (error) {
+    res.status(500).json({ message: "Chyba servera" });
+  }
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.authenticateToken = exports.getUsersLocation = exports.editUser = exports.changePassword = exports.deleteUser = exports.getUser = exports.register = exports.login = void 0;
-require("dotenv").config();
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const user_1 = __importDefault(require("../models/user"));
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password, lat, lng } = req.body;
-    console.log(lat, lng);
-    try {
-        const existingUser = yield user_1.default.findOne({ username: username });
-        if (!existingUser) {
-            return res.status(401).json({ message: "Používateľ neexistuje !" });
-        }
-        const passwordMatch = yield bcryptjs_1.default.compare(password, existingUser.password);
-        if (!passwordMatch) {
-            return res.status(403).json({ message: "Heslo sa nezhoduje s menom" });
-        }
-        const token = jsonwebtoken_1.default.sign({
-            id: existingUser._id,
-        }, process.env.JWT_SECRET, { expiresIn: "24h" });
-        const user = yield user_1.default.updateOne({ username: username }, {
-            $set: {
-                "location.lat": lat,
-                "location.lng": lng,
-            },
-        });
-        return res.status(200).json({ user: existingUser, token: token });
-    }
-    catch (error) {
-        res.status(500).json({ message: "Chyba servera" });
-    }
-});
-exports.login = login;
-const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { firstName, lastName, email, username, password, lat, lng } = req.body;
-    try {
-        const existingUser = yield user_1.default.findOne({ username });
-        if (existingUser)
-            return res
-                .status(400)
-                .json({ message: "Užívateľ s týmto nickom už existuje !" });
-        const saltRounds = 12;
-        const hashedPassword = yield bcryptjs_1.default.hash(password, saltRounds);
-        const newUser = yield user_1.default.create({
-            firstName,
-            lastName,
-            email,
-            username,
-            password: hashedPassword,
-            location: { lat, lng },
-        });
-        const token = jsonwebtoken_1.default.sign({
-            id: newUser._id,
-            username: newUser.username,
-            password: newUser.password,
-        }, "test", { expiresIn: "24h" });
-        newUser.save();
-        res.status(200).json({ newUser, token });
-    }
-    catch (error) {
-        res.status(500).json({ message: "Chyba servera" });
-    }
-});
-exports.register = register;
-const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.params.id;
-    try {
-        const existingUser = yield user_1.default.findById(userId);
-        if (!existingUser) {
-            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
-        }
-        res.status(200).json(existingUser);
-    }
-    catch (error) {
-        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
-    }
-});
-exports.getUser = getUser;
-const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.params.id;
-    try {
-        const existingUser = yield user_1.default.findByIdAndDelete(userId);
-        if (!existingUser) {
-            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
-        }
-        res.status(200).json({ message: "Účet bol úspešne vymazaný" });
-    }
-    catch (error) {
-        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
-    }
-});
-exports.deleteUser = deleteUser;
-const changePassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.params.id;
-    const { oldPassword, newPassword, copyNewPassword } = req.body;
-    try {
-        const existingUser = yield user_1.default.findById(userId);
-        if (!existingUser) {
-            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
-        }
-        const passwordMatch = yield bcryptjs_1.default.compare(oldPassword, existingUser.password);
-        if (!passwordMatch) {
-            return res
-                .status(401)
-                .json({ message: "Heslo sa nezhoduje s vasím učtom" });
-        }
-        if (newPassword === oldPassword) {
-            return res
-                .status(402)
-                .json({ message: "Nové heslo sa zhoduje so starým !" });
-        }
-        if (newPassword !== copyNewPassword) {
-            return res.status(403).json({ message: "Nové heslá sa nezhodujú !" });
-        }
-        let newHashedPassword = yield bcryptjs_1.default.hash(newPassword, 12);
-        user_1.default.updateOne({ _id: userId }, { password: newHashedPassword }, (err, user) => {
-            console.log(err);
-        });
-        res.status(200).json({ message: "Heslo bolo zmenené" });
-    }
-    catch (error) {
-        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
-    }
-});
-exports.changePassword = changePassword;
-const editUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userId = req.params.id;
-    const { firstName, lastName, email, username } = req.body;
-    try {
-        const existingUser = yield user_1.default.findById(userId);
-        if (!existingUser) {
-            return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
-        }
-        user_1.default.updateOne({ _id: userId }, {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            username: username,
-        }, (err, user) => {
-            console.log(err);
-        });
-        res.status(200).json({ message: "Zmeny boly uložené" });
-    }
-    catch (error) {
-        res.status(500).json({ message: "Nepodarilo sa načítat profil" });
-    }
-});
-exports.editUser = editUser;
-const getUsersLocation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const users = yield user_1.default.find({});
-        let userMap = {};
-        users.forEach((user) => {
-            userMap[user.username] = {
-                username: user.username,
-                location: user.location,
-            };
-        });
-        console.log(userMap);
-        res.status(200).json(userMap);
-    }
-    catch (error) {
-        res
-            .status(500)
-            .json({ message: "Nepodarilo sa načítat používateľov a ich lokácie" });
-    }
-});
-exports.getUsersLocation = getUsersLocation;
-function authenticateToken(req, res, next) {
-    var _a;
-    return __awaiter(this, void 0, void 0, function* () {
-        const authHeader = req.headers["authorization"];
-        const token = authHeader && authHeader.split(" ")[1];
-        if (token == null)
-            return res.status(404).json({ message: "Neautorizovaný !" });
-        const JWT_SECRET = (_a = process.env.JWT_SECRET) !== null && _a !== void 0 ? _a : "nie je";
-        jsonwebtoken_1.default.verify(token, JWT_SECRET, (err, data) => {
-            if (err)
-                return res.status(405).json({ message: "Nemáš oprávnenie !" });
-            next();
-        });
+
+export const register = async (req, res) => {
+  const { firstName, lastName, email, username, password, lat, lng } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser)
+      return res
+        .status(400)
+        .json({ message: "Užívateľ s týmto nickom už existuje !" });
+
+    const saltRounds = 12;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      username,
+      password: hashedPassword,
+      location: { lat, lng },
     });
+
+    const token = jwt.sign(
+      {
+        id: newUser._id,
+        username: newUser.username,
+        password: newUser.password,
+      },
+      "test",
+      { expiresIn: "24h" }
+    );
+
+    newUser.save();
+    res.status(200).json({ newUser, token });
+  } catch (error) {
+    res.status(500).json({ message: "Chyba servera" });
+  }
+};
+
+export const getUser = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    res.status(200).json(existingUser);
+  } catch (error) {
+    res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+  }
+};
+
+export const deleteUser = async (req, res, next) => {
+  const userId = req.params.id;
+
+  try {
+    const existingUser = await User.findByIdAndDelete(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    res.status(200).json({ message: "Účet bol úspešne vymazaný" });
+  } catch (error) {
+    res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const userId = req.params.id;
+  const { oldPassword, newPassword, copyNewPassword } = req.body;
+
+  try {
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    const passwordMatch = await bcrypt.compare(
+      oldPassword,
+      existingUser.password
+    );
+    if (!passwordMatch) {
+      return res
+        .status(401)
+        .json({ message: "Heslo sa nezhoduje s vasím učtom" });
+    }
+
+    if (newPassword === oldPassword) {
+      return res
+        .status(402)
+        .json({ message: "Nové heslo sa zhoduje so starým !" });
+    }
+
+    if (newPassword !== copyNewPassword) {
+      return res.status(403).json({ message: "Nové heslá sa nezhodujú !" });
+    }
+
+    let newHashedPassword = await bcrypt.hash(newPassword, 12);
+
+    User.updateOne(
+      { _id: userId },
+      { password: newHashedPassword },
+      (err, user) => {
+        console.log(err);
+      }
+    );
+
+    res.status(200).json({ message: "Heslo bolo zmenené" });
+  } catch (error) {
+    res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+  }
+};
+
+export const editUser = async (req, res) => {
+  const userId = req.params.id;
+  const { firstName, lastName, email, username } = req.body;
+
+  try {
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+
+    User.updateOne(
+      { _id: userId },
+      {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        username: username,
+      },
+      (err, user) => {
+        console.log(err);
+      }
+    );
+
+    res.status(200).json({ message: "Zmeny boly uložené" });
+  } catch (error) {
+    res.status(500).json({ message: "Nepodarilo sa načítat profil" });
+  }
+};
+
+export const getUsersLocation = async (req, res) => {
+  try {
+    const users = await User.find({});
+    let userMap = {};
+
+    users.forEach((user) => {
+      userMap[user.username] = {
+        username: user.username,
+        location: user.location,
+      };
+    });
+    console.log(userMap);
+    res.status(200).json(userMap);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Nepodarilo sa načítat používateľov a ich lokácie" });
+  }
+};
+
+export async function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null)
+    return res.status(404).json({ message: "Neautorizovaný !" });
+
+  const JWT_SECRET = process.env.JWT_SECRET ?? "nie je";
+
+  jwt.verify(token, JWT_SECRET, (err, data) => {
+    if (err) return res.status(405).json({ message: "Nemáš oprávnenie !" });
+
+    next();
+  });
 }
-exports.authenticateToken = authenticateToken;
+
 /* cookies nejdu
-    res.cookie("access-token", token, {
-      expires: new Date(Date.now() * 3600000),         // cas sa zadava v ms, 1hod = 3 600 000ms
+    res.cookie("access-token", token, { 
+      expires: new Date(Date.now() * 3600000),         // cas sa zadava v ms, 1hod = 3 600 000ms 
       httpOnly: true,
       secure: process.env.NODE_ENV === "production"    // ked to je v produkcii secure je true, ked ne ta false, ked je true tak v produkcii musime mat SSL
     });

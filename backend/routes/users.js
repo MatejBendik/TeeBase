@@ -1,16 +1,23 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const user_1 = require("../controllers/user");
-const router = express_1.default.Router();
-router.put("/login", user_1.login);
-router.post("/register", user_1.register);
-router.get("/getUser/:id", user_1.authenticateToken, user_1.getUser);
-router.delete("/deleteUser/:id", user_1.authenticateToken, user_1.deleteUser);
-router.put("/:id/changePassword", user_1.authenticateToken, user_1.changePassword);
-router.put("/:id/editUser", user_1.authenticateToken, user_1.editUser);
-router.get("/getUsersLocation", user_1.authenticateToken, user_1.getUsersLocation);
-exports.default = router;
+import express from "express";
+import {
+  login,
+  register,
+  getUser,
+  deleteUser,
+  changePassword,
+  editUser,
+  getUsersLocation,
+  authenticateToken,
+} from "../controllers/user.js";
+
+const router = express.Router();
+
+router.put("/login", login);
+router.post("/register", register);
+router.get("/getUser/:id", authenticateToken, getUser);
+router.delete("/deleteUser/:id", authenticateToken, deleteUser);
+router.put("/:id/changePassword", authenticateToken, changePassword);
+router.put("/:id/editUser", authenticateToken, editUser);
+router.get("/getUsersLocation", authenticateToken, getUsersLocation);
+
+export default router;
