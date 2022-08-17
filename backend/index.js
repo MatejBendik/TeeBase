@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import userRoutes from "./routes/users.js";
 import subjectRoutes from "./routes/subject.js";
 import noteRoutes from "./routes/note.js";
+import taskRoutes from "./routes/task.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -15,6 +16,7 @@ app.use(express.json(), cors({ origin: "*" }));
 app.use("/user", userRoutes);
 app.use("/subject", subjectRoutes);
 app.use("/note", noteRoutes);
+app.use("/task", taskRoutes);
 app.use(cookieParser());
 
 // Pripojenie na databazu

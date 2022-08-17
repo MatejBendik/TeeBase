@@ -10,30 +10,16 @@ import Paper from "@mui/material/Paper";
 import Canvas2 from "../../../components/Canvas2/Canvas2";
 
 import { saveNote } from "../../../actions/materials/saveNote";
+import { saveTask } from "../../../actions/materials/saveTask";
 
 export default function LANG1() {
+  const userData = useSelector((state: any) => state.userData);
+
   /* Poznamky */
   const [checkedPoznamky, setCheckedPoznamky] = useState(true);
-  const [contentPoznamky, editContentPoznamky] = useState(
-    "<p>Sem môžeš začať pridávať svoje poznámky ...</p>"
-  );
   const [editablePoznamky, setEditablepoznamky] = useState(false);
-  const [editableDraw, setEditableDraw] = useState(false);
+  const [editableDrawPoznamky, setEditableDrawPoznamky] = useState(false);
 
-  /* Ulohy */
-  const [checkedUlohy, setCheckedlohy] = useState(false);
-  const [contentULohy, editContentUlohy] = useState(
-    "<p>Sem môžeš začať pridávať svoje úlohy ....................................................................................... ............... </p>"
-  );
-  const [newUlohy, setNewUlohy] = useState("");
-  const [editableUlohy, setEditableUlohy] = useState(false);
-
-  const sanitizeConf = {
-    allowedTags: ["b", "i", "em", "strong", "a", "p", "h1", "h2", "h3", "img"],
-    allowedAttributes: { a: ["href"], img: ["src"] },
-  };
-
-  const userData = useSelector((state: any) => state.userData);
   const [newNote, setNewNote] = useState({
     userId: userData._id,
     subjectId: "1",
@@ -41,12 +27,33 @@ export default function LANG1() {
     content: "Sem môžeš pridať tvoju poznámku.",
   });
 
+  /* Ulohy */
+  const [checkedUlohy, setCheckedlohy] = useState(false);
+  const [editableUlohy, setEditableUlohy] = useState(false);
+  const [editableDrawUlohy, setEditableDrawUlohy] = useState(false);
+
+  const sanitizeConf = {
+    allowedTags: ["b", "i", "em", "strong", "a", "p", "h1", "h2", "h3", "img"],
+    allowedAttributes: { a: ["href"], img: ["src"] },
+  };
+
+  const [newTask, setNewTask] = useState({
+    userId: userData._id,
+    subjectId: "1",
+    type: "",
+    content:
+      "Sem môžeš pridať tvoju úlohu ..............................................................................................................................",
+  });
+
   const sanitize = () => {
     setNewNote({
       ...newNote,
       content: sanitizeHtml(newNote.content, sanitizeConf),
     });
-    setNewUlohy(sanitizeHtml(newUlohy, sanitizeConf));
+    setNewTask({
+      ...newTask,
+      content: sanitizeHtml(newTask.content, sanitizeConf),
+    });
   };
 
   const poznamky = (
@@ -78,6 +85,13 @@ export default function LANG1() {
             onClick={() => {
               setEditablepoznamky(!editablePoznamky);
               saveNote(newNote);
+              setNewNote({
+                ...newNote,
+                ["userId"]: "",
+                ["subjectId"]: "",
+                ["type"]: "",
+                ["content"]: "",
+              });
             }}
           >
             Uložiť
@@ -93,16 +107,16 @@ export default function LANG1() {
           </button>
         )}
 
-        <div className={editableDraw ? "showCanvas" : "hideCanvas"}>
+        <div className={editableDrawPoznamky ? "showCanvas" : "hideCanvas"}>
           <Canvas2 />
         </div>
 
-        {editableDraw ? (
+        {editableDrawPoznamky ? (
           <button
             style={{ marginLeft: 10 }}
             className="setEdit"
             onClick={() => {
-              setEditableDraw(!editableDraw);
+              setEditableDrawPoznamky(!editableDrawPoznamky);
               saveNote(newNote);
             }}
           >
@@ -113,7 +127,7 @@ export default function LANG1() {
             style={{ marginLeft: 10 }}
             className="setEdit"
             onClick={() => {
-              setEditableDraw(!editableDraw);
+              setEditableDrawPoznamky(!editableDrawPoznamky);
             }}
           >
             Nakresliť
@@ -128,28 +142,51 @@ export default function LANG1() {
       <div className="ulohy">
         <ContentEditable
           tagName="pre"
-          html={contentULohy}
+          html={newTask.content}
           disabled={true}
           onChange={() => {}}
         />
 
         <textarea
           className={editableUlohy ? "show" : "hide"}
-          value={newUlohy}
+          value={newTask.content}
           onChange={(e: any) => {
-            setNewUlohy(e.target.value);
+            setNewTask({
+              ...newTask,
+              ["type"]: "uloha",
+              ["content"]: e.target.value,
+            });
           }}
           onBlur={sanitize}
         />
 
-        <button
-          className="setEdit"
-          onClick={() => {
-            setEditableUlohy(!editableUlohy);
-          }}
-        >
-          {editableUlohy ? "Uložiť" : "Pridať"}
-        </button>
+        {editableUlohy ? (
+          <button
+            className="setEdit"
+            onClick={() => {
+              setEditableUlohy(!editableUlohy);
+              saveTask(newTask);
+              setNewTask({
+                ...newTask,
+                ["userId"]: "",
+                ["subjectId"]: "",
+                ["type"]: "",
+                ["content"]: "",
+              });
+            }}
+          >
+            Uložiť
+          </button>
+        ) : (
+          <button
+            className="setEdit"
+            onClick={() => {
+              setEditableUlohy(!editableUlohy);
+            }}
+          >
+            Pridať poznámku
+          </button>
+        )}
       </div>
     </Paper>
   );
