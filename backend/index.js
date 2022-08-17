@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import userRoutes from "./routes/users.js";
 import subjectRoutes from "./routes/subject.js";
+import noteRoutes from "./routes/note.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -13,6 +14,7 @@ const port = 8080;
 app.use(express.json(), cors({ origin: "*" }));
 app.use("/user", userRoutes);
 app.use("/subject", subjectRoutes);
+app.use("/note", noteRoutes);
 app.use(cookieParser());
 
 // Pripojenie na databazu
