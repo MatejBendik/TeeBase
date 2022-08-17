@@ -12,7 +12,7 @@ export const saveNote = async ({
 }: noteProperties) => {
   try {
     console.log(subjectID, userId, content);
-    const response = await fetch(`${baseUrl}/subject/saveNote/${subjectID}`, {
+    const response = await fetch(`${baseUrl}/subject/saveNote`, {
       method: "PUT",
       headers: {
         Accept: "application/json",
@@ -20,6 +20,7 @@ export const saveNote = async ({
         "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify({
+        subjectID: subjectID,
         userId: userId,
         content: content,
       }),

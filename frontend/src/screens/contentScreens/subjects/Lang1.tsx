@@ -42,8 +42,8 @@ export default function LANG1() {
 
   const userData = useSelector((state: any) => state.userData);
   const [newNote, setNewNote] = useState({
-    subjectID: "1",
     userId: userData._id,
+    subjectID: "1",
     content: "Updateee",
   });
 
@@ -61,7 +61,7 @@ export default function LANG1() {
           className={editablePoznamky ? "show" : "hide"}
           value={newPoznamky}
           onChange={(e: any) => {
-            setNewPoznamky(e.target.value);
+            setNewNote({ ...newNote, ["content"]: e });
           }}
           onBlur={sanitize}
         />
