@@ -75,7 +75,7 @@ Install dependencies
 Start Node server on port 8080
 
 ```bash
-  npm run dev
+  nodemon
 ```
 
 ## Screenshots
@@ -92,6 +92,7 @@ Start Node server on port 8080
 
 <img width="1072" alt="Screenshot 2022-08-16 at 12 55 58" src="https://user-images.githubusercontent.com/75170699/184863164-06b9fd1b-60f6-4aff-9a13-e990c144483f.png">
 
+<img width="1188" alt="Screenshot 2022-08-17 at 10 54 24" src="https://user-images.githubusercontent.com/75170699/185077652-3a9ab60e-01d0-4341-a1a4-34abc83ec66f.png">
 
 ## Authors
 
