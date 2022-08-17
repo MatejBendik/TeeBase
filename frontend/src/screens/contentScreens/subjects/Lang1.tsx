@@ -17,7 +17,6 @@ export default function LANG1() {
   const [contentPoznamky, editContentPoznamky] = useState(
     "<p>Sem môžeš začať pridávať svoje poznámky ...</p>"
   );
-  const [newPoznamky, setNewPoznamky] = useState("");
   const [editablePoznamky, setEditablepoznamky] = useState(false);
   const [editableDraw, setEditableDraw] = useState(false);
 
@@ -27,7 +26,6 @@ export default function LANG1() {
     "<p>Sem môžeš začať pridávať svoje úlohy ....................................................................................... ............... </p>"
   );
   const [newUlohy, setNewUlohy] = useState("");
-
   const [editableUlohy, setEditableUlohy] = useState(false);
 
   const sanitizeConf = {
@@ -35,46 +33,61 @@ export default function LANG1() {
     allowedAttributes: { a: ["href"], img: ["src"] },
   };
 
-  const sanitize = () => {
-    setNewPoznamky(sanitizeHtml(newPoznamky, sanitizeConf));
-    setNewUlohy(sanitizeHtml(newUlohy, sanitizeConf));
-  };
-
   const userData = useSelector((state: any) => state.userData);
   const [newNote, setNewNote] = useState({
     userId: userData._id,
     subjectID: "1",
-    content: "Updateee",
+    content: "Sem môžeš pridať tvoju poznámku.",
   });
+
+  const sanitize = () => {
+    setNewNote({
+      ...newNote,
+      content: sanitizeHtml(newNote.content, sanitizeConf),
+    });
+    console.log(newNote.content);
+    setNewUlohy(sanitizeHtml(newUlohy, sanitizeConf));
+  };
 
   const poznamky = (
     <Paper sx={{ m: 1 }} elevation={4}>
       <div className="poznamky">
         <ContentEditable
           tagName="pre"
-          html={contentPoznamky}
+          html={newNote.content}
           disabled={true}
           onChange={() => {}}
         />
 
         <textarea
           className={editablePoznamky ? "show" : "hide"}
-          value={newPoznamky}
+          value={newNote.content}
           onChange={(e: any) => {
-            setNewNote({ ...newNote, ["content"]: e });
+            setNewNote({ ...newNote, ["content"]: e.target.value });
           }}
           onBlur={sanitize}
         />
 
-        <button
-          className="setEdit"
-          onClick={() => {
-            setEditablepoznamky(!editablePoznamky);
-            saveNote(newNote);
-          }}
-        >
-          {editablePoznamky ? "Uložiť" : "Pridať"}
-        </button>
+        {editablePoznamky ? (
+          <button
+            className="setEdit"
+            onClick={() => {
+              setEditablepoznamky(!editablePoznamky);
+              saveNote(newNote);
+            }}
+          >
+            Uložiť
+          </button>
+        ) : (
+          <button
+            className="setEdit"
+            onClick={() => {
+              setEditablepoznamky(!editablePoznamky);
+            }}
+          >
+            Pridať
+          </button>
+        )}
 
         <div className={editableDraw ? "showCanvas" : "hideCanvas"}>
           <Canvas2 />
