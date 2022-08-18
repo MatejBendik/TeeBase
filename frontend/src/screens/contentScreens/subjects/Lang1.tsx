@@ -184,7 +184,7 @@ export default function LANG1() {
               setEditableUlohy(!editableUlohy);
             }}
           >
-            Pridať poznámku
+            Pridať úlohu
           </button>
         )}
       </div>
