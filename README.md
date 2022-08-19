@@ -7,7 +7,29 @@ A custom learning platform for private group of university students. It allows u
 
 **Client:** React, Redux, Material UI, TypeScript
 
+<p align="left">
+
+<a href="https://reactjs.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/react-colored.svg" width="36" height="36" alt="React" /></a>
+&nbsp;
+<a href="https://redux.js.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/redux-colored.svg" width="36" height="36" alt="Redux" /></a>
+&nbsp;
+<a href="https://mui.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/materialui-colored.svg" width="36" height="36" alt="Material UI" /></a>
+&nbsp;
+<a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/typescript-colored.svg" width="36" height="36" alt="TypeScript" /></a>
+&nbsp;
+
+</p>
+
 **Server:** Node, Express, MongoDB
+
+<p align="left">
+
+<a href="https://nodejs.org/en/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/nodejs-colored.svg" width="36" height="36" alt="NodeJS" /></a>
+&nbsp;
+<a href="https://expressjs.com/" target="_blank" rel="noreferrer"><img src="https://user-images.githubusercontent.com/75170699/182100215-f7838f27-d4c0-412d-89af-aee5606b02a1.svg" width="36" height="36" alt="Express" /></a>
+<a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/mongodb-colored.svg" width="36" height="36" alt="MongoDB" /></a>
+
+</p>
 
 
 ## Installation
