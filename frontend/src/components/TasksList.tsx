@@ -62,7 +62,7 @@ export default function TasksList(props: any) {
       />
 
       <textarea
-        className={editableDrawUlohy ? "show" : "hide"}
+        className={editableUlohy ? "show" : "hide"}
         value={newTask.content}
         onChange={(e: any) => {
           setNewTask({
@@ -74,18 +74,18 @@ export default function TasksList(props: any) {
         onBlur={sanitize}
       />
 
-      {editableDrawUlohy ? (
+      {editableUlohy ? (
         <button
           className="setEdit"
           onClick={() => {
-            setEditableUlohy(!editableDrawUlohy);
             saveTask(newTask);
-            refetch();
+            setEditableUlohy(!editableUlohy);
             setNewTask({
               ...newTask,
               ["type"]: "",
               ["content"]: "",
             });
+            refetch();
           }}
         >
           Uložiť

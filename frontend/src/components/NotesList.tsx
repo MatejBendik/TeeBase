@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
 
@@ -67,7 +67,7 @@ export default function NotesList(props: any) {
         onChange={(e: any) => {
           setNewNote({
             ...newNote,
-            ["type"]: "poznamka",
+            ["type"]: "note",
             ["content"]: e.target.value,
           });
         }}
