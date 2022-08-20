@@ -31,7 +31,7 @@ export default function Login() {
     });
 
   useEffect(() => {
-    const userToken = localStorage.getItem("accesToken");
+    const userToken = localStorage.getItem("accessToken");
 
     if (userToken) {
       navigate("/app");

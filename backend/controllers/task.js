@@ -19,3 +19,15 @@ export const saveTask = async (req, res) => {
     res.status(500).json({ message: "Chyba servera: " + error });
   }
 };
+
+export const getTasks = async (req, res) => {
+  const { userId, subjectId } = req.params;
+
+  try {
+    const notes = await Task.find({ creatorId: userId });
+
+    res.status(200).json(notes);
+  } catch (error) {
+    res.status(500).json({ message: "Chyba servera: " + error });
+  }
+};
