@@ -40,8 +40,6 @@ export default function Register() {
       "Toto je úvodná úloha, začni ju upravovať stlačením tlačidla Upraviť úlohu. Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
   });
 
-  console.log(welcomeNote, welcomeTask);
-
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
