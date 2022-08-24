@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 
 import Input from "../../components/Input";
 import { sendRegister } from "../../actions/user/registerFetch";
+import { saveNote } from "../../actions/materials/saveNote";
+import { saveTask } from "../../actions/materials/saveTask";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -21,6 +23,24 @@ export default function Register() {
     lat: "",
     lng: "",
   });
+
+  const [welcomeNote, setWelcomeNote] = useState({
+    subjectId: "0",
+    userId: "000",
+    type: "note",
+    content:
+      "Toto je úvodná poznámka, začni ju upravovať stlačením tlačidla Upraviť poznámku. Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
+  });
+
+  const [welcomeTask, setWelcomeTask] = useState({
+    subjectId: "0",
+    userId: "000",
+    type: "task",
+    content:
+      "Toto je úvodná úloha, začni ju upravovať stlačením tlačidla Upraviť úlohu. Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
+  });
+
+  console.log(welcomeNote, welcomeTask);
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -72,7 +92,12 @@ export default function Register() {
       alert("Vyplňte polia !");
       return;
     }
-    sendRegister(registerData, navigate);
+    sendRegister(
+      registerData,
+      navigate,
+      saveNote(welcomeNote),
+      saveTask(welcomeTask)
+    );
 
     setRegisterData({
       ...registerData,

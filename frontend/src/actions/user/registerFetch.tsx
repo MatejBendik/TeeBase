@@ -19,7 +19,9 @@ export const sendRegister = async (
     lat,
     lng,
   }: registerProperties,
-  navigate: any
+  navigate: any,
+  saveNote: any,
+  saveTask: any
 ) => {
   try {
     const response = await fetch(`${baseUrl}/user/register`, {
