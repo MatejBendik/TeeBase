@@ -1,7 +1,8 @@
+<img width="50" height="60"  src="https://user-images.githubusercontent.com/75170699/186649425-f39a4f79-5476-4942-afe6-e987f4a80cbb.png"> 
 
-# <img width="30" height="25"  src="https://user-images.githubusercontent.com/75170699/184863454-a5a20d19-d30a-4e9e-95e1-a22c8dbc1eba.png" alt="TeeBase logo"> TeeBase 
+# TeeBase 
 
-A custom learning platform for private group of university students. It allows users to store Notes and Tasks with hand-drawn images.
+A custom learning platform for private group of university students. It allows users to store Notes and Tasks with hand-drawn images. Every user has its own Notes & Tasks. It also provides a dynamically updated map with all registered users.
 
 ## Tech Stack
 
