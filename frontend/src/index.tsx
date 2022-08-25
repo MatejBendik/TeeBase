@@ -10,6 +10,8 @@ import allReducers from "./reducers/index";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 let store = createStore(allReducers);
+
+/*
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,6 +19,9 @@ const queryClient = new QueryClient({
     },
   },
 });
+*/
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

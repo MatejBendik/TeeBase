@@ -31,3 +31,14 @@ export const getNotes = async (req, res) => {
     res.status(500).json({ message: "Chyba servera: " + error });
   }
 };
+
+export const getLatestNote = async (req, res) => {
+  try {
+    const note = await Note.findOne().sort({ createdAt: -1 }).limit(1).exec();
+
+    res.status(200).json(note);
+    console.log("Toto je note: " + note);
+  } catch (error) {
+    res.status(500).json({ message: "Chyba servera: " + error });
+  }
+};

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
+import axios from "axios";
 
 import Canvas2 from "../components/Canvas2/Canvas2";
 
@@ -31,28 +32,26 @@ export default function TasksList(props: any) {
     });
   };
 
-  const { isLoading, error, data, refetch } = useQuery(["getTasks"], () =>
-    fetch(`${baseUrl}/task/getTasks/${props.userId}/${props.subjectId}`).then(
-      (res) => res.json()
-    )
-  );
-  let tasks = data;
-  console.log(tasks);
+  const fetchTask = async () => {
+    const { data } = await axios.get(`${baseUrl}/task/getLatestTask`);
+    return data;
+  };
 
+  const { data, isLoading, error } = useQuery(["getTask"], fetchTask);
+
+  console.log(data);
   if (isLoading) return <p>Načítavam ...</p>;
 
   if (error) return <p>Chyba pri načítavaní ! </p>;
 
   return (
     <>
-      {tasks.map((task: any) => (
-        <ContentEditable
-          tagName="pre"
-          html={task.content}
-          disabled={true}
-          onChange={() => {}}
-        />
-      ))}
+      <ContentEditable
+        tagName="pre"
+        html={data.content}
+        disabled={true}
+        onChange={() => {}}
+      />
 
       <ContentEditable
         tagName="pre"
@@ -85,7 +84,6 @@ export default function TasksList(props: any) {
               ["type"]: "",
               ["content"]: "",
             });
-            refetch();
           }}
         >
           Uložiť
@@ -97,7 +95,7 @@ export default function TasksList(props: any) {
             setEditableUlohy(!editableUlohy);
           }}
         >
-          Pridať poznámku
+          Upraviť úlohu
         </button>
       )}
 

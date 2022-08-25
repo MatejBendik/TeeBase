@@ -31,3 +31,14 @@ export const getTasks = async (req, res) => {
     res.status(500).json({ message: "Chyba servera: " + error });
   }
 };
+
+export const getLatestTask = async (req, res) => {
+  try {
+    const task = await Task.findOne().sort({ createdAt: -1 }).limit(1).exec();
+
+    res.status(200).json(task);
+    console.log("Toto je task: " + task);
+  } catch (error) {
+    res.status(500).json({ message: "Chyba servera: " + error });
+  }
+};

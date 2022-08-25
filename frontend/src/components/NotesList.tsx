@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
+import axios from "axios";
 
 import Canvas2 from "../components/Canvas2/Canvas2";
 
@@ -31,28 +32,36 @@ export default function NotesList(props: any) {
     });
   };
 
-  const { isLoading, error, data, refetch } = useQuery(["getNotes"], () =>
-    fetch(`${baseUrl}/note/getNotes/${props.userId}/${props.subjectId}`).then(
-      (res) => res.json()
-    )
-  );
-  let notes = data;
-  console.log(notes);
+  const fetchNote = async () => {
+    const { data } = await axios.get(`${baseUrl}/note/getLatestNote`);
+    return data;
+  };
+
+  const { data, isLoading, error } = useQuery(["getNote"], fetchNote);
 
   if (isLoading) return <p>Načítavam ...</p>;
 
   if (error) return <p>Chyba pri načítavaní ! </p>;
 
+  /*
+
+  const { isLoading, error, data, refetch } = useQuery(["getNotes"], () =>
+    fetch(`${baseUrl}/note/getNotes/${props.userId}/${props.subjectId}`).then(
+      (res) => res.json()
+    )
+  );
+
+
+  */
+
   return (
     <>
-      {notes.map((note: any) => (
-        <ContentEditable
-          tagName="pre"
-          html={note.content}
-          disabled={true}
-          onChange={() => {}}
-        />
-      ))}
+      <ContentEditable
+        tagName="pre"
+        html={data.content}
+        disabled={true}
+        onChange={() => {}}
+      />
 
       <ContentEditable
         tagName="pre"
@@ -80,7 +89,6 @@ export default function NotesList(props: any) {
           onClick={() => {
             setEditablepoznamky(!editablePoznamky);
             saveNote(newNote);
-            refetch();
             setNewNote({
               ...newNote,
               ["type"]: "",
@@ -97,7 +105,7 @@ export default function NotesList(props: any) {
             setEditablepoznamky(!editablePoznamky);
           }}
         >
-          Pridať poznámku
+          Upraviť poznámku
         </button>
       )}
 
