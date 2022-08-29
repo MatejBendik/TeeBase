@@ -2,12 +2,9 @@ import { useState } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import ContentEditable from "react-contenteditable";
 import sanitizeHtml from "sanitize-html";
-import axios from "axios";
+import * as api from "../api/notesApi";
 
 import Canvas2 from "../components/Canvas2/Canvas2";
-
-import { baseUrl } from "../api/index";
-import { saveNote } from "../actions/materials/saveNote";
 
 export default function NotesList(props: any) {
   const [editablePoznamky, setEditablepoznamky] = useState(false);
@@ -32,47 +29,33 @@ export default function NotesList(props: any) {
     });
   };
 
-  const fetchNote = async () => {
-    const { data } = await axios.get(`${baseUrl}/note/getLatestNote`);
-    return data;
+  const handleChange = (e: any) => {
+    const { value } = e.target;
+    setNewNote({ ...newNote, ["type"]: "note", ["content"]: value });
   };
 
-  const { data, isLoading, error } = useQuery(["getNote"], fetchNote);
+  // useMutation musi byt nad useQuery v kode
+
+  const { mutate, status } = useMutation(api.updateNote);
+
+  const { data, isLoading, isFetching, isError } = useQuery(
+    ["getNote"],
+    api.getNote
+  );
 
   if (isLoading) return <p>Načítavam ...</p>;
 
-  if (error) return <p>Chyba pri načítavaní ! </p>;
+  if (isError) return <p>Chyba pri načítavaní ! </p>;
 
-  /*
-
-  const { isLoading, error, data, refetch } = useQuery(["getNotes"], () =>
-    fetch(`${baseUrl}/note/getNotes/${props.userId}/${props.subjectId}`).then(
-      (res) => res.json()
-    )
-  );
-
-
-  */
+  if (isFetching) return <p>Načítavam najnovšie dáta...</p>;
 
   return (
     <>
+      {/*
       <ContentEditable
         tagName="pre"
         html={data.content}
         disabled={true}
-        onChange={() => {}}
-      />
-
-      <ContentEditable
-        tagName="pre"
-        html={newNote.content}
-        disabled={true}
-        onChange={() => {}}
-      />
-
-      <textarea
-        className={editablePoznamky ? "show" : "hide"}
-        value={newNote.content}
         onChange={(e: any) => {
           setNewNote({
             ...newNote,
@@ -80,6 +63,20 @@ export default function NotesList(props: any) {
             ["content"]: e.target.value,
           });
         }}
+      />
+      */}
+
+      <ContentEditable
+        tagName="pre"
+        html={editablePoznamky ? newNote.content : data.content}
+        disabled={true}
+        onChange={handleChange}
+      />
+
+      <textarea
+        className={editablePoznamky ? "show" : "hide"}
+        value={newNote.content}
+        onChange={handleChange}
         onBlur={sanitize}
       />
 
@@ -88,12 +85,11 @@ export default function NotesList(props: any) {
           className="setEdit"
           onClick={() => {
             setEditablepoznamky(!editablePoznamky);
-            saveNote(newNote);
+            //saveNote(newNote);
             setNewNote({
               ...newNote,
-              ["type"]: "",
-              ["content"]: "",
             });
+            mutate(newNote);
           }}
         >
           Uložiť
@@ -103,6 +99,10 @@ export default function NotesList(props: any) {
           className="setEdit"
           onClick={() => {
             setEditablepoznamky(!editablePoznamky);
+            setNewNote({
+              ...newNote,
+              ["content"]: newNote.content,
+            });
           }}
         >
           Upraviť poznámku
