@@ -68,10 +68,8 @@ export const register = async (req, res) => {
     const token = jwt.sign(
       {
         id: newUser._id,
-        username: newUser.username,
-        password: newUser.password,
       },
-      "test",
+      process.env.JWT_SECRET,
       { expiresIn: "24h" }
     );
 
