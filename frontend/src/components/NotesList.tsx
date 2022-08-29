@@ -7,8 +7,8 @@ import * as api from "../api/notesApi";
 import Canvas2 from "../components/Canvas2/Canvas2";
 
 export default function NotesList(props: any) {
-  const [editablePoznamky, setEditablepoznamky] = useState(false);
-  const [editableDrawPoznamky, setEditableDrawPoznamky] = useState(false);
+  const [isEditting, setIsEditing] = useState(false);
+  const [isDrawing, setIsDrawing] = useState(false);
 
   const [newNote, setNewNote] = useState({
     userId: props.userId,
@@ -16,6 +16,11 @@ export default function NotesList(props: any) {
     type: "",
     content: "",
   });
+
+  const handleChange = (e: any) => {
+    const { value } = e.target;
+    setNewNote({ ...newNote, ["type"]: "note", ["content"]: value });
+  };
 
   const sanitizeConf = {
     allowedTags: ["b", "i", "em", "strong", "a", "p", "h1", "h2", "h3", "img"],
@@ -29,9 +34,8 @@ export default function NotesList(props: any) {
     });
   };
 
-  const handleChange = (e: any) => {
-    const { value } = e.target;
-    setNewNote({ ...newNote, ["type"]: "note", ["content"]: value });
+  const handleSave = (e: any) => {
+    console.log(newNote);
   };
 
   // useMutation musi byt nad useQuery v kode
@@ -68,23 +72,24 @@ export default function NotesList(props: any) {
 
       <ContentEditable
         tagName="pre"
-        html={editablePoznamky ? newNote.content : data.content}
+        html={isEditting ? newNote.content : data.content}
         disabled={true}
         onChange={handleChange}
       />
 
       <textarea
-        className={editablePoznamky ? "show" : "hide"}
+        className={isEditting ? "show" : "hide"}
+        name="content"
         value={newNote.content}
         onChange={handleChange}
         onBlur={sanitize}
       />
 
-      {editablePoznamky ? (
+      {isEditting ? (
         <button
           className="setEdit"
           onClick={() => {
-            setEditablepoznamky(!editablePoznamky);
+            setIsEditing(!isEditting);
             //saveNote(newNote);
             setNewNote({
               ...newNote,
@@ -98,7 +103,7 @@ export default function NotesList(props: any) {
         <button
           className="setEdit"
           onClick={() => {
-            setEditablepoznamky(!editablePoznamky);
+            setIsEditing(!isEditting);
             setNewNote({
               ...newNote,
               ["content"]: newNote.content,
@@ -109,16 +114,16 @@ export default function NotesList(props: any) {
         </button>
       )}
 
-      <div className={editableDrawPoznamky ? "showCanvas" : "hideCanvas"}>
+      <div className={isDrawing ? "showCanvas" : "hideCanvas"}>
         <Canvas2 />
       </div>
 
-      {editableDrawPoznamky ? (
+      {isDrawing ? (
         <button
           style={{ marginLeft: 10 }}
           className="setEdit"
           onClick={() => {
-            setEditableDrawPoznamky(!editableDrawPoznamky);
+            setIsDrawing(!isDrawing);
           }}
         >
           Uložiť
@@ -128,7 +133,7 @@ export default function NotesList(props: any) {
           style={{ marginLeft: 10 }}
           className="setEdit"
           onClick={() => {
-            setEditableDrawPoznamky(!editableDrawPoznamky);
+            setIsDrawing(!isDrawing);
           }}
         >
           Nakresliť
