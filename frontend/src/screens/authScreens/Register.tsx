@@ -29,7 +29,7 @@ export default function Register() {
     userId: "000",
     type: "note",
     content:
-      "Toto je úvodná poznámka, začni ju upravovať stlačením tlačidla Upraviť poznámku. Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
+      "<b>Toto je úvodná poznámka,</b> začni ju upravovať stlačením tlačidla Upraviť poznámku. <br> Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
   });
 
   const [welcomeTask, setWelcomeTask] = useState({
@@ -37,7 +37,7 @@ export default function Register() {
     userId: "000",
     type: "task",
     content:
-      "Toto je úvodná úloha, začni ju upravovať stlačením tlačidla Upraviť úlohu. Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
+      "<b>Toto je úvodná úloha,</b> začni ju upravovať stlačením tlačidla Upraviť úlohu. <br> Pri písaní môžeš použiť aj tieto HTML tagy: h1, h2, h3, b, i, em, a, p, img, strong",
   });
 
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
