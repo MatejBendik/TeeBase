@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
+import emailjs from "@emailjs/browser";
 /* import { GoogleLogin } from "react-google-login";*/
 
 import Button from "@mui/material/Button";
@@ -7,6 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import Input from "../../components/Input";
+import { getUserFetch } from "../../actions/user/getUserFetch";
 
 export default function ForgottenPassword() {
   const navigate = useNavigate();
@@ -24,7 +26,7 @@ export default function ForgottenPassword() {
     email: "",
   });
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!forgottenPData.username.length || !forgottenPData.email.length) {
@@ -32,10 +34,28 @@ export default function ForgottenPassword() {
       return;
     }
 
+    emailjs
+      .sendForm(
+        "service_7dwczv2",
+        "template_w5qxilf",
+        e.target,
+        "c0skZxYVR9s9vYEDB"
+      )
+      .then(
+        (result) => {
+          result.status == 200
+            ? alert("Správa bola odoslaná")
+            : alert("Takýto nick alebo email neexistuje");
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+
     setForgottenPData({ ...forgottenPData, ["username"]: "", ["email"]: "" });
   };
 
-  const handleChangeForgotten = (e: any) => {
+  const handleChangeForgotten = (e) => {
     setForgottenPData({ ...forgottenPData, [e.target.name]: e.target.value });
   };
 
@@ -53,7 +73,7 @@ export default function ForgottenPassword() {
     }
   }; */
 
-  const googleFailure = (error: any) => {
+  const googleFailure = (error) => {
     console.log(error);
   };
 
@@ -88,6 +108,7 @@ export default function ForgottenPassword() {
         >
           Odoslať email
         </Button>
+
         {/*   <GoogleLogin
               clientId="1088267011890-bnbnlc5mluso8pmn86h3g3qe8vju1tmh.apps.googleusercontent.com"
               render={(renderProps) => (
