@@ -8,7 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
 import Input from "../../components/Input";
-import { getUserFetch } from "../../actions/user/getUserFetch";
+import { forgotUserDataFetch } from "../../actions/user/forgotUserDataFetch";
 
 export default function ForgottenPassword() {
   const navigate = useNavigate();
@@ -33,6 +33,8 @@ export default function ForgottenPassword() {
       alert("Vyplňte polia !");
       return;
     }
+
+    const userData = forgotUserDataFetch(forgottenPData);
 
     emailjs
       .sendForm(

@@ -7,6 +7,7 @@ import {
   changePassword,
   editUser,
   getUsersLocation,
+  forgotUserDataFetch,
   authenticateToken,
 } from "../controllers/user.js";
 
@@ -19,5 +20,6 @@ router.delete("/deleteUser/:id", authenticateToken, deleteUser);
 router.put("/:id/changePassword", authenticateToken, changePassword);
 router.put("/:id/editUser", authenticateToken, editUser);
 router.get("/getUsersLocation", authenticateToken, getUsersLocation);
+router.post("/forgotUserDataFetch", forgotUserDataFetch);
 
 export default router;
