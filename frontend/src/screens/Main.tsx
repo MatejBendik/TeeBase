@@ -301,7 +301,7 @@ function DashboardContent() {
                   )}
 
                   {content == "Lang1" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={14} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -315,7 +315,7 @@ function DashboardContent() {
                   )}
 
                   {content == "MAT1" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -329,7 +329,7 @@ function DashboardContent() {
                   )}
 
                   {content == "RepMAT" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -343,7 +343,7 @@ function DashboardContent() {
                   )}
 
                   {content == "TSV" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -357,7 +357,7 @@ function DashboardContent() {
                   )}
 
                   {content == "BasicPRG" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -371,7 +371,7 @@ function DashboardContent() {
                   )}
 
                   {content == "BasicELE" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -385,7 +385,7 @@ function DashboardContent() {
                   )}
 
                   {content == "BasicING" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -399,7 +399,7 @@ function DashboardContent() {
                   )}
 
                   {content == "IntroductionING" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,
@@ -413,7 +413,7 @@ function DashboardContent() {
                   )}
 
                   {content == "map" && (
-                    <Grid item xs={12} md={15} lg={15}>
+                    <Grid item xs={12} md={15} lg={12}>
                       <Paper
                         sx={{
                           p: 2,

@@ -54,6 +54,7 @@ export default function TasksList(props: any) {
       />
 
       <ContentEditable
+        className="contentNemenitelny"
         tagName="pre"
         html={newTask.content}
         disabled={true}

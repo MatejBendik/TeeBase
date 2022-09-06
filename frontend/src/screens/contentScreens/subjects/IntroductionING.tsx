@@ -43,7 +43,7 @@ export default function IntroductionING() {
       >
         <div className="container">
           {/* Poznamky */}
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "100%", marginLeft: "25%" }}>
             <Collapse
               orientation="horizontal"
               in={checkedPoznamky}
@@ -59,7 +59,7 @@ export default function IntroductionING() {
           </Box>
 
           {/* Ulohy */}
-          <Box>
+          <Box sx={{ width: "100%" }}>
             <Collapse
               orientation="horizontal"
               in={checkedUlohy}

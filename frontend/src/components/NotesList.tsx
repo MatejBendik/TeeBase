@@ -71,6 +71,7 @@ export default function NotesList(props: any) {
       */}
 
       <ContentEditable
+        className="contentNemenitelny"
         tagName="pre"
         html={isEditting ? newNote.content : data.content}
         disabled={true}
