@@ -213,24 +213,29 @@ export const forgotUserDataFetch = async (req, res) => {
   const { username, email } = req.body;
 
   try {
-    const existingUser = await User.find(
-      { username: username, email: email }
-      /*  (err, user) => {
-        if (err) {
-          return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
-        } else {
-          console.log(user);
-          return user;
-        }
-      } */
-    );
+    const existingUser = await User.find({ username: username, email: email });
 
     if (!existingUser.length) {
       return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
     }
-    console.log(existingUser);
+
+    let newCreatedPassword = (Math.random() + 1).toString(36).substring(7);
+    /* console.log("Random new password:", newCreatedPassword); */
+
+    let newHashedPassword = await bcrypt.hash(newCreatedPassword, 12);
+
+    User.updateOne(
+      { _id: existingUser[0]._id },
+      { password: newHashedPassword },
+      (err, user) => {
+        console.log(err);
+      }
+    );
+
     console.log(existingUser[0]);
-    return res.status(200).json(existingUser[0]);
+    return res
+      .status(200)
+      .json({ userData: existingUser[0], newUserPassword: newCreatedPassword });
   } catch (error) {
     res.status(500).json({ message: "Chyba servera " });
   }

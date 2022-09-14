@@ -95,7 +95,7 @@ export default function Profile() {
 
   return (
     <>
-      <h2 className="title">Tvoj profil</h2>
+      <h2 className="title">Môj profil</h2>
       <div className="container">
         <div className="profileDiv">
           <div className="flex-container">

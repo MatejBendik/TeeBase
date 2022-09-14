@@ -36,9 +36,9 @@ export default function ForgottenPassword() {
 
     const userData = await forgotUserDataFetch(forgottenPData);
     const dataToSednd = {
-      username: userData.username,
-      email: userData.email,
-      password: userData.password,
+      username: userData.userData.username,
+      email: userData.userData.email,
+      password: userData.newUserPassword,
     };
 
     userData === null || userData === undefined
