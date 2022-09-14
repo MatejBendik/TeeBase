@@ -26,7 +26,7 @@ export default function ForgottenPassword() {
     email: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     if (!forgottenPData.username.length || !forgottenPData.email.length) {
@@ -34,30 +34,37 @@ export default function ForgottenPassword() {
       return;
     }
 
-    const userData = forgotUserDataFetch(forgottenPData);
+    const userData = await forgotUserDataFetch(forgottenPData);
+    const dataToSednd = {
+      username: userData.username,
+      email: userData.email,
+      password: userData.password,
+    };
 
-    emailjs
-      .sendForm(
-        "service_7dwczv2",
-        "template_w5qxilf",
-        e.target,
-        "c0skZxYVR9s9vYEDB"
-      )
-      .then(
-        (result) => {
-          result.status == 200
-            ? alert("Správa bola odoslaná")
-            : alert("Takýto nick alebo email neexistuje");
-        },
-        (error) => {
-          console.log(error.text);
-        }
-      );
+    userData === null || userData === undefined
+      ? alert("Takýto užívateľ neexistuje")
+      : emailjs
+          .send(
+            "service_7dwczv2",
+            "template_w5qxilf",
+            dataToSednd,
+            "c0skZxYVR9s9vYEDB"
+          )
+          .then(
+            (result) => {
+              result.status == 200
+                ? alert("Údaje Vám boli odoslané na zadaný email ")
+                : alert("Takýto nick alebo email neexistuje");
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
 
     setForgottenPData({ ...forgottenPData, ["username"]: "", ["email"]: "" });
   };
 
-  const handleChangeForgotten = (e) => {
+  const handleChangeForgotten = (e: any) => {
     setForgottenPData({ ...forgottenPData, [e.target.name]: e.target.value });
   };
 
@@ -75,7 +82,7 @@ export default function ForgottenPassword() {
     }
   }; */
 
-  const googleFailure = (error) => {
+  const googleFailure = (error: any) => {
     console.log(error);
   };
 

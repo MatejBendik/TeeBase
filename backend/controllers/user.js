@@ -214,17 +214,25 @@ export const forgotUserDataFetch = async (req, res) => {
 
   try {
     const existingUser = await User.find(
-      { username: username, email: email },
-      (err, user) => {
+      { username: username, email: email }
+      /*  (err, user) => {
         if (err) {
           return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
-        } else if (user) {
-          return res.status(200).json(existingUser);
+        } else {
+          console.log(user);
+          return user;
         }
-      }
+      } */
     );
+
+    if (!existingUser.length) {
+      return res.status(400).json({ message: "Uživateľ sa nenašiel !" });
+    }
+    console.log(existingUser);
+    console.log(existingUser[0]);
+    return res.status(200).json(existingUser[0]);
   } catch (error) {
-    res.status(500).json({ message: "Užívateľ neexistuje" });
+    res.status(500).json({ message: "Chyba servera " });
   }
 };
 
