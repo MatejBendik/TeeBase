@@ -18,26 +18,6 @@ export default function SecondaryListItems() {
       <ListSubheader component="div" inset>
         Ostatné
       </ListSubheader>
-      <ListItemButton>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Priemer známok" />
-      </ListItemButton>
-
-      <ListItemButton>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Úlohy" />
-      </ListItemButton>
-
-      <ListItemButton>
-        <ListItemIcon>
-          <AssignmentIcon />
-        </ListItemIcon>
-        <ListItemText primary="Písomky" />
-      </ListItemButton>
 
       <ListItemButton
         onClick={() => {
